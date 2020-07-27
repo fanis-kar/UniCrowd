@@ -3,9 +3,38 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{30025D1E-F260-4175-8EA0-3525955EADCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{035965EE-A572-40DA-8504-35A8FA777076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiGateway", "WebApiGateway\WebApiGateway.csproj", "{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "University", "University", "{3B890DC5-4052-4769-A418-304209AD6D44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "University.API", "University.API\University.API.csproj", "{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45EDD077-EE18-4BA4-ABE8-FC8EF9C5839B} = {035965EE-A572-40DA-8504-35A8FA777076}
+		{3B890DC5-4052-4769-A418-304209AD6D44} = {30025D1E-F260-4175-8EA0-3525955EADCB}
+		{1D453C17-57D0-43E1-BFDC-7A0CDB798CF8} = {3B890DC5-4052-4769-A418-304209AD6D44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24466F8E-2D49-426B-BCFC-BB952A2565C5}
