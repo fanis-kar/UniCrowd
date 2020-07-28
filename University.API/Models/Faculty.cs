@@ -24,5 +24,13 @@ namespace University.API.Models
         public University  University { get; set; }
 
         public List<Department> Departments { get; set; }
+
+        public string OfficialName
+        {
+            get
+            {
+                return Name + " (" + Abbreviation + ")";
+            }
+        }
     }
 }

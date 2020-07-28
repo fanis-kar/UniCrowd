@@ -23,5 +23,13 @@ namespace University.API.Models
         public string Phone { get; set; }
 
         public List<Faculty> Faculties { get; set; }
+
+        public string OfficialName
+        {
+            get
+            {
+                return Name + " (" + Abbreviation + ")";
+            }
+        }
     }
 }

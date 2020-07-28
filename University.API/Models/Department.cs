@@ -22,5 +22,13 @@ namespace University.API.Models
         public int FacultyId { get; set; }
 
         public Faculty Faculty { get; set; }
+
+        public string OfficialName
+        {
+            get
+            {
+                return Name + " (" + Abbreviation + ")";
+            }
+        }
     }
 }
