@@ -1,24 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MainAuthentication.Data;
-using MainAuthentication.Infrastructure;
-using MainAuthentication.Services;
+using Authentication.API.Data;
+using Authentication.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Middleware;
+using System;
+using System.Text;
 
-namespace MainAuthentication
+namespace Authentication.API
 {
     public class Startup
     {
@@ -37,29 +32,12 @@ namespace MainAuthentication
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services
-               .AddAuthentication(options =>
-               {
-                   options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-               })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = true;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("placeholder-key-that-is-long-enough-for-sha256")),
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ValidateLifetime = false,
-                        RequireExpirationTime = false,
-                        ClockSkew = TimeSpan.Zero,
-                        ValidateIssuerSigningKey = true
-                    };
-                });
-
-            services.AddScoped<ITokenBuilder, TokenBuilder>();
+            services.AddJwt(Configuration);
+            services.AddTransient<IEncryptor, Encryptor>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity", Version = "v1" });
+            });
 
             services.AddControllers();
         }
@@ -71,6 +49,13 @@ namespace MainAuthentication
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger(); 
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity V1");
+            });
 
             app.UseHttpsRedirection();
 
