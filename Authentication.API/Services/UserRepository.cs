@@ -16,25 +16,40 @@ namespace Authentication.API.Services
             _context = context;
         }
 
-        public User GetUser(string userEmail)
+        public User GetUser(int id)
         {
-            var user = _context.Users.Where(u => u.Email == userEmail).FirstOrDefault();
-            return user;
+            return _context.Users.Where(u => u.Id == id).FirstOrDefault();
         }
 
-        public string AddUser(User user)
+        public User GetUserByUsername(string username)
         {
-            string result = "-1";
+            return _context.Users.Where(u => u.Username == username).FirstOrDefault();
+        }
 
-            if (user != null)
+        public void AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
+        public bool UniqueUsername(string username)
+        {
+            if (_context.Users.Where(u => u.Username == username).Count() > 0)
             {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                result = user.Id.ToString();
+                return false;
             }
 
-            return result;
+            return true;
+        }
 
+        public bool UniqueEmail(string email)
+        {
+            if (_context.Users.Where(u => u.Email == email).Count() > 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

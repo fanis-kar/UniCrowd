@@ -16,13 +16,13 @@ namespace Authentication.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IdentityController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtBuilder _jwtBuilder;
         private readonly IEncryptor _encryptor; 
         
-        public IdentityController(ApplicationDbContext context, IJwtBuilder jwtBuilder, IEncryptor encryptor)
+        public AuthenticationController(ApplicationDbContext context, IJwtBuilder jwtBuilder, IEncryptor encryptor)
         {
             _userRepository = new UserRepository(context);
             _jwtBuilder = jwtBuilder;
@@ -33,21 +33,23 @@ namespace Authentication.API.Controllers
         public IActionResult Login([FromBody] User user,
         [FromQuery(Name = "d")] string destination = "frontend")
         {
-            var u = _userRepository.GetUser(user.Email); 
+            var u = _userRepository.GetUserByUsername(user.Username); 
             
             if (u == null)
             {
-                return NotFound("User not found.");
+                return NotFound("Ο χρήστης δε βρέθηκε.");
             }
 
-            if (destination == "backend" && !u.IsAdmin)
-            {
-                return BadRequest("Could not authenticate user.");
-            }
+            //if (destination == "backend" && u.RoleId != 1)
+            //{
+            //    return BadRequest("Δεν ήταν δυνατή η ταυτοποίηση του χρήστη.");
+            //}
 
-            var isValid = u.ValidatePassword(user.Password, _encryptor); if (!isValid)
+            var isValid = u.ValidatePassword(user.Password, _encryptor); 
+            
+            if (!isValid)
             {
-                return BadRequest("Could not authenticate user.");
+                return BadRequest("Δεν ήταν δυνατή η ταυτοποίηση του χρήστη.");
             }
 
             string token = _jwtBuilder.GetToken(u.Id);
@@ -58,11 +60,21 @@ namespace Authentication.API.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
-            var u = _userRepository.GetUser(user.Email); 
+            var u = _userRepository.GetUser(user.Id); 
             
             if (u != null)
             {
-                return BadRequest("User already exists.");
+                return BadRequest("Ο χρήστης υπάρχει ήδη.");
+            }
+
+            if (!_userRepository.UniqueUsername(user.Username))
+            {
+                return BadRequest("Το username υπάρχει ήδη.");
+            }
+
+            if (!_userRepository.UniqueEmail(user.Email))
+            {
+                return BadRequest("Το email υπάρχει ήδη.");
             }
 
             user.SetPassword(user.Password, _encryptor);
@@ -72,15 +84,16 @@ namespace Authentication.API.Controllers
         }
 
         [HttpGet("validate")]
-        public IActionResult Validate([FromQuery(Name = "email")] string email,
+        public IActionResult Validate([FromQuery(Name = "email")] int id,
         [FromQuery(Name = "token")] string token)
         {
-            var u = _userRepository.GetUser(email); 
+            var u = _userRepository.GetUser(id); 
             
             if (u == null)
             {
                 return NotFound("User not found.");
             }
+
             var userId = _jwtBuilder.ValidateToken(token); 
             
             if (!userId.Equals(u.Id))

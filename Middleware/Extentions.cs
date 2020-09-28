@@ -15,6 +15,7 @@ namespace Middleware
             section.Bind(options);
             services.Configure<JwtOptions>(section);
             services.AddSingleton<IJwtBuilder, JwtBuilder>();
+
             services.AddAuthentication()
             .AddJwtBearer(cfg =>
             {

@@ -28,9 +28,6 @@ namespace Authentication.API.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,17 +40,6 @@ namespace Authentication.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "user1@unicrowd.gr",
-                            IsAdmin = true,
-                            Password = "Password1",
-                            Salt = "fewsg",
-                            Username = "User1"
-                        });
                 });
 #pragma warning restore 612, 618
         }

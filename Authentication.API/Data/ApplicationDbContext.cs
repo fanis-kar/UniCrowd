@@ -20,18 +20,19 @@ namespace Authentication.API.Data
         {
             base.OnModelCreating(builder);
 
-            builder
-                .Entity<User>()
-                .HasData(
-                    new User { 
-                        Id = 1, 
-                        Username = "User1", 
-                        Email = "user1@unicrowd.gr", 
-                        Password = "Password1",
-                        Salt = "fewsg",
-                        IsAdmin = true
-                    }
-                );
+            //builder
+            //    .Entity<Role>()
+            //    .HasData(
+            //        new Role { 
+            //            Id = 1, 
+            //            Name = "University" 
+            //        },
+            //        new Role
+            //        {
+            //            Id = 2,
+            //            Name = "Volunteer"
+            //        }
+            //    );
         }
     }
 }
