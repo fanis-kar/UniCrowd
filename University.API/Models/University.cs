@@ -18,11 +18,11 @@ namespace University.API.Models
 
         public string Website { get; set; }
 
-        public string Email { get; set; }
-
         public string Phone { get; set; }
 
         public List<Faculty> Faculties { get; set; }
+
+        public int AccountId { get; set; } // Authentication.API.User[id]
 
         public string OfficialName
         {

@@ -1,0 +1,31 @@
+﻿@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div>
+    εισαι μεσα
+</div>
+
+<input id="logout" type="button" value="Logout" class="btn btn-primary" />
+
+<script>
+    window.onload = function () {
+        function logout() {
+
+            common.delete(settings.uri + "authentication/login", function (token) {
+
+                window.localStorage.setItem("auth", JSON.stringify(auth));
+                window.location = "/Admin";
+            }, function () {
+                alert("Error.");
+            });
+        }; 
+
+        document.getElementById("logout").onclick = function () {
+            logout();
+        };
+    };
+
+</script>

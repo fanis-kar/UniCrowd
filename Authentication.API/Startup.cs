@@ -36,7 +36,7 @@ namespace Authentication.API
             services.AddTransient<IEncryptor, Encryptor>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authentication", Version = "v1" });
             });
 
             services.AddControllers();
@@ -54,7 +54,7 @@ namespace Authentication.API
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication V1");
             });
 
             app.UseHttpsRedirection();

@@ -13,6 +13,12 @@ namespace Volunteer.API.Models
 
         public string Description { get; set; }
 
+        public List<int> Skills { get; set; } // Skill ids from Skill.API
+
+        public int LeaderId { get; set; }
+        
+        public Volunteer Leader { get; set; }
+
         public List<Volunteer> Volunteers { get; set; }
 
         public DateTime Created { get; set; }

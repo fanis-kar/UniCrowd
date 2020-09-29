@@ -1,5 +1,4 @@
-﻿using Skill.API.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,13 +15,13 @@ namespace Volunteer.API.Models
 
         public string FatherName { get; set; }
 
-        public string Email { get; set; }
-
         public string Phone { get; set; }
 
         public string Address { get; set; }
 
-        public List<Skill.API.Models.Skill> Skills { get; set; }
+        public List<int> Skills { get; set; } // Skill ids from Skill.API
+
+        public int AccountId { get; set; } // Authentication.API.User[id]
 
         public string FullName
         {
