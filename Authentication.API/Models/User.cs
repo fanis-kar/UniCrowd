@@ -19,6 +19,10 @@ namespace Authentication.API.Models
 
         public string Salt { get; set; }
 
+        public int RoleId { get; set; }
+
+        public Role Role { get; set; }
+
         public void SetPassword(string password, IEncryptor encryptor)
         {
             Salt = encryptor.GetSalt(password);

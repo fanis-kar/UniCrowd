@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using University.API.Data;
@@ -11,6 +12,7 @@ namespace University.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "University")]
     public class UniversityController : ControllerBase
     {
         private readonly IUniversityRepository _userRepository;
@@ -22,7 +24,7 @@ namespace University.API.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<University.API.Models.University>> Get()
+        public ActionResult<IEnumerable<Models.University>> Get()
         {
             return _userRepository.GetUniversities().ToList();
         }

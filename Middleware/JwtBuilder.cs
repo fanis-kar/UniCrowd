@@ -17,14 +17,17 @@ namespace Middleware
             _options = options.Value;
         }
 
-        public string GetToken(int userId)
+        public string GetToken(int userId, int userRole)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
+            string usRole = (userRole == 1) ? "University" : "Volunteer";
+
             var claims = new Claim[]
             {
                 new Claim("userId", userId.ToString()),
+                new Claim(ClaimTypes.Role, usRole)
             };
 
             var expirationDate = DateTime.Now.AddMinutes(_options.ExpiryMinutes);

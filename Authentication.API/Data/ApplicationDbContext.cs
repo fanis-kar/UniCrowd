@@ -20,19 +20,20 @@ namespace Authentication.API.Data
         {
             base.OnModelCreating(builder);
 
-            //builder
-            //    .Entity<Role>()
-            //    .HasData(
-            //        new Role { 
-            //            Id = 1, 
-            //            Name = "University" 
-            //        },
-            //        new Role
-            //        {
-            //            Id = 2,
-            //            Name = "Volunteer"
-            //        }
-            //    );
+            builder
+                .Entity<Role>()
+                .HasData(
+                    new Role
+                    {
+                        Id = 1,
+                        Name = "University"
+                    },
+                    new Role
+                    {
+                        Id = 2,
+                        Name = "Volunteer"
+                    }
+                );
         }
     }
 }

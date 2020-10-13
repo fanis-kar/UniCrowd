@@ -52,7 +52,7 @@ namespace Authentication.API.Controllers
                 return BadRequest("Δεν ήταν δυνατή η ταυτοποίηση του χρήστη.");
             }
 
-            string token = _jwtBuilder.GetToken(u.Id);
+            string token = _jwtBuilder.GetToken(u.Id, u.RoleId);
             
             return new OkObjectResult(token);
         }
