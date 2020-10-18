@@ -31,7 +31,7 @@ namespace Authentication.API.Controllers
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] User user,
-        [FromQuery(Name = "d")] string destination = "frontend")
+        [FromQuery(Name = "d")] string destination)
         {
             var u = _userRepository.GetUserByUsername(user.Username); 
             
@@ -40,16 +40,16 @@ namespace Authentication.API.Controllers
                 return NotFound("Ο χρήστης δε βρέθηκε.");
             }
 
-            //if (destination == "backend" && u.RoleId != 1)
-            //{
-            //    return BadRequest("Δεν ήταν δυνατή η ταυτοποίηση του χρήστη.");
-            //}
+            if ((destination == "university-area" && u.RoleId != 1) || (destination == "volunteer-area" && u.RoleId != 2))
+            {
+                return BadRequest("Δεν επιτρέπεται η πρόσβαση.");
+            }
 
             var isValid = u.ValidatePassword(user.Password, _encryptor); 
             
             if (!isValid)
             {
-                return BadRequest("Δεν ήταν δυνατή η ταυτοποίηση του χρήστη.");
+                return BadRequest("Λάθος στοιχεία.");
             }
 
             string token = _jwtBuilder.GetToken(u.Id, u.RoleId);
