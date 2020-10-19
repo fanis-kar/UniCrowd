@@ -25,7 +25,7 @@ namespace University.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Faculty",
+                name: "Faculties",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -39,9 +39,9 @@ namespace University.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Faculty", x => x.Id);
+                    table.PrimaryKey("PK_Faculties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Faculty_Universities_UniversityId",
+                        name: "FK_Faculties_Universities_UniversityId",
                         column: x => x.UniversityId,
                         principalTable: "Universities",
                         principalColumn: "Id",
@@ -49,7 +49,7 @@ namespace University.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -63,11 +63,11 @@ namespace University.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Department_Faculty_FacultyId",
+                        name: "FK_Departments_Faculties_FacultyId",
                         column: x => x.FacultyId,
-                        principalTable: "Faculty",
+                        principalTable: "Faculties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -75,26 +75,31 @@ namespace University.API.Migrations
             migrationBuilder.InsertData(
                 table: "Universities",
                 columns: new[] { "Id", "Abbreviation", "AccountId", "Address", "Name", "Phone", "Website" },
-                values: new object[] { 1, "UniWa", 5, "Agioy Spyridonos", "University of West Attica", "2102221656", "https://www.uniwa.gr" });
+                values: new object[] { 1, "UniWa", 1, "Αγίου Σπυρίδωνος 28, Αιγάλεω 122 43", "Πανεπιστήμιο Δυτικής Αττικής", "+302105385100", "https://www.uniwa.gr" });
+
+            migrationBuilder.InsertData(
+                table: "Universities",
+                columns: new[] { "Id", "Abbreviation", "AccountId", "Address", "Name", "Phone", "Website" },
+                values: new object[] { 2, "UoA", 2, "Πανεπιστημίου 30, Αθήνα 106 79", "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών", "+302107277000", "https://www.uoa.gr" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Department_FacultyId",
-                table: "Department",
+                name: "IX_Departments_FacultyId",
+                table: "Departments",
                 column: "FacultyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Faculty_UniversityId",
-                table: "Faculty",
+                name: "IX_Faculties_UniversityId",
+                table: "Faculties",
                 column: "UniversityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Faculty");
+                name: "Faculties");
 
             migrationBuilder.DropTable(
                 name: "Universities");

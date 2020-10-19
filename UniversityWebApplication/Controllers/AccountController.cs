@@ -19,8 +19,11 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> LoginAsync()
         {
+            if (await IsLoggedInAsync())
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -30,12 +33,12 @@ namespace WebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.error_message = "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.";
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.";
 
                 return RedirectToAction("Login", "Account");
             }
 
-            var url = "https://localhost:44378/authentication/login?d=university-area";
+            var url = "https://localhost:44378/authentication/login?destination=university-area";
 
             using (var client = new HttpClient())
             {
@@ -51,19 +54,20 @@ namespace WebApplication.Controllers
                 var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync(url, httpContent);
+                string strResult = await response.Content.ReadAsStringAsync();
+                var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(strResult);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string strResult = await response.Content.ReadAsStringAsync();
-
-                    HttpContext.Session.SetString("jwt_token", strResult);
+                    HttpContext.Session.SetString("userId", resultObject["userId"]);
                     HttpContext.Session.SetString("username", model.Username);
+                    HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ViewBag.error_message = "Λάθος στοιχεία εισόδου.";
+                    TempData["ErrorMessage"] = strResult;
 
                     return RedirectToAction("Login", "Account");
                 }
@@ -76,9 +80,47 @@ namespace WebApplication.Controllers
             HttpContext.Session.Remove("jwt_token");
             HttpContext.Session.Remove("username");
 
-            ViewBag.success_message = "Αποσυνδέθηκες με επιτυχία.";
+            TempData["SuccessMessage"] = "Αποσυνδέθηκες με επιτυχία.";
 
             return RedirectToAction("Login", "Account");
+        }
+
+        //----------------------------------------------------------------------------------------//
+
+        public async Task<bool> IsLoggedInAsync()
+        {
+            var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
+            var jwtToken = HttpContext.Session.GetString("jwtToken");
+
+            if (username == null || userId == null || jwtToken == null)
+            {
+                return false;
+            }
+
+            var url = "https://localhost:44378/authentication/validate?userId=" + userId + "&jwtToken=" + jwtToken;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+
+                HttpResponseMessage response = await client.GetAsync(url);
+                string strResult = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (userId == strResult)
+                        return true;
+                }
+                else
+                {
+                    //TempData["ErrorMessage"] = strResult;
+
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

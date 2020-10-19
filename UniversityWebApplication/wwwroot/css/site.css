@@ -8,11 +8,11 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: var(--border-color);
+    color: var(--main-border-color);
 }
 
 hr.basic {
-    background-color: var(--border-color);
+    background-color: var(--main-border-color);
 }
 
 .btn-primary {

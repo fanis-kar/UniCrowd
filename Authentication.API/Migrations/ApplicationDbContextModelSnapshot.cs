@@ -30,7 +30,7 @@ namespace Authentication.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -72,6 +72,26 @@ namespace Authentication.API.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "info@uniwa.gr",
+                            Password = "96tbuZBOeuX8HYLW+dyhrF29fVQdfH1FgZK9qZ4AeNC5ocMYmNHklg==",
+                            RoleId = 1,
+                            Salt = "wugbF9pfkNFf7NMGQR30QjAV87TSTWmfQ860sECoKOAnw1OaAtVm4Q==",
+                            Username = "uniwa"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "info@uoa.gr",
+                            Password = "96tbuZBOeuX8HYLW+dyhrF29fVQdfH1FgZK9qZ4AeNC5ocMYmNHklg==",
+                            RoleId = 1,
+                            Salt = "wugbF9pfkNFf7NMGQR30QjAV87TSTWmfQ860sECoKOAnw1OaAtVm4Q==",
+                            Username = "uoa"
+                        });
                 });
 
             modelBuilder.Entity("Authentication.API.Models.User", b =>

@@ -9,7 +9,7 @@ using University.API.Data;
 namespace University.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201010161805_Init")]
+    [Migration("20201019155657_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace University.API.Migrations
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("University.API.Models.Faculty", b =>
@@ -81,7 +81,7 @@ namespace University.API.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.ToTable("Faculty");
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("University.API.Models.University", b =>
@@ -118,11 +118,21 @@ namespace University.API.Migrations
                         {
                             Id = 1,
                             Abbreviation = "UniWa",
-                            AccountId = 5,
-                            Address = "Agioy Spyridonos",
-                            Name = "University of West Attica",
-                            Phone = "2102221656",
+                            AccountId = 1,
+                            Address = "Αγίου Σπυρίδωνος 28, Αιγάλεω 122 43",
+                            Name = "Πανεπιστήμιο Δυτικής Αττικής",
+                            Phone = "+302105385100",
                             Website = "https://www.uniwa.gr"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abbreviation = "UoA",
+                            AccountId = 2,
+                            Address = "Πανεπιστημίου 30, Αθήνα 106 79",
+                            Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",
+                            Phone = "+302107277000",
+                            Website = "https://www.uoa.gr"
                         });
                 });
 

@@ -37,13 +37,13 @@ namespace Middleware
             return encodedJwt;
         }
 
-        public Guid ValidateToken(string token)
+        public int ValidateToken(string token)
         {
             var principal = GetPrincipal(token);
 
             if (principal == null)
             {
-                return Guid.Empty;
+                return 0;
             }
 
             ClaimsIdentity identity;
@@ -54,11 +54,12 @@ namespace Middleware
             }
             catch (NullReferenceException)
             {
-                return Guid.Empty;
+                return 0;
             }
 
             var userIdClaim = identity.FindFirst("userId");
-            var userId = new Guid(userIdClaim.Value);
+            //var userId = new Guid(userIdClaim.Value);
+            int userId = int.Parse(userIdClaim.Value);
 
             return userId;
         }

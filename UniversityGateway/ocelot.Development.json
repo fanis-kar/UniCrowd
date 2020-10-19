@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44319
+          "Port": 44319 // Authentication.API SSL Port
         }
       ],
       "UpstreamPathTemplate": "/Authentication/login",
@@ -19,7 +19,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44319
+          "Port": 44319 // Authentication.API SSL Port
         }
       ],
       "UpstreamPathTemplate": "/Authentication/register",
@@ -31,7 +31,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44319
+          "Port": 44319 // Authentication.API SSL Port
         }
       ],
       "UpstreamPathTemplate": "/Authentication/validate",
@@ -44,7 +44,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44382
+          "Port": 44382 // University.API SSL Port
         }
       ],
       "UpstreamPathTemplate": "/University",

@@ -1,42 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
-    public class HomeController : Controller
+    public class UniversityController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public async Task<IActionResult> IndexAsync()
         {
-            if (! await IsLoggedInAsync())
+            if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            return View();
-        }
+            var url = "https://localhost:44378/University";
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("jwtToken"));
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                HttpResponseMessage response = await client.GetAsync(url);
+                string strResult = await response.Content.ReadAsStringAsync();
+
+                TempData["Response"] = strResult;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //List<University> universities = new List<University>
+                    //{
+
+                    //};
+
+                    List<University> x = JsonConvert.DeserializeObject<List<University>>(strResult);
+
+                    return View(x);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
         }
 
         //----------------------------------------------------------------------------------------//

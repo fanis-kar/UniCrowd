@@ -15,6 +15,8 @@ namespace University.API.Data
         }
 
         public DbSet<University.API.Models.University> Universities { get; set; }
+        public DbSet<University.API.Models.Faculty> Faculties { get; set; }
+        public DbSet<University.API.Models.Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,11 +29,21 @@ namespace University.API.Data
                     {
                         Id = 1,
                         Abbreviation = "UniWa",
-                        Name = "University of West Attica",
-                        Address = "Agioy Spyridonos",
+                        Name = "Πανεπιστήμιο Δυτικής Αττικής",
+                        Address = "Αγίου Σπυρίδωνος 28, Αιγάλεω 122 43",
                         Website = "https://www.uniwa.gr",
-                        Phone = "2102221656",
-                        AccountId = 5
+                        Phone = "+302105385100",
+                        AccountId = 1
+                    },
+                    new University.API.Models.University
+                    {
+                        Id = 2,
+                        Abbreviation = "UoA",
+                        Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",
+                        Address = "Πανεπιστημίου 30, Αθήνα 106 79",
+                        Website = "https://www.uoa.gr",
+                        Phone = "+302107277000",
+                        AccountId = 2
                     }
                 );
         }

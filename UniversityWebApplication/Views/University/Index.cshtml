@@ -1,0 +1,53 @@
+﻿@model List<UniversityWebApplication.Models.University>
+
+@{
+    ViewData["Title"] = "Λίστα πανεπιστημίων";
+    Layout = "_Layout";
+}
+
+
+
+<h1>Λίστα πανεπιστημίων</h1>
+
+<hr />
+
+<table id="universities-table" class="table table-responsive table-striped table-bordered" style="width: 100%; background-color:#ffffff; color:#000000;">
+    <thead>
+        <tr>
+            <th>Ονομασία</th>
+            <th>Διεύθυνση</th>
+            <th>Ιστοσελίδα</th>
+            <th>Ενέργειες</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficialName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Website)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    @{
+        <script>
+            $(document).ready(function () {
+                $("#universities-table").DataTable();
+            });
+        </script>
+    }
+}

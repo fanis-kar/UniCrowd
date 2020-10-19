@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Middleware;
+using Newtonsoft.Json;
 
 namespace Authentication.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace Authentication.API.Controllers
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] User user,
-        [FromQuery(Name = "d")] string destination)
+        [FromQuery(Name = "destination")] string destination = "volunteer-area")
         {
             var u = _userRepository.GetUserByUsername(user.Username); 
             
@@ -53,8 +54,11 @@ namespace Authentication.API.Controllers
             }
 
             string token = _jwtBuilder.GetToken(u.Id, u.RoleId);
-            
-            return new OkObjectResult(token);
+
+            var result = new { userId = u.Id, jwtToken = token };
+            var resultObject = JsonConvert.SerializeObject(result);
+
+            return new OkObjectResult(resultObject);
         }
 
         [HttpPost("register")]
@@ -84,21 +88,21 @@ namespace Authentication.API.Controllers
         }
 
         [HttpGet("validate")]
-        public IActionResult Validate([FromQuery(Name = "email")] int id,
-        [FromQuery(Name = "token")] string token)
+        public IActionResult Validate([FromQuery(Name = "userId")] int id,
+        [FromQuery(Name = "jwtToken")] string token)
         {
             var u = _userRepository.GetUser(id); 
             
             if (u == null)
             {
-                return NotFound("User not found.");
+                return NotFound("Ο χρήστης δε βρέθηκε.");
             }
 
             var userId = _jwtBuilder.ValidateToken(token); 
             
             if (!userId.Equals(u.Id))
             {
-                return BadRequest("Invalid token.");
+                return BadRequest("Δεν επιτρέπεται η πρόσβαση. Μη έγκυρο token.");
             }
             return new OkObjectResult(userId);
         }
