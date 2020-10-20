@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-dark navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniCrowd</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/unicrowd-logo.png" alt="Logo" style="width:150px;height:30px;"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,16 +29,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 
-                        @if (username != null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">Χρήστης: @username</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">Χρήστης: @username</a>
+                        </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Αποσύνδεση</a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Αποσύνδεση</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -49,10 +46,8 @@
 
         <div class="row">
 
-            <div class="col-12">
-                <main role="main" class="pb-3" style="background-color: #1A2226; color: #ffffff; border-radius: 10px; padding: 15px;">
+            <div class="col-12 main-body">
                     @RenderBody()
-                </main>
             </div>
 
         </div>

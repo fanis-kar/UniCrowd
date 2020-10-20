@@ -106,5 +106,12 @@ namespace Authentication.API.Controllers
             }
             return new OkObjectResult(userId);
         }
+
+        // GET api/values
+        [HttpGet("{id}", Name = "GetByUserId")]
+        public ActionResult<User> GetByUserId(int id)
+        {
+            return _userRepository.GetUser(id);
+        }
     }
 }

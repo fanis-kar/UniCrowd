@@ -37,9 +37,9 @@ namespace UniversityWebApplication.Controllers
 
                     //};
 
-                    List<University> x = JsonConvert.DeserializeObject<List<University>>(strResult);
+                    List<University> universities = JsonConvert.DeserializeObject<List<University>>(strResult);
 
-                    return View(x);
+                    return View(universities);
                 }
                 else
                 {

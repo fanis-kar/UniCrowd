@@ -9,6 +9,7 @@ namespace University.API.Services
     {
         IEnumerable<University.API.Models.University> GetUniversities();
         University.API.Models.University GetUniversity(int universityId);
+        University.API.Models.University GetUniversityByUserId(int userId);
         void AddUniversity(University.API.Models.University university);
         void UpdateUniversity(University.API.Models.University university);
         void DeleteUniversity(int universityId);

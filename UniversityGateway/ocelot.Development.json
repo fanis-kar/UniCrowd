@@ -37,6 +37,23 @@
       "UpstreamPathTemplate": "/Authentication/validate",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/Authentication/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44319 // Authentication.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Authentication/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "Key": "Authentication"
+    },
     // University.API
     {
       "DownstreamPathTemplate": "/api/University",
@@ -53,9 +70,35 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/University/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44382 // University.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/University/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "Key": "University"
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:44378" // UniversityGateway SSL Port
-  }
+  },
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "Authentication",
+        "University"
+      ],
+      "UpstreamPathTemplate": "/UniversityAccount/{id}"
+    }
+  ]
 }

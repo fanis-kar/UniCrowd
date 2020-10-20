@@ -15,18 +15,25 @@ namespace University.API.Controllers
     [Authorize(Roles = "University")]
     public class UniversityController : ControllerBase
     {
-        private readonly IUniversityRepository _userRepository;
+        private readonly IUniversityRepository _universityRepository;
 
         public UniversityController(ApplicationDbContext context)
         {
-            _userRepository = new UniversityRepository(context);
+            _universityRepository = new UniversityRepository(context);
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Models.University>> Get()
         {
-            return _userRepository.GetUniversities().ToList();
+            return _universityRepository.GetUniversities().ToList();
+        }
+
+        // GET api/values
+        [HttpGet("{id}", Name = "GetByUserId")]
+        public ActionResult<Models.University> GetByUserId(int id)
+        {
+            return _universityRepository.GetUniversityByUserId(id);
         }
     }
 }

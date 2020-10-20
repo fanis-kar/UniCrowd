@@ -33,7 +33,13 @@ namespace UniversityGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddOcelot(Configuration);
+
+            services
+                .AddOcelot(Configuration)
+                .AddCacheManager(configCacheBuilder =>
+                {
+                    configCacheBuilder.WithDictionaryHandle();
+                });
 
             var jwtSection = Configuration.GetSection("jwt");
             var jwtOptions = jwtSection.Get<JwtOptions>();

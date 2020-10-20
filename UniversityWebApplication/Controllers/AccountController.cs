@@ -8,15 +8,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace WebApplication.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly IUniversityApi _universityApi;
+
+        public AccountController(IUniversityApi universityApi)
         {
-            return View();
+            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
+        }
+
+
+        public async Task<IActionResult> IndexAsync()
+        {
+            if (! await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(HttpContext.Session.GetString("userId"));
+            var universityInfo = await _universityApi.GetUniversityByUserId(userId, HttpContext.Session.GetString("jwtToken"));
+
+
+
+            return View(universityInfo);
         }
 
         public async Task<IActionResult> LoginAsync()

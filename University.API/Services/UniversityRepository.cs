@@ -35,6 +35,11 @@ namespace University.API.Services
             return _context.Universities.Where(u => u.Id == universityId).FirstOrDefault();
         }
 
+        public Models.University GetUniversityByUserId(int userId)
+        {
+            return _context.Universities.Where(u => u.AccountId == userId).FirstOrDefault();
+        }
+
         public void UpdateUniversity(Models.University university)
         {
             throw new NotImplementedException();
