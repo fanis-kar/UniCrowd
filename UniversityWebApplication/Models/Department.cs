@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace UniversityWebApplication.Models
 {
-    public class University
+    public class Department
     {
         public int Id { get; set; }
 
@@ -15,20 +13,16 @@ namespace UniversityWebApplication.Models
 
         public string Name { get; set; }
 
-        [Display(Name = "Διεύθυνση")]
-        public string Address { get; set; }
-
-        [Display(Name = "Ιστοσελίδα")]
         public string Website { get; set; }
 
-        [Display(Name = "Τηλέφωνο")]
+        public string Email { get; set; }
+
         public string Phone { get; set; }
 
-        public List<Faculty> Faculties { get; set; }
+        public int FacultyId { get; set; }
 
-        public int AccountId { get; set; } // Authentication.API.User[id]
+        public Faculty Faculty { get; set; }
 
-        [Display(Name = "Επίσημη Ονομασία")]
         public string OfficialName
         {
             get

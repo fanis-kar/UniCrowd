@@ -31,8 +31,6 @@ namespace WebApplication.Controllers
             int userId = int.Parse(HttpContext.Session.GetString("userId"));
             var universityInfo = await _universityApi.GetUniversityByUserId(userId, HttpContext.Session.GetString("jwtToken"));
 
-
-
             return View(universityInfo);
         }
 
@@ -57,37 +55,37 @@ namespace WebApplication.Controllers
 
             var url = "https://localhost:44378/authentication/login?destination=university-area";
 
-            using (var client = new HttpClient())
+            using var client = new HttpClient
             {
-                client.BaseAddress = new Uri(url);
+                BaseAddress = new Uri(url)
+            };
 
-                LoginForm body = new LoginForm()
-                {
-                    Username = model.Username,
-                    Password = model.Password
-                };
+            LoginForm body = new LoginForm()
+            {
+                Username = model.Username,
+                Password = model.Password
+            };
 
-                string json = JsonConvert.SerializeObject(body);
-                var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            string json = JsonConvert.SerializeObject(body);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(url, httpContent);
-                string strResult = await response.Content.ReadAsStringAsync();
-                var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(strResult);
+            HttpResponseMessage response = await client.PostAsync(url, httpContent);
+            string strResult = await response.Content.ReadAsStringAsync();
+            var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(strResult);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    HttpContext.Session.SetString("userId", resultObject["userId"]);
-                    HttpContext.Session.SetString("username", model.Username);
-                    HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
+            if (response.IsSuccessStatusCode)
+            {
+                HttpContext.Session.SetString("userId", resultObject["userId"]);
+                HttpContext.Session.SetString("username", model.Username);
+                HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = strResult;
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = strResult;
 
-                    return RedirectToAction("Login", "Account");
-                }
+                return RedirectToAction("Login", "Account");
             }
         }
 

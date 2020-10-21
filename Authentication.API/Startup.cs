@@ -39,11 +39,14 @@ namespace Authentication.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authentication", Version = "v1" });
             });
 
-            services.AddControllers();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore // For object cycle. Install Microsoft.AspNetCore.Mvc.NewtonsoftJson package
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +70,8 @@ namespace Authentication.API
             {
                 endpoints.MapControllers();
             });
+
+            //DbInitializer.Initialize(context).Wait();
         }
     }
 }

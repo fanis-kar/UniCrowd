@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace UniversityWebApplication.Models
 {
-    public class University
+    public class AccountViewModel
     {
-        public int Id { get; set; }
+
+        [Display(Name = "Όνομα Χρήστη")]
+        public string Username { get; set; }
 
         public string Abbreviation { get; set; }
 
@@ -23,8 +24,6 @@ namespace UniversityWebApplication.Models
 
         [Display(Name = "Τηλέφωνο")]
         public string Phone { get; set; }
-
-        public List<Faculty> Faculties { get; set; }
 
         public int AccountId { get; set; } // Authentication.API.User[id]
 

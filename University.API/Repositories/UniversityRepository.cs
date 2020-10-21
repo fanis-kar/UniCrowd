@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using University.API.Data;
+using University.API.Models;
 
 namespace University.API.Services
 {
@@ -27,7 +29,10 @@ namespace University.API.Services
 
         public IEnumerable<Models.University> GetUniversities()
         {
-            return _context.Universities.ToList();
+            return _context
+                .Universities
+                .Include(u => u.Faculties)
+                .ToList();
         }
 
         public Models.University GetUniversity(int universityId)
@@ -37,7 +42,10 @@ namespace University.API.Services
 
         public Models.University GetUniversityByUserId(int userId)
         {
-            return _context.Universities.Where(u => u.AccountId == userId).FirstOrDefault();
+            return _context.Universities
+                .Include(u => u.Faculties)
+                .Where(u => u.AccountId == userId)
+                .FirstOrDefault();
         }
 
         public void UpdateUniversity(Models.University university)

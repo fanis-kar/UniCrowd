@@ -2,6 +2,8 @@
 :root {
     --main-background-color: #222D32;
     --dark-background-color: #1A2226;
+    --dark-navbar-color: #343A40;
+    --main-white-color: #FFFFFF;
     --main-border-color: #0DB8DE;
     --main-label-color: #6C6C6C;
 }

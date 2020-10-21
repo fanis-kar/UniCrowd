@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    color: #FFFFFF;
+    color: var(--main-white-color);
     background: var(--main-background-color);
     font-family: 'Roboto', sans-serif;
     margin-bottom: 60px;
@@ -17,9 +17,22 @@ body {
 
 .main-body {
     background-color: var(--dark-background-color);
-    color: #ffffff;
+    color: var(--main-white-color);
     border-radius: 10px;
     padding: 15px;
+}
+
+/* -------------------------------------------------- */
+
+::-moz-selection {
+    /* Code for Firefox */
+    background: var(--main-border-color);
+    color: var(--dark-background-color);
+}
+
+::selection {
+    background: var(--main-border-color);
+    color: var(--dark-background-color);
 }
 
 /* -------------------------------------------------- */
@@ -34,14 +47,18 @@ a {
     color: var(--main-border-color);
 }
 
+a:hover {
+    color: var(--main-white-color);
+}
+
 hr.basic {
     background-color: var(--main-border-color);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: var(--main-white-color);
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* -------------------------------------------------- */
@@ -57,18 +74,34 @@ hr.basic {
 
 .btn-basic:hover {
     background-color: var(--main-border-color);
-    color: #FFFFFF;
+    color: var(--main-white-color);
     right: 0px;
 }
 
 /* -------------------------------------------------- */
 
 .footer {
+    background-color: var(--dark-navbar-color);
     position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
+}
+
+/* -------------------------------------------------- */
+
+/* Datatables */
+.datatable-table {
+    width: 100%;
+    background-color: var(--main-white-color);
+    color: #000000;
+}
+
+.page-item.active .page-link {
+    background-color: var(--dark-background-color);
+    border-color: var(--dark-background-color);
+    color: var(--main-white-color);
 }
 
 /* -------------------------------------------------- */

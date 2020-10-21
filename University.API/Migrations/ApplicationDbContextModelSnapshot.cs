@@ -80,6 +80,68 @@ namespace University.API.Migrations
                     b.HasIndex("UniversityId");
 
                     b.ToTable("Faculties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Abbreviation = "sph",
+                            Email = "sph@uniwa.gr",
+                            Name = "Σχολή Δημόσιας Υγείας",
+                            Phone = "+302132010115",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/sph/"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abbreviation = "sdo",
+                            Email = "sdoke@uniwa.gr",
+                            Name = "Σχολή Διοικητικών, Οικονομικών & Κοινωνικών Επιστημών",
+                            Phone = "",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/sdo/"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Abbreviation = "ffs",
+                            Email = "ffs@uniwa.gr",
+                            Name = "Σχολή Επιστημών Τροφίμων",
+                            Phone = "2105385501",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/ffs/"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Abbreviation = "seyp",
+                            Email = "seyp@uniwa.gr",
+                            Name = "Σχολή Επιστημών Υγείας και Πρόνοιας",
+                            Phone = "2105385601",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/seyp/"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Abbreviation = "aac",
+                            Email = "setp@uniwa.gr",
+                            Name = "Σχολή Εφαρμοσμένων Τεχνών και Πολιτισμού",
+                            Phone = "2105385401",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/aac/"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Abbreviation = "feng",
+                            Email = "feng@uniwa.gr",
+                            Name = "Σχολή Μηχανικών",
+                            Phone = "+302105381212",
+                            UniversityId = 1,
+                            Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/feng/"
+                        });
                 });
 
             modelBuilder.Entity("University.API.Models.University", b =>
@@ -115,17 +177,17 @@ namespace University.API.Migrations
                         new
                         {
                             Id = 1,
-                            Abbreviation = "UniWa",
+                            Abbreviation = "uniwa",
                             AccountId = 1,
                             Address = "Αγίου Σπυρίδωνος 28, Αιγάλεω 122 43",
-                            Name = "Πανεπιστήμιο Δυτικής Αττικής",
+                            Name = "Πανεπιστήμιο δυτικής αττικής",
                             Phone = "+302105385100",
                             Website = "https://www.uniwa.gr"
                         },
                         new
                         {
                             Id = 2,
-                            Abbreviation = "UoA",
+                            Abbreviation = "uoa",
                             AccountId = 2,
                             Address = "Πανεπιστημίου 30, Αθήνα 106 79",
                             Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",

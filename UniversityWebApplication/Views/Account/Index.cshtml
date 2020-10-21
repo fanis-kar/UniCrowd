@@ -45,6 +45,24 @@
     </div>
 </div>
 
+
+@{
+    if (Model.Faculties.Count > 0)
+    {
+        <hr class="basic" />
+
+        <h2>Σχολές:</h2>
+        <ul>
+            @foreach (var item in Model.Faculties)
+            {
+                <li>
+                    <a class="nav-link text-light" asp-area="" asp-controller="Faculty" asp-action="Details" asp-route-id="@item.Id">@item.OfficialName</a>
+                </li>
+            }
+        </ul>
+    }
+}
+
 <hr class="basic" />
 
 <a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
