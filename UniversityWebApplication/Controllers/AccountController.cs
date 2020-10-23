@@ -22,7 +22,6 @@ namespace WebApplication.Controllers
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
-
         public async Task<IActionResult> IndexAsync()
         {
             if (! await IsLoggedInAsync())

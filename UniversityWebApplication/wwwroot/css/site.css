@@ -20,6 +20,7 @@ body {
     color: var(--main-white-color);
     border-radius: 10px;
     padding: 15px;
+    margin-top: 20px;
 }
 
 /* -------------------------------------------------- */
@@ -43,6 +44,13 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.navbar-logo {
+    width: 150px;
+    height: 40px;
+    padding-bottom: 8px;
+    padding-top: 0px;
+}
+
 a {
     color: var(--main-border-color);
 }
@@ -62,6 +70,19 @@ hr.basic {
 }
 
 /* -------------------------------------------------- */
+/* For main menu (~Home/Index) */
+
+.center-block {
+    display: block;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.main-menu {
+    width: 70%;
+}
+
+/* -------------------------------------------------- */
 
 .btn-basic {
     border-color: var(--main-border-color);
@@ -74,7 +95,7 @@ hr.basic {
 
 .btn-basic:hover {
     background-color: var(--main-border-color);
-    color: var(--main-white-color);
+    color: var(--dark-background-color);
     right: 0px;
 }
 
@@ -102,6 +123,14 @@ hr.basic {
     background-color: var(--dark-background-color);
     border-color: var(--dark-background-color);
     color: var(--main-white-color);
+}
+
+td a {
+    color: var(--main-background-color);
+}
+
+td a:hover {
+    color: var(--dark-background-color);
 }
 
 /* -------------------------------------------------- */

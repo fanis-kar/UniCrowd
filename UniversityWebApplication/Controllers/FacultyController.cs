@@ -1,45 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
-    public class HomeController : Controller
+    public class FacultyController : Controller
     {
+        private readonly IFacultyApi _facultyApi;
 
-        public HomeController()
+        public FacultyController(IFacultyApi facultyApi)
         {
+            _facultyApi = facultyApi ?? throw new ArgumentNullException(nameof(facultyApi));
         }
 
-        public async Task<IActionResult> IndexAsync()
+        // ~/Faculty/Details/{id}
+        public async Task<IActionResult> DetailsAsync(int id)
         {
-            if (! await IsLoggedInAsync())
+            if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            return View();
-        }
+            var facultyInfo = await _facultyApi.GetFaculty(id, HttpContext.Session.GetString("jwtToken"));
 
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(facultyInfo);
         }
 
         //----------------------------------------------------------------------------------------//

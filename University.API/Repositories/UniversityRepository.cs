@@ -17,16 +17,6 @@ namespace University.API.Services
             _context = context;
         }
 
-        public void AddUniversity(Models.University university)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteUniversity(int universityId)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Models.University> GetUniversities()
         {
             return _context
@@ -37,7 +27,10 @@ namespace University.API.Services
 
         public Models.University GetUniversity(int universityId)
         {
-            return _context.Universities.Where(u => u.Id == universityId).FirstOrDefault();
+            return _context.Universities
+                .Include(u => u.Faculties)
+                .Where(u => u.Id == universityId)
+                .FirstOrDefault();
         }
 
         public Models.University GetUniversityByUserId(int userId)
@@ -48,7 +41,17 @@ namespace University.API.Services
                 .FirstOrDefault();
         }
 
+        public void AddUniversity(Models.University university)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateUniversity(Models.University university)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteUniversity(int universityId)
         {
             throw new NotImplementedException();
         }

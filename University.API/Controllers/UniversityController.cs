@@ -22,18 +22,25 @@ namespace University.API.Controllers
             _universityRepository = new UniversityRepository(context);
         }
 
-        // GET api/values
+        // GET api/University
         [HttpGet]
-        public ActionResult<IEnumerable<Models.University>> Get()
+        public ActionResult<IEnumerable<Models.University>> GetUniversities()
         {
             return _universityRepository.GetUniversities().ToList();
         }
 
-        // GET api/values
-        [HttpGet("{id}", Name = "GetByUserId")]
-        public ActionResult<Models.University> GetByUserId(int id)
+        // GET api/University/{id}
+        [HttpGet("{id}", Name = "GetUniversity")]
+        public ActionResult<Models.University> GetUniversity(int id)
         {
-            return _universityRepository.GetUniversityByUserId(id);
+            return _universityRepository.GetUniversity(id);
         }
+
+        // GET api/University/{id}
+        //[HttpGet("{id}", Name = "GetByUserId")]
+        //public ActionResult<Models.University> GetUniversityByUserId(int id)
+        //{
+        //    return _universityRepository.GetUniversityByUserId(id);
+        //}
     }
 }

@@ -6,9 +6,8 @@ using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.ApiCollection.Interfaces
 {
-    public interface IUniversityApi
+    public interface IFacultyApi
     {
-        Task<University> GetUniversity(int universityId, string jwtToken);
-        Task<University> GetUniversityByUserId(int userId, string jwtToken);
+        Task<Faculty> GetFaculty(int facultyId, string jwtToken);
     }
 }

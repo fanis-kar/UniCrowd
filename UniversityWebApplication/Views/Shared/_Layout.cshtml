@@ -21,43 +21,56 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-dark navbar-dark box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/unicrowd-logo.png" alt="Logo" style="width:150px;height:30px;"/></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/unicrowd-logo.png" alt="Το λογότυπο του UniCrowd" class="navbar-logo"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">Χρήστης: @username</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="University" asp-action="Index">Πανεπιστήμια</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Volunteer" asp-action="Index">Εθελοντές</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Index">@username</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Logout">Αποσύνδεση</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
-
         <div class="row">
-
             <div class="col-12 main-body">
                     @RenderBody()
             </div>
-
         </div>
-
-
     </div>
 
     <footer class="footer">
         <div class="container">
-            UniCrowd &copy; 2020 - <a href="https://www.linkedin.com/in/faniskaramichalelis/" target="_blank">Θεοφάνης Καραμιχαλέλης (mcse19002)</a>
+            <div class="row">
+                <div class="col-6">
+                    UniCrowd &copy; 2020 - <a href="https://www.linkedin.com/in/faniskaramichalelis/" target="_blank">Θεοφάνης Καραμιχαλέλης (mcse19002)</a>
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Πολιτική Απορρήτου</a> - 
+                    <a asp-area="" asp-controller="Home" asp-action="About">Σχετικά</a>
+                </div>
+            </div>
         </div>
     </footer>
 

@@ -30,12 +30,13 @@ namespace UniversityWebApplication
             #region Project Dependencies
             services.AddHttpClient();
             services.AddTransient<IUniversityApi, UniversityApi>();
+            services.AddTransient<IFacultyApi, FacultyApi>();
+            services.AddTransient<IDepartmentApi, DepartmentApi>();
             #endregion
-
 
             services.AddDistributedMemoryCache();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(1); //You can set Time   
+                options.IdleTimeout = TimeSpan.FromHours(168); //1 Week   
             });
 
             services.AddControllersWithViews();
@@ -51,9 +52,9 @@ namespace UniversityWebApplication
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
