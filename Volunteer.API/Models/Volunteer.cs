@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +19,8 @@ namespace Volunteer.API.Models
         public string Phone { get; set; }
 
         public string Address { get; set; }
-
+        
+        [NotMapped]
         public List<int> Skills { get; set; } // Skill ids from Skill.API
 
         public int AccountId { get; set; } // Authentication.API.User[id]

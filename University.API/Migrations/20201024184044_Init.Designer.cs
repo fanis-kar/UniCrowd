@@ -9,7 +9,7 @@ using University.API.Data;
 namespace University.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201023130925_Init")]
+    [Migration("20201024184044_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -321,6 +321,86 @@ namespace University.API.Migrations
                             Name = "Τμήμα Πολιτικών Μηχανικών",
                             Phone = "+302105381215",
                             Website = "http://civ.uniwa.gr/"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Abbreviation = "ode",
+                            Email = "ode@aueb.gr",
+                            FacultyId = 7,
+                            Name = "Τμήμα Οργάνωσης και Διοίκησης Επιχειρήσεων",
+                            Phone = "+302108203308",
+                            Website = "https://www.dept.aueb.gr/ode"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Abbreviation = "mbv",
+                            Email = "secretary.marketing@aueb.gr",
+                            FacultyId = 7,
+                            Name = "Τμήμα Μάρκετινγκ και Επικοινωνίας",
+                            Phone = "+302108203101",
+                            Website = "https://www.dept.aueb.gr/mbc"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Abbreviation = "loxri",
+                            Email = "accfin@aueb.gr",
+                            FacultyId = 7,
+                            Name = "Τμήμα Λογιστικής και Χρηματοοικονομικής",
+                            Phone = "+302108203300",
+                            Website = "https://www.dept.aueb.gr/loxri"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Abbreviation = "dmst",
+                            Email = "dmst@aueb.gr",
+                            FacultyId = 7,
+                            Name = "Τμήμα Διοικητικής Επιστήμης και Τεχνολογίας",
+                            Phone = "+302108203129",
+                            Website = "https://www.dept.aueb.gr/dmst"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Abbreviation = "econ",
+                            Email = "econ@aueb.gr",
+                            FacultyId = 8,
+                            Name = "Τμήμα Οικονομικής Επιστήμης",
+                            Phone = "+302108203303",
+                            Website = "https://www.dept.aueb.gr/econ"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Abbreviation = "deos",
+                            Email = "deossecr@aueb.gr",
+                            FacultyId = 8,
+                            Name = "Τμήμα Διεθνών και Ευρωπαϊκών Οικονομικών Σπουδών",
+                            Phone = "+302108203106",
+                            Website = "https://www.dept.aueb.gr/deos"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Abbreviation = "cs",
+                            Email = "infotech@aueb.gr",
+                            FacultyId = 9,
+                            Name = "Τμήμα Πληροφορικής",
+                            Phone = "+302108203315",
+                            Website = "https://www.dept.aueb.gr/cs"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Abbreviation = "stat",
+                            Email = "stat@aueb.gr",
+                            FacultyId = 9,
+                            Name = "Τμήμα Στατιστικής",
+                            Phone = "+302108203112",
+                            Website = "https://www.dept.aueb.gr/stat"
                         });
                 });
 
@@ -415,6 +495,36 @@ namespace University.API.Migrations
                             Phone = "+302105381212",
                             UniversityId = 1,
                             Website = "https://www.uniwa.gr/spoydes/scholes-kai-tmimata/feng/"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Abbreviation = "sde",
+                            Email = "sde@aueb.gr",
+                            Name = "Σχολή Διοίκησης Επιχειρήσεων",
+                            Phone = "+302108214510",
+                            UniversityId = 2,
+                            Website = "https://www.dept.aueb.gr/el/school_of_business"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Abbreviation = "soe",
+                            Email = "secr_soe@aueb.gr",
+                            Name = "Σχολή Οικονομικών Επιστημών",
+                            Phone = "+302108203416",
+                            UniversityId = 2,
+                            Website = "https://www.dept.aueb.gr/el/school_of_economics"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Abbreviation = "soi",
+                            Email = "webmaster@aueb.gr",
+                            Name = "Σχολή Επιστημών και Τεχνολογίας της Πληροφορίας",
+                            Phone = "+302108203911",
+                            UniversityId = 2,
+                            Website = "https://www.dept.aueb.gr/el/school_of_informatics"
                         });
                 });
 
@@ -461,12 +571,12 @@ namespace University.API.Migrations
                         new
                         {
                             Id = 2,
-                            Abbreviation = "uoa",
+                            Abbreviation = "aueb",
                             AccountId = 2,
-                            Address = "Πανεπιστημίου 30, Αθήνα 106 79",
-                            Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",
-                            Phone = "+302107277000",
-                            Website = "https://www.uoa.gr"
+                            Address = "Πατησίων 76, Αθήνα 104 34",
+                            Name = "Οικονομικό Πανεπιστήμιο Αθηνών",
+                            Phone = "+302108203911",
+                            Website = "https://www.aueb.gr"
                         });
                 });
 

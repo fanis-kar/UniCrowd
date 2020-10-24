@@ -40,11 +40,11 @@ namespace University.API.Data
                     new Models.University
                     {
                         Id = 2,
-                        Abbreviation = "uoa",
-                        Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",
-                        Address = "Πανεπιστημίου 30, Αθήνα 106 79",
-                        Website = "https://www.uoa.gr",
-                        Phone = "+302107277000",
+                        Abbreviation = "aueb",
+                        Name = "Οικονομικό Πανεπιστήμιο Αθηνών",
+                        Address = "Πατησίων 76, Αθήνα 104 34",
+                        Website = "https://www.aueb.gr",
+                        Phone = "+302108203911",
                         AccountId = 2
                     }
                 );
@@ -113,6 +113,36 @@ namespace University.API.Data
                         Email = "feng@uniwa.gr",
                         Phone = "+302105381212",
                         UniversityId = 1
+                    },
+                    new Faculty
+                    {
+                        Id = 7,
+                        Abbreviation = "sde",
+                        Name = "Σχολή Διοίκησης Επιχειρήσεων",
+                        Website = "https://www.dept.aueb.gr/el/school_of_business",
+                        Email = "sde@aueb.gr",
+                        Phone = "+302108214510",
+                        UniversityId = 2
+                    },
+                    new Faculty
+                    {
+                        Id = 8,
+                        Abbreviation = "soe",
+                        Name = "Σχολή Οικονομικών Επιστημών",
+                        Website = "https://www.dept.aueb.gr/el/school_of_economics",
+                        Email = "secr_soe@aueb.gr",
+                        Phone = "+302108203416",
+                        UniversityId = 2
+                    },
+                    new Faculty
+                    {
+                        Id = 9,
+                        Abbreviation = "soi",
+                        Name = "Σχολή Επιστημών και Τεχνολογίας της Πληροφορίας",
+                        Website = "https://www.dept.aueb.gr/el/school_of_informatics",
+                        Email = "webmaster@aueb.gr",
+                        Phone = "+302108203911",
+                        UniversityId = 2
                     }
                 );
 
@@ -390,6 +420,86 @@ namespace University.API.Data
                         Email = "civ@uniwa.gr",
                         Phone = "+302105381215",
                         FacultyId = 6
+                    },
+                    new Department
+                    {
+                        Id = 28,
+                        Abbreviation = "ode",
+                        Name = "Τμήμα Οργάνωσης και Διοίκησης Επιχειρήσεων",
+                        Website = "https://www.dept.aueb.gr/ode",
+                        Email = "ode@aueb.gr",
+                        Phone = "+302108203308",
+                        FacultyId = 7
+                    },
+                    new Department
+                    {
+                        Id = 29,
+                        Abbreviation = "mbv",
+                        Name = "Τμήμα Μάρκετινγκ και Επικοινωνίας",
+                        Website = "https://www.dept.aueb.gr/mbc",
+                        Email = "secretary.marketing@aueb.gr",
+                        Phone = "+302108203101",
+                        FacultyId = 7
+                    },
+                    new Department
+                    {
+                        Id = 30,
+                        Abbreviation = "loxri",
+                        Name = "Τμήμα Λογιστικής και Χρηματοοικονομικής",
+                        Website = "https://www.dept.aueb.gr/loxri",
+                        Email = "accfin@aueb.gr",
+                        Phone = "+302108203300",
+                        FacultyId = 7
+                    },
+                    new Department
+                    {
+                        Id = 31,
+                        Abbreviation = "dmst",
+                        Name = "Τμήμα Διοικητικής Επιστήμης και Τεχνολογίας",
+                        Website = "https://www.dept.aueb.gr/dmst",
+                        Email = "dmst@aueb.gr",
+                        Phone = "+302108203129",
+                        FacultyId = 7
+                    },
+                    new Department
+                    {
+                        Id = 32,
+                        Abbreviation = "econ",
+                        Name = "Τμήμα Οικονομικής Επιστήμης",
+                        Website = "https://www.dept.aueb.gr/econ",
+                        Email = "econ@aueb.gr",
+                        Phone = "+302108203303",
+                        FacultyId = 8
+                    },
+                    new Department
+                    {
+                        Id = 33,
+                        Abbreviation = "deos",
+                        Name = "Τμήμα Διεθνών και Ευρωπαϊκών Οικονομικών Σπουδών",
+                        Website = "https://www.dept.aueb.gr/deos",
+                        Email = "deossecr@aueb.gr",
+                        Phone = "+302108203106",
+                        FacultyId = 8
+                    },
+                    new Department
+                    {
+                        Id = 34,
+                        Abbreviation = "cs",
+                        Name = "Τμήμα Πληροφορικής",
+                        Website = "https://www.dept.aueb.gr/cs",
+                        Email = "infotech@aueb.gr",
+                        Phone = "+302108203315",
+                        FacultyId = 9
+                    },
+                    new Department
+                    {
+                        Id = 35,
+                        Abbreviation = "stat",
+                        Name = "Τμήμα Στατιστικής",
+                        Website = "https://www.dept.aueb.gr/stat",
+                        Email = "stat@aueb.gr",
+                        Phone = "+302108203112",
+                        FacultyId = 9
                     }
                 );
         }
