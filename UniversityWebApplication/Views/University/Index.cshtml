@@ -9,39 +9,41 @@
 
 <hr class="basic" />
 
-<table id="universities-table" class="table table-responsive table-striped table-bordered datatable-table">
-    <thead>
-        <tr>
-            <th>Ονομασία</th>
-            <th>Διεύθυνση</th>
-            <th>Ιστοσελίδα</th>
-            <th>Τηλέφωνο</th>
-            <th>Ενέργειες</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <table id="universities-table" class="table table-bordered datatable-table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfficialName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Website)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    <a asp-controller="University" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
-                </td>
+                <th>Ονομασία</th>
+                <th>Διεύθυνση</th>
+                <th>Ιστοσελίδα</th>
+                <th>Τηλέφωνο</th>
+                <th>Ενέργειες</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficialName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Website)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        <a asp-controller="University" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <hr class="basic" />
 
@@ -53,6 +55,7 @@
         <script>
             $(document).ready(function () {
                 $("#universities-table").dataTable({
+                    "autoWidth": true,
                     "language": {
                         "sDecimal": ",",
                         "sEmptyTable": "Δεν υπάρχουν δεδομένα στον πίνακα",

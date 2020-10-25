@@ -17,6 +17,22 @@ namespace UniversityWebApplication.ApiCollection
         {
         }
 
+        //-----------------------------------------//
+
+        public async Task<List<University>> GetUniversities(string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/University")
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<List<University>>(message);
+        }
+
         public async Task<University> GetUniversity(int universityId, string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();
@@ -46,5 +62,42 @@ namespace UniversityWebApplication.ApiCollection
 
             return await SendRequest<University>(message);
         }
+
+        //-----------------------------------------//
+
+        public async Task<Faculty> GetFaculty(int facultyId, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Faculty")
+                           .AddToPath(facultyId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<Faculty>(message);
+        }
+
+        //-----------------------------------------//
+
+        public async Task<Department> GetDepartment(int departmentId, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Department")
+                           .AddToPath(departmentId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<Department>(message);
+        }
+
+        //-----------------------------------------//
+
     }
 }

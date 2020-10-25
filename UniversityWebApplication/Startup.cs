@@ -29,9 +29,8 @@ namespace UniversityWebApplication
         {
             #region Project Dependencies
             services.AddHttpClient();
+            services.AddTransient<IAuthenticationApi, AuthenticationApi>();
             services.AddTransient<IUniversityApi, UniversityApi>();
-            services.AddTransient<IFacultyApi, FacultyApi>();
-            services.AddTransient<IDepartmentApi, DepartmentApi>();
             #endregion
 
             services.AddDistributedMemoryCache();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -34,6 +35,24 @@ namespace UniversityWebApplication.ApiCollection.Infrastructure
             if (response.IsSuccessStatusCode)
             {
                 result = await response.Content.ReadAsAsync<T>(GetFormatters());
+            }
+
+            return result;
+        }
+
+        public async Task<string> SendRequest2(HttpRequestMessage request)
+        {
+            string result = "";
+
+            var client = GetHttpClient();
+
+            var response = await client.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+
+            if (response.IsSuccessStatusCode)
+            {
+                result = response.Content.ReadAsStringAsync().Result;
             }
 
             return result;

@@ -26,7 +26,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Authentication/validate",
+      "DownstreamPathTemplate": "/api/Authentication/validate?userId={userId}&jwtToken={jwtToken}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -34,7 +34,7 @@
           "Port": 44319 // Authentication.API SSL Port
         }
       ],
-      "UpstreamPathTemplate": "/Authentication/validate",
+      "UpstreamPathTemplate": "/Authentication/validate/{userId}/{jwtToken}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {

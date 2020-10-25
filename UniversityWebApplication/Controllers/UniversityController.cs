@@ -14,10 +14,12 @@ namespace UniversityWebApplication.Controllers
 {
     public class UniversityController : Controller
     {
+        private readonly IAuthenticationApi _authenticationApi;
         private readonly IUniversityApi _universityApi;
 
-        public UniversityController(IUniversityApi universityApi)
+        public UniversityController(IAuthenticationApi authenticationApi, IUniversityApi universityApi)
         {
+            _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
@@ -26,34 +28,9 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            var url = "https://localhost:44378/University";
+            var universities = await _universityApi.GetUniversities(HttpContext.Session.GetString("jwtToken"));
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("jwtToken"));
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                string strResult = await response.Content.ReadAsStringAsync();
-
-                TempData["Response"] = strResult;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    //List<University> universities = new List<University>
-                    //{
-
-                    //};
-
-                    List<University> universities = JsonConvert.DeserializeObject<List<University>>(strResult);
-
-                    return View(universities);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
+            return View(universities);
         }
 
         // ~/University/Details/{id}
@@ -71,38 +48,18 @@ namespace UniversityWebApplication.Controllers
 
         public async Task<bool> IsLoggedInAsync()
         {
-            var username = HttpContext.Session.GetString("username");
             var userId = HttpContext.Session.GetString("userId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (username == null || userId == null || jwtToken == null)
+            if (userId == null || jwtToken == null)
             {
                 return false;
             }
 
-            var url = "https://localhost:44378/authentication/validate?userId=" + userId + "&jwtToken=" + jwtToken;
+            if (await _authenticationApi.ValidateUserAsync(int.Parse(userId), jwtToken) == userId)
+                return true;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                string strResult = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (userId == strResult)
-                        return true;
-                }
-                else
-                {
-                    //ViewData["ErrorMessage"] = strResult;
-
-                    return false;
-                }
-            }
-
-            return true;
+            return false;
         }
     }
 }

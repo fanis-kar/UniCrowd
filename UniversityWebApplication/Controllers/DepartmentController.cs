@@ -14,11 +14,13 @@ namespace UniversityWebApplication.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentApi _departmentApi;
+        private readonly IAuthenticationApi _authenticationApi;
+        private readonly IUniversityApi _universityApi;
 
-        public DepartmentController(IDepartmentApi departmentApi)
+        public DepartmentController(IAuthenticationApi authenticationApi, IUniversityApi universityApi)
         {
-            _departmentApi = departmentApi ?? throw new ArgumentNullException(nameof(departmentApi));
+            _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
+            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
         // ~/Department/Details/{id}
@@ -27,7 +29,7 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            var departmentInfo = await _departmentApi.GetDepartment(id, HttpContext.Session.GetString("jwtToken"));
+            var departmentInfo = await _universityApi.GetDepartment(id, HttpContext.Session.GetString("jwtToken"));
 
             return View(departmentInfo);
         }
@@ -36,38 +38,18 @@ namespace UniversityWebApplication.Controllers
 
         public async Task<bool> IsLoggedInAsync()
         {
-            var username = HttpContext.Session.GetString("username");
             var userId = HttpContext.Session.GetString("userId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (username == null || userId == null || jwtToken == null)
+            if (userId == null || jwtToken == null)
             {
                 return false;
             }
 
-            var url = "https://localhost:44378/authentication/validate?userId=" + userId + "&jwtToken=" + jwtToken;
+            if (await _authenticationApi.ValidateUserAsync(int.Parse(userId), jwtToken) == userId)
+                return true;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                string strResult = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (userId == strResult)
-                        return true;
-                }
-                else
-                {
-                    //ViewData["ErrorMessage"] = strResult;
-
-                    return false;
-                }
-            }
-
-            return true;
+            return false;
         }
     }
 }

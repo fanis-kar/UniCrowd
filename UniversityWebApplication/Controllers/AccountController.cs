@@ -10,15 +10,18 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
+using System.Net.Http.Formatting;
 
 namespace WebApplication.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IAuthenticationApi _authenticationApi;
         private readonly IUniversityApi _universityApi;
 
-        public AccountController(IUniversityApi universityApi)
+        public AccountController(IAuthenticationApi authenticationApi, IUniversityApi universityApi)
         {
+            _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
@@ -52,47 +55,28 @@ namespace WebApplication.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var url = "https://localhost:44378/authentication/login?destination=university-area";
-
-            using var client = new HttpClient
-            {
-                BaseAddress = new Uri(url)
-            };
-
-            LoginForm body = new LoginForm()
+            User user = new User()
             {
                 Username = model.Username,
                 Password = model.Password
             };
 
-            string json = JsonConvert.SerializeObject(body);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var z = await _authenticationApi.Login(user);
+            var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(z);
 
-            HttpResponseMessage response = await client.PostAsync(url, httpContent);
-            string strResult = await response.Content.ReadAsStringAsync();
-            var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(strResult);
+            HttpContext.Session.SetString("userId", resultObject["userId"]);
+            HttpContext.Session.SetString("username", model.Username);
+            HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
 
-            if (response.IsSuccessStatusCode)
-            {
-                HttpContext.Session.SetString("userId", resultObject["userId"]);
-                HttpContext.Session.SetString("username", model.Username);
-                HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
-
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                TempData["ErrorMessage"] = strResult;
-
-                return RedirectToAction("Login", "Account");
-            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("jwt_token");
+            HttpContext.Session.Remove("userId");
             HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("jwtToken");
 
             TempData["SuccessMessage"] = "Αποσυνδέθηκες με επιτυχία.";
 
@@ -103,38 +87,18 @@ namespace WebApplication.Controllers
 
         public async Task<bool> IsLoggedInAsync()
         {
-            var username = HttpContext.Session.GetString("username");
             var userId = HttpContext.Session.GetString("userId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (username == null || userId == null || jwtToken == null)
+            if (userId == null || jwtToken == null)
             {
                 return false;
             }
 
-            var url = "https://localhost:44378/authentication/validate?userId=" + userId + "&jwtToken=" + jwtToken;
+            if (await _authenticationApi.ValidateUserAsync(int.Parse(userId), jwtToken) == userId)
+                return true;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                string strResult = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (userId == strResult)
-                        return true;
-                }
-                else
-                {
-                    //TempData["ErrorMessage"] = strResult;
-
-                    return false;
-                }
-            }
-
-            return true;
+            return false;
         }
     }
 }

@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IAuthenticationApi _authenticationApi;
 
-        public HomeController()
+        public HomeController(IAuthenticationApi authenticationApi)
         {
+            _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -46,38 +49,18 @@ namespace UniversityWebApplication.Controllers
 
         public async Task<bool> IsLoggedInAsync()
         {
-            var username = HttpContext.Session.GetString("username");
             var userId = HttpContext.Session.GetString("userId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (username == null || userId == null || jwtToken == null)
+            if (userId == null || jwtToken == null)
             {
                 return false;
             }
 
-            var url = "https://localhost:44378/authentication/validate?userId=" + userId + "&jwtToken=" + jwtToken;
+            if (await _authenticationApi.ValidateUserAsync(int.Parse(userId), jwtToken) == userId)
+                return true;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                string strResult = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (userId == strResult)
-                        return true;
-                }
-                else
-                {
-                    //ViewData["ErrorMessage"] = strResult;
-
-                    return false;
-                }
-            }
-
-            return true;
+            return false;
         }
     }
 }
