@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace University.API.Models
+namespace Model
 {
-    public class University
+    public class Department
     {
         public int Id { get; set; }
 
@@ -14,15 +12,15 @@ namespace University.API.Models
 
         public string Name { get; set; }
 
-        public string Address { get; set; }
-
         public string Website { get; set; }
+
+        public string Email { get; set; }
 
         public string Phone { get; set; }
 
-        public List<Faculty> Faculties { get; set; }
+        public int FacultyId { get; set; }
 
-        public int AccountId { get; set; } // Authentication.API.User[id]
+        public Faculty Faculty { get; set; }
 
         public string OfficialName
         {

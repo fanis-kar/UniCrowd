@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Authentication.API.Models
+namespace Model
 {
-    public class Role
+    public class Skill
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
+
+        public string Description { get; set; }
     }
 }

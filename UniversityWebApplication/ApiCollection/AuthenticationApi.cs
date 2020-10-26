@@ -30,8 +30,7 @@ namespace UniversityWebApplication.ApiCollection
             var json = JsonConvert.SerializeObject(user);
             message.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var x = await SendRequest2(message);
-            return x;
+            return await SendRequest(message);
         }
 
         public async Task<User> GetUser(int userId, string jwtToken)

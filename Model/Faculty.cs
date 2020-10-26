@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace University.API.Models
+namespace Model
 {
     public class Faculty
     {
@@ -21,7 +20,7 @@ namespace University.API.Models
 
         public int UniversityId { get; set; }
 
-        public University  University { get; set; }
+        public University University { get; set; }
 
         public List<Department> Departments { get; set; }
 

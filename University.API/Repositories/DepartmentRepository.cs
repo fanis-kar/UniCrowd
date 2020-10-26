@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using University.API.Data;
-using University.API.Models;
+using Model;
 
 namespace University.API.Repositories
 {

@@ -1,9 +1,6 @@
 ﻿using Authentication.API.Data;
-using Authentication.API.Models;
-using System;
-using System.Collections.Generic;
+using Model;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Authentication.API.Services
 {

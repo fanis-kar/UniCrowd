@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 using System.Net.Http.Formatting;
+using System.Collections;
 
 namespace WebApplication.Controllers
 {
@@ -30,8 +31,7 @@ namespace WebApplication.Controllers
             if (! await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            int userId = int.Parse(HttpContext.Session.GetString("userId"));
-            var universityInfo = await _universityApi.GetUniversityByUserId(userId, HttpContext.Session.GetString("jwtToken"));
+            var universityInfo = await _universityApi.GetUniversityByUserId(int.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
 
             return View(universityInfo);
         }
@@ -61,14 +61,23 @@ namespace WebApplication.Controllers
                 Password = model.Password
             };
 
-            var z = await _authenticationApi.Login(user);
-            var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(z);
+            string response = await _authenticationApi.Login(user);
 
-            HttpContext.Session.SetString("userId", resultObject["userId"]);
-            HttpContext.Session.SetString("username", model.Username);
-            HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
+            try
+            {
+                var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
 
-            return RedirectToAction("Index", "Home");
+                HttpContext.Session.SetString("userId", resultObject["userId"]);
+                HttpContext.Session.SetString("username", model.Username);
+                HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = response;
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         [HttpGet]
@@ -99,6 +108,14 @@ namespace WebApplication.Controllers
                 return true;
 
             return false;
+        }
+
+        public bool IsDictionary(object o)
+        {
+            if (o == null) return false;
+            return o is IDictionary &&
+                   o.GetType().IsGenericType &&
+                   o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using University.API.Data;
-using University.API.Models;
+using Model;
 using University.API.Repositories;
 using University.API.Services;
 

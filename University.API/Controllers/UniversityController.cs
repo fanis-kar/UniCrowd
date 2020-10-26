@@ -24,14 +24,14 @@ namespace University.API.Controllers
 
         // GET api/University
         [HttpGet]
-        public ActionResult<IEnumerable<Models.University>> GetUniversities()
+        public ActionResult<IEnumerable<Model.University>> GetUniversities()
         {
             return _universityRepository.GetUniversities().ToList();
         }
 
         // GET api/University/{id}
         [HttpGet("{id}", Name = "GetUniversity")]
-        public ActionResult<Models.University> GetUniversity(int id)
+        public ActionResult<Model.University> GetUniversity(int id)
         {
             return _universityRepository.GetUniversity(id);
         }

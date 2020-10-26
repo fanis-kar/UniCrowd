@@ -18,7 +18,7 @@ namespace Authentication.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Authentication.API.Models.Role", b =>
+            modelBuilder.Entity("Model.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace Authentication.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Authentication.API.Models.User", b =>
+            modelBuilder.Entity("Model.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -364,9 +364,9 @@ namespace Authentication.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Authentication.API.Models.User", b =>
+            modelBuilder.Entity("Model.User", b =>
                 {
-                    b.HasOne("Authentication.API.Models.Role", "Role")
+                    b.HasOne("Model.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

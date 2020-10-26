@@ -2,7 +2,7 @@
 
 namespace Authentication.API.Migrations
 {
-    public partial class Iniy : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

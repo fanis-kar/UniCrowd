@@ -40,7 +40,7 @@ namespace UniversityWebApplication.ApiCollection.Infrastructure
             return result;
         }
 
-        public async Task<string> SendRequest2(HttpRequestMessage request)
+        public async Task<string> SendRequest(HttpRequestMessage request)
         {
             string result = "";
 
@@ -48,12 +48,14 @@ namespace UniversityWebApplication.ApiCollection.Infrastructure
 
             var response = await client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
 
-            if (response.IsSuccessStatusCode)
-            {
-                result = response.Content.ReadAsStringAsync().Result;
-            }
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    result = response.Content.ReadAsStringAsync().Result;
+            //}
+
+            result = response.Content.ReadAsStringAsync().Result;
 
             return result;
         }

@@ -18,7 +18,7 @@ namespace University.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("University.API.Models.Department", b =>
+            modelBuilder.Entity("Model.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -402,7 +402,7 @@ namespace University.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("University.API.Models.Faculty", b =>
+            modelBuilder.Entity("Model.Faculty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -526,7 +526,7 @@ namespace University.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("University.API.Models.University", b =>
+            modelBuilder.Entity("Model.University", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -578,18 +578,18 @@ namespace University.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("University.API.Models.Department", b =>
+            modelBuilder.Entity("Model.Department", b =>
                 {
-                    b.HasOne("University.API.Models.Faculty", "Faculty")
+                    b.HasOne("Model.Faculty", "Faculty")
                         .WithMany("Departments")
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("University.API.Models.Faculty", b =>
+            modelBuilder.Entity("Model.Faculty", b =>
                 {
-                    b.HasOne("University.API.Models.University", "University")
+                    b.HasOne("Model.University", "University")
                         .WithMany("Faculties")
                         .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Model;
 
 namespace University.API.Data
 {
@@ -22,9 +23,9 @@ namespace University.API.Data
 
             if (!context.Universities.Any())
             {
-                var universities = new List<Models.University>
+                var universities = new List<Model.University>
                 {
-                    new Models.University
+                    new Model.University
                     {
                         Abbreviation = "UniWa",
                         Name = "Πανεπιστήμιο Δυτικής Αττικής",
@@ -33,7 +34,7 @@ namespace University.API.Data
                         Phone = "+302105385100",
                         AccountId = 1
                     },
-                    new Models.University
+                    new Model.University
                     {
                         Abbreviation = "UoA",
                         Name = "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών",
@@ -44,7 +45,7 @@ namespace University.API.Data
                     }
                 };
 
-                foreach (Models.University u in universities)
+                foreach (Model.University u in universities)
                 {
                     context.Universities.Add(u);
                 }

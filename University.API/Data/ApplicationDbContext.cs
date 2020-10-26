@@ -1,4 +1,4 @@
-﻿using University.API.Models;
+﻿using Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace University.API.Data
         {
         }
 
-        public DbSet<Models.University> Universities { get; set; }
+        public DbSet<Model.University> Universities { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Department> Departments { get; set; }
 
@@ -25,9 +25,9 @@ namespace University.API.Data
             //--------------------------------------------------------------------------------//
 
             builder
-                .Entity<Models.University>()
+                .Entity<Model.University>()
                 .HasData(
-                    new Models.University
+                    new Model.University
                     {
                         Id = 1,
                         Abbreviation = "uniwa",
@@ -37,7 +37,7 @@ namespace University.API.Data
                         Phone = "+302105385100",
                         AccountId = 1
                     },
-                    new Models.University
+                    new Model.University
                     {
                         Id = 2,
                         Abbreviation = "aueb",

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using University.API.Data;
-using University.API.Models;
+using Model;
 
 namespace University.API.Services
 {
@@ -17,7 +17,7 @@ namespace University.API.Services
             _context = context;
         }
 
-        public IEnumerable<Models.University> GetUniversities()
+        public IEnumerable<Model.University> GetUniversities()
         {
             return _context
                 .Universities
@@ -25,7 +25,7 @@ namespace University.API.Services
                 .ToList();
         }
 
-        public Models.University GetUniversity(int universityId)
+        public Model.University GetUniversity(int universityId)
         {
             return _context.Universities
                 .Include(u => u.Faculties)
@@ -33,7 +33,7 @@ namespace University.API.Services
                 .FirstOrDefault();
         }
 
-        public Models.University GetUniversityByUserId(int userId)
+        public Model.University GetUniversityByUserId(int userId)
         {
             return _context.Universities
                 .Include(u => u.Faculties)
@@ -41,12 +41,12 @@ namespace University.API.Services
                 .FirstOrDefault();
         }
 
-        public void AddUniversity(Models.University university)
+        public void AddUniversity(Model.University university)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateUniversity(Models.University university)
+        public void UpdateUniversity(Model.University university)
         {
             throw new NotImplementedException();
         }

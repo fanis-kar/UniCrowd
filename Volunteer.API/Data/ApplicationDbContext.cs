@@ -11,7 +11,6 @@ namespace Volunteer.API.Data
         }
 
         public DbSet<Models.Volunteer> Volunteers { get; set; }
-        public DbSet<Group> Groups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
