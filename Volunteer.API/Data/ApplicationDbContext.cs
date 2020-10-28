@@ -1,5 +1,5 @@
-﻿using Volunteer.API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 
 namespace Volunteer.API.Data
 {
@@ -10,16 +10,21 @@ namespace Volunteer.API.Data
         {
         }
 
-        public DbSet<Models.Volunteer> Volunteers { get; set; }
+        public DbSet<Model.Volunteer> Volunteers { get; set; }
+        public DbSet<VolunteerSkill> VolunteersSkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder
-                .Entity<Models.Volunteer>()
+                .Entity<VolunteerSkill>()
+                .HasNoKey();
+
+            builder
+                .Entity<Model.Volunteer>()
                 .HasData(
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 1,
                         FirstName = "Όνομα1",
@@ -29,7 +34,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 1, Αθήνα 000 01",
                         AccountId = 3
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 2,
                         FirstName = "Όνομα2",
@@ -39,7 +44,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 2, Αθήνα 000 02",
                         AccountId = 4
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 3,
                         FirstName = "Όνομα3",
@@ -49,7 +54,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 3, Αθήνα 000 03",
                         AccountId = 5
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 4,
                         FirstName = "Όνομα4",
@@ -59,7 +64,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 4, Αθήνα 000 04",
                         AccountId = 6
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 5,
                         FirstName = "Όνομα5",
@@ -69,7 +74,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 5, Αθήνα 000 05",
                         AccountId = 7
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 6,
                         FirstName = "Όνομα6",
@@ -79,7 +84,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 6, Αθήνα 000 06",
                         AccountId = 8
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 7,
                         FirstName = "Όνομα7",
@@ -89,7 +94,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 7, Αθήνα 000 07",
                         AccountId = 9
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 8,
                         FirstName = "Όνομα8",
@@ -99,7 +104,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 8, Αθήνα 000 08",
                         AccountId = 10
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 9,
                         FirstName = "Όνομα9",
@@ -109,7 +114,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 9, Αθήνα 000 09",
                         AccountId = 11
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 10,
                         FirstName = "Όνομα10",
@@ -119,7 +124,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 10, Αθήνα 000 10",
                         AccountId = 12
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 11,
                         FirstName = "Όνομα11",
@@ -129,7 +134,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 11, Αθήνα 000 11",
                         AccountId = 13
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 12,
                         FirstName = "Όνομα12",
@@ -139,7 +144,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 12, Αθήνα 000 12",
                         AccountId = 14
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 13,
                         FirstName = "Όνομα13",
@@ -149,7 +154,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 13, Αθήνα 000 13",
                         AccountId = 15
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 14,
                         FirstName = "Όνομα14",
@@ -159,7 +164,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 14, Αθήνα 000 14",
                         AccountId = 16
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 15,
                         FirstName = "Όνομα15",
@@ -169,7 +174,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 15, Αθήνα 000 15",
                         AccountId = 17
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 16,
                         FirstName = "Όνομα16",
@@ -179,7 +184,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 16, Αθήνα 000 16",
                         AccountId = 18
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 17,
                         FirstName = "Όνομα17",
@@ -189,7 +194,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 17, Αθήνα 000 17",
                         AccountId = 19
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 18,
                         FirstName = "Όνομα18",
@@ -199,7 +204,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 18, Αθήνα 000 18",
                         AccountId = 20
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 19,
                         FirstName = "Όνομα19",
@@ -209,7 +214,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 19, Αθήνα 000 19",
                         AccountId = 21
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 20,
                         FirstName = "Όνομα20",
@@ -219,7 +224,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 20, Αθήνα 000 20",
                         AccountId = 22
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 21,
                         FirstName = "Όνομα21",
@@ -229,7 +234,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 21, Αθήνα 000 21",
                         AccountId = 23
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 22,
                         FirstName = "Όνομα22",
@@ -239,7 +244,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 22, Αθήνα 000 22",
                         AccountId = 24
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 23,
                         FirstName = "Όνομα23",
@@ -249,7 +254,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 23, Αθήνα 000 23",
                         AccountId = 25
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 24,
                         FirstName = "Όνομα24",
@@ -259,7 +264,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 24, Αθήνα 000 24",
                         AccountId = 26
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 25,
                         FirstName = "Όνομα25",
@@ -269,7 +274,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 25, Αθήνα 000 25",
                         AccountId = 27
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 26,
                         FirstName = "Όνομα26",
@@ -279,7 +284,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 26, Αθήνα 000 26",
                         AccountId = 28
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 27,
                         FirstName = "Όνομα27",
@@ -289,7 +294,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 27, Αθήνα 000 27",
                         AccountId = 29
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 28,
                         FirstName = "Όνομα28",
@@ -299,7 +304,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 28, Αθήνα 000 28",
                         AccountId = 30
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 29,
                         FirstName = "Όνομα29",
@@ -309,7 +314,7 @@ namespace Volunteer.API.Data
                         Address = "Διεύθυνση Κατοικίας 29, Αθήνα 000 29",
                         AccountId = 31
                     },
-                    new Models.Volunteer
+                    new Model.Volunteer
                     {
                         Id = 30,
                         FirstName = "Όνομα30",

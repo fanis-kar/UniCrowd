@@ -36,7 +36,7 @@ namespace Authentication.API
             services.AddTransient<IEncryptor, Encryptor>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authentication", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservice: Authentication", Version = "v1" });
             });
 
             services.AddControllersWithViews()
@@ -46,7 +46,7 @@ namespace Authentication.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -57,7 +57,7 @@ namespace Authentication.API
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservice: Authentication V1");
             });
 
             app.UseHttpsRedirection();
@@ -70,8 +70,6 @@ namespace Authentication.API
             {
                 endpoints.MapControllers();
             });
-
-            //DbInitializer.Initialize(context).Wait();
         }
     }
 }

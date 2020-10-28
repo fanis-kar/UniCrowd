@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Middleware;
 using Volunteer.API.Data;
 
 namespace Volunteer.API
@@ -33,12 +34,17 @@ namespace Volunteer.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddJwt(Configuration);
+            services.AddTransient<IEncryptor, Encryptor>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Volunteer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservice: Volunteer", Version = "v1" });
             });
 
-            services.AddControllers();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore // For object cycle. Install Microsoft.AspNetCore.Mvc.NewtonsoftJson package
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +59,7 @@ namespace Volunteer.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Volunteer V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservice: Volunteer V1");
             });
 
             app.UseHttpsRedirection();
