@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UniversityWebApplication.ApiCollection.Infrastructure;
 using UniversityWebApplication.ApiCollection.Interfaces;
-using UniversityWebApplication.Models;
+using Model;
 
 namespace UniversityWebApplication.ApiCollection
 {

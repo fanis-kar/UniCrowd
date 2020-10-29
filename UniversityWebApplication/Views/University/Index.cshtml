@@ -1,4 +1,4 @@
-﻿@model List<UniversityWebApplication.Models.University>
+﻿@model List<Model.University>
 
 @{
     ViewData["Title"] = "Λίστα πανεπιστημίων";
@@ -52,6 +52,8 @@
 @section scripts
 {
     @{
+        await Html.RenderPartialAsync("_DataTablesLayout");
+
         <script>
             $(document).ready(function () {
                 $("#universities-table").dataTable({
@@ -81,7 +83,23 @@
                         "oAria": {
                             "sSortAscending": ": ενεργοποιήστε για αύξουσα ταξινόμηση της στήλης",
                             "sSortDescending": ": ενεργοποιήστε για φθίνουσα ταξινόμηση της στήλης"
+                        },
+                        buttons: {
+                            excel: "EXCEL",
+                            pdf: "PDF",
+                            print: "Εκτύπωση"
                         }
+                    },
+                    dom: "Bfrtip",
+                    buttons: [
+                        "excel", "pdf", "print"
+                    ],
+                    buttons: {
+                        buttons: [
+                            { extend: "excel", className: "btn-basic" },
+                            { extend: "pdf", className: "btn-basic" },
+                            { extend: "print", className: "btn-basic" }
+                        ]
                     }
                 });
             });

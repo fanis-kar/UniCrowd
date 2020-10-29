@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UniversityWebApplication.Models;
+using Model;
 
 namespace UniversityWebApplication.ApiCollection.Interfaces
 {

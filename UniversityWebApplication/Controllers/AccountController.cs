@@ -12,6 +12,7 @@ using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 using System.Net.Http.Formatting;
 using System.Collections;
+using Model;
 
 namespace WebApplication.Controllers
 {
