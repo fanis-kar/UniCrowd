@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Middleware\Middleware.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>

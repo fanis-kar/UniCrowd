@@ -51,8 +51,7 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
-      },
-      "Key": "Authentication"
+      }
     },
     // University.API
     {
@@ -85,8 +84,7 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
-      },
-      "Key": "University"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/Faculty",
@@ -151,18 +149,42 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
+    },
+    // Volunteer.API
+    {
+      "DownstreamPathTemplate": "/api/Volunteer",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44399 // Volunteer.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Volunteer",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Volunteer/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44399 // Volunteer.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Volunteer/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:44378" // UniversityGateway SSL Port
-  },
-  "Aggregates": [
-    {
-      "RouteKeys": [
-        "Authentication",
-        "University"
-      ],
-      "UpstreamPathTemplate": "/UniversityAccount/{id}"
-    }
-  ]
+  }
 }

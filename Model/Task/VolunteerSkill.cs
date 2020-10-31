@@ -6,11 +6,9 @@ namespace Model
 {
     // Task.API
 
-    public class TaskSkill
+    public class VolunteerSkill
     {
-        public int TaskId { get; set; }
-
-        public Tasks Task { get; set; }
+        public int VolunteerId { get; set; }  // Volunteer.API - Volunteer[id]
 
         public int SkillId { get; set; }
 

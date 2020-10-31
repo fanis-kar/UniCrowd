@@ -85,7 +85,6 @@ namespace University.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservice: University V1");
             });
 
-
             app.UseHttpsRedirection();
             app.UseRouting();
 

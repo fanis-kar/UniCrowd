@@ -1,22 +1,21 @@
-﻿@model List<Model.University>
+﻿@model List<Model.Volunteer>
 
 @{
-    ViewData["Title"] = "Λίστα πανεπιστημίων";
+    ViewData["Title"] = "Λίστα εθελοντών";
     Layout = "_Layout";
 }
 
-<h1>Λίστα πανεπιστημίων</h1>
+<h1>Λίστα εθελοντών</h1>
 
 <hr class="basic" />
 
 <div class="table-responsive">
-    <table id="universities-table" class="table table-bordered datatable-table">
+    <table id="volunteers-table" class="table table-bordered datatable-table">
         <thead>
             <tr>
-                <th>Ονομασία</th>
-                <th>Διεύθυνση</th>
-                <th>Ιστοσελίδα</th>
-                <th>Τηλέφωνο</th>
+                <th>Ονοματεπώνυμο</th>
+                <th>Πατρώνυμο</th>
+                <th>Αστέρια</th>
                 <th>Ενέργειες</th>
             </tr>
         </thead>
@@ -25,19 +24,16 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.OfficialName)
+                        @Html.DisplayFor(modelItem => item.FullName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Address)
+                        @Html.DisplayFor(modelItem => item.FatherName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Website)
+                        @Html.DisplayFor(modelItem => item.Stars)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        <a asp-controller="University" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
+                        <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
                     </td>
                 </tr>
             }
@@ -56,7 +52,7 @@
 
         <script>
             $(document).ready(function () {
-                $("#universities-table").dataTable({
+                $("#volunteers-table").dataTable({
                     "autoWidth": true,
                     "language": {
                         "sDecimal": ",",
@@ -96,9 +92,9 @@
                     ],
                     buttons: {
                         buttons: [
-                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
-                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
-                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } }
+                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } },
+                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } },
+                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } }
                         ]
                     }
                 });
