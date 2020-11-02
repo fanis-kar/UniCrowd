@@ -24,21 +24,23 @@ namespace Task.API.Data
         {
             base.OnModelCreating(builder);
 
-            //----------------------------------//
+            // ------------------------------------------------------------------------- //
+            // Set Primary Keys
 
             builder
                 .Entity<TaskSkill>()
-                .HasNoKey();
+                .HasKey(ts => new { ts.TaskId, ts.SkillId });
 
             builder
                 .Entity<VolunteerSkill>()
-                .HasNoKey();
+                .HasKey(vs => new { vs.VolunteerId, vs.SkillId });
 
             builder
                 .Entity<VolunteerGroup>()
-                .HasNoKey();
+                .HasKey(vg => new { vg.VolunteerId, vg.GroupId });
 
-            //----------------------------------//
+            // ------------------------------------------------------------------------- //
+            // Set Collumn Types
 
             builder.Entity<Skill>()
                 .Property(s => s.Description)
@@ -52,7 +54,7 @@ namespace Task.API.Data
                 .Property(i => i.Description)
                 .HasColumnType("text");
 
-            //----------------------------------//
+            // ------------------------------------------------------------------------- //
 
             builder.Seed();
         }

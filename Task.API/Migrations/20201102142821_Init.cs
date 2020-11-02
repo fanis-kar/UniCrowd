@@ -43,6 +43,7 @@ namespace Task.API.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_VolunteersSkills", x => new { x.VolunteerId, x.SkillId });
                     table.ForeignKey(
                         name: "FK_VolunteersSkills_Skills_SkillId",
                         column: x => x.SkillId,
@@ -133,6 +134,7 @@ namespace Task.API.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_TasksSkills", x => new { x.TaskId, x.SkillId });
                     table.ForeignKey(
                         name: "FK_TasksSkills_Skills_SkillId",
                         column: x => x.SkillId,
@@ -156,6 +158,7 @@ namespace Task.API.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_VolunteersGroups", x => new { x.VolunteerId, x.GroupId });
                     table.ForeignKey(
                         name: "FK_VolunteersGroups_Groups_GroupId",
                         column: x => x.GroupId,
@@ -164,10 +167,58 @@ namespace Task.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Skills",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Μη διαθέσιμη", "Βασικές γνώσεις Η/Υ" },
+                    { 17, "Μη διαθέσιμη", "Αγγλικά - Άριστη γνώση (Γ2)" },
+                    { 16, "Μη διαθέσιμη", "Αγγλικά - Πολύ καλή γνώση (Γ1)" },
+                    { 15, "Μη διαθέσιμη", "Αγγλικά - Καλή γνώση (B2)" },
+                    { 14, "Μη διαθέσιμη", "MySQL" },
+                    { 13, "Μη διαθέσιμη", "MongoDB" },
+                    { 12, "Μη διαθέσιμη", "SQL Server" },
+                    { 10, "Μη διαθέσιμη", "Εξόρυξη δεδομένων" },
+                    { 11, "Μη διαθέσιμη", "Διαχείριση δεδομένων μεγάλης κλίμακας" },
+                    { 8, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με Xamarin Forms" },
+                    { 7, "Μη διαθέσιμη", "Ανάπτυξη mobile εφαρμογών με JAVA" },
+                    { 6, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με C#" },
+                    { 5, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με JAVA" },
+                    { 4, "Μη διαθέσιμη", "Προγραμματισμός με Python" },
+                    { 3, "Μη διαθέσιμη", "Προγραμματισμός με C#" },
+                    { 2, "Μη διαθέσιμη", "Προγραμματισμός με JAVA" },
+                    { 9, "Μη διαθέσιμη", "Μηχανική μάθηση" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Statuses",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 3, "3. ΟΛΟΚΛΗΡΩΜΕΝΟ TASK" },
+                    { 1, "1. ΔΗΜΙΟΥΡΓΙΑ GROUP" },
+                    { 2, "2. ΕΝΕΡΓΟ TASK" },
+                    { 4, "4. ΑΚΥΡΩΜΕΝΟ TASK" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "VolunteersSkills",
+                columns: new[] { "VolunteerId", "SkillId" },
+                values: new object[,]
+                {
+                    { 1, 3 },
+                    { 1, 6 },
+                    { 1, 8 },
+                    { 1, 12 },
+                    { 1, 15 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Groups_TaskId",
                 table: "Groups",
-                column: "TaskId");
+                column: "TaskId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invitations_TaskId",
@@ -183,11 +234,6 @@ namespace Task.API.Migrations
                 name: "IX_TasksSkills_SkillId",
                 table: "TasksSkills",
                 column: "SkillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TasksSkills_TaskId",
-                table: "TasksSkills",
-                column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VolunteersGroups_GroupId",

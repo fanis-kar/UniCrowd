@@ -69,6 +69,18 @@ hr.basic {
     border-color: #1861ac;
 }
 
+.text-basic {
+    color: var(--main-border-color);
+}
+
+.field-validation-error {
+    color: var(--main-border-color);
+}
+
+textarea {
+    resize: vertical;
+}
+
 /* -------------------------------------------------- */
 /* For main menu (~Home/Index) */
 
@@ -143,11 +155,40 @@ td a:hover {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-    .btn-secondary :hover {
-        background-color: var(--main-border-color) !important;
-        color: var(--dark-background-color) !important;
-        right: 0px;
-    }
+.btn-secondary :hover {
+    background-color: var(--main-border-color) !important;
+    color: var(--dark-background-color) !important;
+    right: 0px;
+}
+
+/* -------------------------------------------------- */
+
+/* Bootstrap tag inputs */
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.bootstrap-tagsinput .tag {
+    color: #000000;
+    background-color: var(--main-border-color);
+    border-radius: 5px;
+    margin-right: 2px;
+    padding: 5px;
+}
+
+.tt-menu.tt-open {
+    color: #000000;
+    background-color: var(--main-border-color);
+    position: absolute;
+    top: 100%;
+    padding: 5px;
+    left: 0px;
+    z-index: 100;
+    display: none;
+    width: 200px;
+    border-radius: 5px;
+}
 
 /* -------------------------------------------------- */
 

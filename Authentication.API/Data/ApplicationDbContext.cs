@@ -17,6 +17,15 @@ namespace Authentication.API.Data
         {
             base.OnModelCreating(builder);
 
+            // ------------------------------------------------------------------------- //
+            // Set Unique Fields
+
+            builder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
+            // ------------------------------------------------------------------------- //
+
             builder.Seed();
         }
     }

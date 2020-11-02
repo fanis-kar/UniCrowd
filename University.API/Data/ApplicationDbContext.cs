@@ -22,6 +22,8 @@ namespace University.API.Data
         {
             base.OnModelCreating(builder);
 
+            // ------------------------------------------------------------------------- //
+
             builder.Seed();
         }
     }

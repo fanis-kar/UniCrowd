@@ -10,7 +10,7 @@ using Task.API.Data;
 namespace Task.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201031175231_Init")]
+    [Migration("20201102142821_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,8 @@ namespace Task.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("TaskId")
+                        .IsUnique();
 
                     b.ToTable("Groups");
                 });
@@ -92,6 +93,110 @@ namespace Task.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Βασικές γνώσεις Η/Υ"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Προγραμματισμός με JAVA"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Προγραμματισμός με C#"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Προγραμματισμός με Python"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Ανάπτυξη WEB εφαρμογών με JAVA"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Ανάπτυξη WEB εφαρμογών με C#"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Ανάπτυξη mobile εφαρμογών με JAVA"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Ανάπτυξη WEB εφαρμογών με Xamarin Forms"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Μηχανική μάθηση"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Εξόρυξη δεδομένων"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Διαχείριση δεδομένων μεγάλης κλίμακας"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Description = "Μη διαθέσιμη",
+                            Name = "SQL Server"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Description = "Μη διαθέσιμη",
+                            Name = "MongoDB"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Description = "Μη διαθέσιμη",
+                            Name = "MySQL"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Αγγλικά - Καλή γνώση (B2)"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Αγγλικά - Πολύ καλή γνώση (Γ1)"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "Μη διαθέσιμη",
+                            Name = "Αγγλικά - Άριστη γνώση (Γ2)"
+                        });
                 });
 
             modelBuilder.Entity("Model.Status", b =>
@@ -107,15 +212,39 @@ namespace Task.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "1. ΔΗΜΙΟΥΡΓΙΑ GROUP"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "2. ΕΝΕΡΓΟ TASK"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "3. ΟΛΟΚΛΗΡΩΜΕΝΟ TASK"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "4. ΑΚΥΡΩΜΕΝΟ TASK"
+                        });
                 });
 
             modelBuilder.Entity("Model.Task.VolunteerGroup", b =>
                 {
+                    b.Property<int>("VolunteerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VolunteerId")
-                        .HasColumnType("int");
+                    b.HasKey("VolunteerId", "GroupId");
 
                     b.HasIndex("GroupId");
 
@@ -124,15 +253,15 @@ namespace Task.API.Migrations
 
             modelBuilder.Entity("Model.TaskSkill", b =>
                 {
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.HasIndex("SkillId");
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TaskId");
+                    b.HasKey("TaskId", "SkillId");
+
+                    b.HasIndex("SkillId");
 
                     b.ToTable("TasksSkills");
                 });
@@ -183,22 +312,51 @@ namespace Task.API.Migrations
 
             modelBuilder.Entity("Model.VolunteerSkill", b =>
                 {
+                    b.Property<int>("VolunteerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VolunteerId")
-                        .HasColumnType("int");
+                    b.HasKey("VolunteerId", "SkillId");
 
                     b.HasIndex("SkillId");
 
                     b.ToTable("VolunteersSkills");
+
+                    b.HasData(
+                        new
+                        {
+                            VolunteerId = 1,
+                            SkillId = 3
+                        },
+                        new
+                        {
+                            VolunteerId = 1,
+                            SkillId = 6
+                        },
+                        new
+                        {
+                            VolunteerId = 1,
+                            SkillId = 8
+                        },
+                        new
+                        {
+                            VolunteerId = 1,
+                            SkillId = 12
+                        },
+                        new
+                        {
+                            VolunteerId = 1,
+                            SkillId = 15
+                        });
                 });
 
             modelBuilder.Entity("Model.Group", b =>
                 {
                     b.HasOne("Model.Tasks", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskId")
+                        .WithOne("Group")
+                        .HasForeignKey("Model.Group", "TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -224,13 +382,13 @@ namespace Task.API.Migrations
             modelBuilder.Entity("Model.TaskSkill", b =>
                 {
                     b.HasOne("Model.Skill", "Skill")
-                        .WithMany()
+                        .WithMany("TasksSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Model.Tasks", "Task")
-                        .WithMany()
+                        .WithMany("TasksSkills")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

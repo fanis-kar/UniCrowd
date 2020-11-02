@@ -32,6 +32,9 @@ namespace UniversityWebApplication
             services.AddTransient<IAuthenticationApi, AuthenticationApi>();
             services.AddTransient<IUniversityApi, UniversityApi>();
             services.AddTransient<IVolunteerApi, VolunteerApi>();
+            services.AddTransient<ITaskApi, TaskApi>();
+            services.AddTransient<ISkillApi, SkillApi>();
+            services.AddTransient<IStatusApi, StatusApi>();
             #endregion
 
             services.AddDistributedMemoryCache();

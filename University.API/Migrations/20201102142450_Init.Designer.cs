@@ -9,7 +9,7 @@ using University.API.Data;
 namespace University.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201031175045_Init")]
+    [Migration("20201102142450_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

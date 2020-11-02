@@ -9,7 +9,7 @@ using Volunteer.API.Data;
 namespace Volunteer.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201031175121_Init")]
+    [Migration("20201102144600_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
