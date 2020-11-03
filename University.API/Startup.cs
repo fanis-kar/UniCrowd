@@ -37,7 +37,9 @@ namespace University.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            #region Project Dependencies
             services.AddTransient<IUniversityRepository, UniversityRepository>();
+            #endregion
 
             services.AddSwaggerGen(c =>
             {

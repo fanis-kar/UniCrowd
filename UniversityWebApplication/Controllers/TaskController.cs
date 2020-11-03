@@ -54,6 +54,8 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+
             var skills = await _skillApi.GetSkills(HttpContext.Session.GetString("jwtToken"));
             var statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"));
 

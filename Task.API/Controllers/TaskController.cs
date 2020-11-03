@@ -45,19 +45,5 @@ namespace Task.API.Controllers
 
             return new OkResult();
         }
-
-        // GET api/Skill
-        [HttpGet]
-        public ActionResult<IEnumerable<Skill>> GetSkills()
-        {
-            return _taskRepository.GetSkills().ToList();
-        }
-
-        // GET api/Skill/{id}
-        [HttpGet("{id:int}")]
-        public ActionResult<Skill> GetSkill(int id)
-        {
-            return _taskRepository.GetSkill(id);
-        }
     }
 }

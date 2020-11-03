@@ -39,7 +39,9 @@ namespace Volunteer.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            #region Project Dependencies
             services.AddTransient<IVolunteerRepository, VolunteerRepository>();
+            #endregion
 
             services.AddSwaggerGen(c =>
             {

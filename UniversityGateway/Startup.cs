@@ -41,17 +41,17 @@ namespace UniversityGateway
                     configCacheBuilder.WithDictionaryHandle();
                 });
 
-            var jwtSection = Configuration.GetSection("jwt");
-            var jwtOptions = jwtSection.Get<JwtOptions>();
-            var key = Encoding.UTF8.GetBytes(jwtOptions.Secret);
+                var jwtSection = Configuration.GetSection("jwt");
+                var jwtOptions = jwtSection.Get<JwtOptions>();
+                var key = Encoding.UTF8.GetBytes(jwtOptions.Secret);
 
-            services.AddAuthentication(option => {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
+                services.AddAuthentication(option => {
+                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(options => {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuerSigningKey = true,

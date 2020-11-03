@@ -68,13 +68,13 @@ namespace Task.API.Data
                     new Skill
                     {
                         Id = 5,
-                        Name = "Ανάπτυξη WEB εφαρμογών με JAVA",
+                        Name = "Ανάπτυξη Web εφαρμογών με JAVA",
                         Description = "Μη διαθέσιμη"
                     },
                     new Skill
                     {
                         Id = 6,
-                        Name = "Ανάπτυξη WEB εφαρμογών με C#",
+                        Name = "Ανάπτυξη Web εφαρμογών με C#",
                         Description = "Μη διαθέσιμη"
                     },
                     new Skill
@@ -86,7 +86,7 @@ namespace Task.API.Data
                     new Skill
                     {
                         Id = 8,
-                        Name = "Ανάπτυξη WEB εφαρμογών με Xamarin Forms",
+                        Name = "Ανάπτυξη mobile εφαρμογών με Xamarin Forms",
                         Description = "Μη διαθέσιμη"
                     },
                     new Skill

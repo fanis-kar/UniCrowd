@@ -32,8 +32,12 @@ namespace Authentication.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddJwt(Configuration);
+            #region Project Dependencies
             services.AddTransient<IEncryptor, Encryptor>();
+            #endregion
+
+            services.AddJwt(Configuration);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservice: Authentication", Version = "v1" });

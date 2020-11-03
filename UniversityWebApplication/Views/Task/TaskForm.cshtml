@@ -79,7 +79,7 @@
         </div>
 
         <div class="col-8">
-            <textarea asp-for="Task.TasksSkills" class="form-control" rows="10" data-role="tagsinput"></textarea>
+            <input type="text" asp-for="Task.TasksSkills" class="form-control"  />
             <span asp-validation-for="Task.TasksSkills" class="text-basic"></span>
         </div>
     </div>
@@ -96,6 +96,7 @@
         </div>
     </div>
 
+    <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
     @Html.HiddenFor(m => m.Task.Id)
     @Html.AntiForgeryToken()
 
@@ -119,28 +120,41 @@
             <script>
 
                 $(document).ready(function () {
-                    var cities = new Bloodhound({
-                        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-                        queryTokenizer: Bloodhound.tokenizers.whitespace,
-                        prefetch: 'https://localhost:44332/cities.json'
-                    });
-                    cities.initialize();
 
-                    var elt = $('#Task_TasksSkills');
-                    elt.tagsinput({
-                        itemValue: 'value',
-                        itemText: 'text',
-                        typeaheadjs: {
-                            name: 'cities',
-                            displayKey: 'text',
-                            source: cities.ttAdapter()
-                        }
-                    });
-                    elt.tagsinput('add', { "value": 1, "text": "Amsterdam", "continent": "Europe" });
-                    elt.tagsinput('add', { "value": 4, "text": "Washington", "continent": "America" });
-                    elt.tagsinput('add', { "value": 7, "text": "Sydney", "continent": "Australia" });
-                    elt.tagsinput('add', { "value": 10, "text": "Beijing", "continent": "Asia" });
-                    elt.tagsinput('add', { "value": 13, "text": "Cairo", "continent": "Africa" });
+                    var skills = null;
+
+                    function GetSkills() {
+                        $.ajax({
+                            url: "https://localhost:44378/Skill",
+                            type: "GET",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            beforeSend: function (xhr) {
+                                var token = "Bearer " + $("#jwtTokenSession").val();
+                                xhr.setRequestHeader("Authorization", token);
+                            },
+                            success: function (data) {
+                                skills = Object.values(data);
+
+                                MainScript();
+                            }
+                        });
+                    }
+
+                    GetSkills();
+
+                    function MainScript() {
+                        var instance = $('#Task_TasksSkills').magicSuggest({
+                            valueField: 'id',
+                            data: skills
+                        });
+
+                        instance.setValue(["1", "2", "3"]);
+                    }
+
+
+
+                    //================================================//
 
                     $.datetimepicker.setLocale("el");
 

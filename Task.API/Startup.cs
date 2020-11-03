@@ -39,7 +39,11 @@ namespace Task.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            #region Project Dependencies
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<ISkillRepository, SkillRepository>();
+            #endregion
 
             services.AddSwaggerGen(c =>
             {
@@ -70,6 +74,16 @@ namespace Task.API
                    ValidateAudience = false,
                };
            });
+
+            //====================================
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +100,7 @@ namespace Task.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservice: Task V1");
             });
-
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();
 
