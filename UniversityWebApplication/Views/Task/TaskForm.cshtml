@@ -1,4 +1,4 @@
-﻿@model UniversityWebApplication.Models.TaskForm
+﻿@model UniversityWebApplication.Models.TaskFormViewModel
 
 @{
     ViewBag.Title = Model.Title;
@@ -15,89 +15,79 @@
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.Name"></label>:*
+            <label asp-for="Name"></label>:*
         </div>
 
         <div class="col-8">
-            <input type="text" asp-for="Task.Name" class="form-control" />
-            <span asp-validation-for="Task.Name" class="text-basic"></span>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-basic"></span>
         </div>
     </div>
 
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.Description"></label>:*
+            <label asp-for="Description"></label>:*
         </div>
 
         <div class="col-8">
-            <textarea asp-for="Task.Description" class="form-control" rows="10"></textarea>
-            <span asp-validation-for="Task.Description" class="text-basic"></span>
+            <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Description" class="text-basic"></span>
         </div>
     </div>
 
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.VolunteerNumber"></label>:*
+            <label asp-for="VolunteerNumber"></label>:*
         </div>
 
         <div class="col-8">
-            <input type="text" asp-for="Task.VolunteerNumber" class="form-control" />
-            <span asp-validation-for="Task.VolunteerNumber" class="text-basic"></span>
+            <input type="text" asp-for="VolunteerNumber" class="form-control" />
+            <span asp-validation-for="VolunteerNumber" class="text-basic"></span>
         </div>
     </div>
 
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.ExpectedStartDate"></label>:*
+            <label asp-for="ExpectedStartDate"></label>:*
         </div>
 
         <div class="col-8">
-            <input type="text" asp-for="Task.ExpectedStartDate" class="form-control" />
-            <span asp-validation-for="Task.ExpectedStartDate" class="text-basic"></span>
+            <input type="text" asp-for="ExpectedStartDate" class="form-control" />
+            <span asp-validation-for="ExpectedStartDate" class="text-basic"></span>
         </div>
     </div>
 
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.ExpectedEndDate"></label>:*
+            <label asp-for="ExpectedEndDate"></label>:*
         </div>
 
         <div class="col-8">
-            <input type="text" asp-for="Task.ExpectedEndDate" class="form-control" />
-            <span asp-validation-for="Task.ExpectedStartDate" class="text-basic"></span>
+            <input type="text" asp-for="ExpectedEndDate" class="form-control" />
+            <span asp-validation-for="ExpectedStartDate" class="text-basic"></span>
         </div>
     </div>
+
+
 
     <div class="form-group row">
 
         <div class="col-4">
-            <label asp-for="Task.TasksSkills"></label>:*
+            <label asp-for="StatusId"></label>:*
         </div>
 
         <div class="col-8">
-            <input type="text" asp-for="Task.TasksSkills" class="form-control"  />
-            <span asp-validation-for="Task.TasksSkills" class="text-basic"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-
-        <div class="col-4">
-            <label asp-for="Task.StatusId"></label>:*
-        </div>
-
-        <div class="col-8">
-            <select asp-for="Task.StatusId" asp-items="@(new SelectList(Model.Statuses,"Id","Name"))" class="form-control"></select>
-            <span asp-validation-for="Task.StatusId" class="text-basic"></span>
+            <select asp-for="StatusId" asp-items="@(new SelectList(Model.Statuses,"Id","Name"))" class="form-control"></select>
+            <span asp-validation-for="StatusId" class="text-basic"></span>
         </div>
     </div>
 
     <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
-    @Html.HiddenFor(m => m.Task.Id)
+    @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken()
 
     <div class="form-group row">
@@ -144,7 +134,7 @@
                     GetSkills();
 
                     function MainScript() {
-                        var instance = $('#Task_TasksSkills').magicSuggest({
+                        var instance = $('#TasksSkills').magicSuggest({
                             valueField: 'id',
                             data: skills
                         });
@@ -158,12 +148,12 @@
 
                     $.datetimepicker.setLocale("el");
 
-                    $("#Task_ExpectedStartDate").datetimepicker(
+                    $("#ExpectedStartDate").datetimepicker(
                         {
                             locale: "el",
                             format: "d-m-Y"
                         });
-                    $("#Task_ExpectedEndDate").datetimepicker(
+                    $("#ExpectedEndDate").datetimepicker(
                         {
                             locale: "el",
                             format: "d-m-Y"

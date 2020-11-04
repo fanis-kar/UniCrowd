@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Model
+namespace UniversityWebApplication.Models
 {
-    // Task.API
-
-    public class Tasks
+    public class TaskFormViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
+
+        //-------------------------------------------------//
 
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Όνομασία")]
@@ -23,9 +25,6 @@ namespace Model
         [Display(Name = "Απαιτούμενος αριθμός εθελοντών")]
         public int VolunteerNumber { get; set; }
 
-        [Display(Name = "Ημερομηνία δημιουργίας")]
-        public DateTime Created { get; set; }
-
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Αναμενόμενη ημερομηνία έναρξης")]
         public DateTime ExpectedStartDate { get; set; }
@@ -34,25 +33,33 @@ namespace Model
         [Display(Name = "Αναμενόμενη ημερομηνία λήξης")]
         public DateTime ExpectedEndDate { get; set; }
 
-        [Display(Name = "Ημερομηνία έναρξης")]
-        public DateTime StartDate { get; set; }
-
-        [Display(Name = "Ημερομηνία λήξης")]
-        public DateTime EndDate { get; set; }
-
-        //[Display(Name = "Group")]
-        //public int GroupId { get; set; }
-
-        public Group Group { get; set; }
-
         [Display(Name = "Κατάσταση")]
         public int StatusId { get; set; }
 
-        public Status Status { get; set; }
+        //-------------------------------------------------//
 
-        [Display(Name = "Απαιτούμενες ικανότητες")]
-        public ICollection<TaskSkill> TasksSkills { get; set; }
+        public IEnumerable<Status> Statuses { get; set; }
 
-        public int UniversityId { get; set; }   // University.API - University[id]
+        //-------------------------------------------------//
+
+        public string Title
+        {
+            get
+            {
+                return Id != 0 ? "Ενημέρωση Task" : "Νέο Task";
+            }
+        }
+
+        //-------------------------------------------------//
+
+        public TaskFormViewModel()
+        {
+            Id = 0;
+        }
+
+        public TaskFormViewModel(Tasks task)
+        {
+            Id = task.Id;
+        }
     }
 }

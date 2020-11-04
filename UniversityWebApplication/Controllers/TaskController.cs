@@ -56,12 +56,10 @@ namespace UniversityWebApplication.Controllers
 
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
 
-            var skills = await _skillApi.GetSkills(HttpContext.Session.GetString("jwtToken"));
             var statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"));
 
-            TaskForm taskForm = new TaskForm()
+            TaskFormViewModel taskForm = new TaskFormViewModel()
             {
-                Skills = skills,
                 Statuses = statuses
             };
 
@@ -74,11 +72,9 @@ namespace UniversityWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var taskForm = new TaskForm
+                var taskForm = new TaskFormViewModel
                 {
-                    Task = task,
-                    Statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken")),
-                    Skills = await _skillApi.GetSkills(HttpContext.Session.GetString("jwtToken"))
+                    Statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"))
                 };
 
                 return View("TaskForm", taskForm);
@@ -90,7 +86,7 @@ namespace UniversityWebApplication.Controllers
             }
             else
             {
-                var taskInDb = await _taskApi.GetTask(task.Id, HttpContext.Session.GetString("jwtToken"));
+                //var taskInDb = await _taskApi.GetTask(task.Id, HttpContext.Session.GetString("jwtToken"));
 
                 // Mapper.Map(customer, customerInDb);
 
