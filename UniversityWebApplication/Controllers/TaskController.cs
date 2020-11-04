@@ -68,7 +68,7 @@ namespace UniversityWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveAsync(Tasks task)
+        public async Task<ActionResult> SaveAsync(TaskFormViewModel taskVM)
         {
             if (!ModelState.IsValid)
             {
@@ -80,8 +80,28 @@ namespace UniversityWebApplication.Controllers
                 return View("TaskForm", taskForm);
             }
 
-            if (task.Id == 0)
+            if (taskVM.Id == 0)
             {
+                List<TaskSkill> y = new List<TaskSkill>();  
+
+                foreach(var x in taskVM.Skills)
+                {
+                    y.Add(new TaskSkill { SkillId = x });
+                }
+
+                Tasks task = new Tasks
+                {
+                    Name = taskVM.Name,
+                    Description = taskVM.Description,
+                    VolunteerNumber = taskVM.VolunteerNumber,
+                    ExpectedStartDate = taskVM.ExpectedStartDate,
+                    ExpectedEndDate = taskVM.ExpectedEndDate,
+                    StatusId = taskVM.StatusId,
+                    TasksSkills = y
+                };
+
+                TempData["skill"] = string.Join(";", taskVM.Skills.ToString());
+
                 await _taskApi.AddTask(task, HttpContext.Session.GetString("jwtToken"));
             }
             else

@@ -1,7 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Αρχική Σελίδα";
-}
 
+    var skills = TempData["skill"] as List<string>;
+}
+@if (skills != null)
+{
+    @foreach (var message in skills)
+    {
+        @message
+    }
+}
 <div class="center-block">
     <div class="btn-group-vertical main-menu" role="group" aria-label="Κύριο μενού">
         <a class="btn btn-basic" asp-area="" asp-controller="Task" asp-action="New">Νέο task</a>

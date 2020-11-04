@@ -36,6 +36,9 @@ namespace UniversityWebApplication.Models
         [Display(Name = "Κατάσταση")]
         public int StatusId { get; set; }
 
+        [Display(Name = "Απαιτούμενες ικανότητες")]
+        public IEnumerable<int> Skills { get; set; }
+
         //-------------------------------------------------//
 
         public IEnumerable<Status> Statuses { get; set; }

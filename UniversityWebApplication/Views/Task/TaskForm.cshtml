@@ -72,7 +72,17 @@
         </div>
     </div>
 
+    <div class="form-group row">
 
+        <div class="col-4">
+            <label asp-for="Skills"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Skills" class="form-control" />
+            <span asp-validation-for="Skills" class="text-basic"></span>
+        </div>
+    </div>
 
     <div class="form-group row">
 
@@ -134,15 +144,17 @@
                     GetSkills();
 
                     function MainScript() {
-                        var instance = $('#TasksSkills').magicSuggest({
+                        var instance = $('#Skills').magicSuggest({
                             valueField: 'id',
                             data: skills
                         });
 
-                        instance.setValue(["1", "2", "3"]);
+                        //instance.setValue(["1", "2", "3"]);
                     }
 
-
+                    $("form").submit(function () {
+                        alert($('#Skills').val());
+                    });
 
                     //================================================//
 
