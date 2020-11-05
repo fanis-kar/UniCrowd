@@ -50,33 +50,5 @@ namespace Task.API.Repositories
 
             _context.SaveChanges();
         }
-
-        public IEnumerable<Skill> GetSkills()
-        {
-            return _context
-                .Skills
-                .ToList();
-        }
-
-        public Skill GetSkill(int skillId)
-        {
-            return _context.Skills
-                .Where(s => s.Id == skillId)
-                .FirstOrDefault();
-        }
-
-        public IEnumerable<Status> GetStatuses()
-        {
-            return _context
-                .Statuses
-                .ToList();
-        }
-
-        public Status GetStatus(int statusId)
-        {
-            return _context.Statuses
-                .Where(s => s.Id == statusId)
-                .FirstOrDefault();
-        }
     }
 }

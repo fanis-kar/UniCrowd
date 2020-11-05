@@ -1,15 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Αρχική Σελίδα";
+}
 
-    var skills = TempData["skill"] as List<string>;
-}
-@if (skills != null)
+@if (TempData["ErrorMessage"] != null)
 {
-    @foreach (var message in skills)
-    {
-        @message
-    }
+    <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @TempData["ErrorMessage"]
+    </div>
 }
+
 <div class="center-block">
     <div class="btn-group-vertical main-menu" role="group" aria-label="Κύριο μενού">
         <a class="btn btn-basic" asp-area="" asp-controller="Task" asp-action="New">Νέο task</a>

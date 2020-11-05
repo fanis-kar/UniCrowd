@@ -123,7 +123,9 @@
 
                     var skills = null;
 
-                    function GetSkills() {
+                    GetAllSkills();
+
+                    function GetAllSkills() {
                         $.ajax({
                             url: "https://localhost:44378/Skill",
                             type: "GET",
@@ -136,25 +138,19 @@
                             success: function (data) {
                                 skills = Object.values(data);
 
-                                MainScript();
+                                PopulateSuggest();
                             }
                         });
                     }
 
-                    GetSkills();
-
-                    function MainScript() {
-                        var instance = $('#Skills').magicSuggest({
-                            valueField: 'id',
+                    function PopulateSuggest() {
+                        var instance = $("#Skills").magicSuggest({
+                            valueField: "id",
                             data: skills
                         });
 
                         //instance.setValue(["1", "2", "3"]);
                     }
-
-                    $("form").submit(function () {
-                        alert($('#Skills').val());
-                    });
 
                     //================================================//
 
@@ -163,12 +159,12 @@
                     $("#ExpectedStartDate").datetimepicker(
                         {
                             locale: "el",
-                            format: "d-m-Y"
+                            format: "d/m/Y"
                         });
                     $("#ExpectedEndDate").datetimepicker(
                         {
                             locale: "el",
-                            format: "d-m-Y"
+                            format: "d/m/Y"
                         });
                 });
             </script>

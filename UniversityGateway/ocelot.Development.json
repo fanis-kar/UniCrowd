@@ -87,6 +87,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/University/User/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44382 // University.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/University/User/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Faculty",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

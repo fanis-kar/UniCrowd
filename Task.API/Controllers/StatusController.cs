@@ -16,25 +16,25 @@ namespace Task.API.Controllers
     [Authorize(Roles = "University")]
     public class StatusController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly IStatusRepository _statusRepository;
 
         public StatusController(ApplicationDbContext context)
         {
-            _taskRepository = new TaskRepository(context);
+            _statusRepository = new StatusRepository(context);
         }
 
         // GET ~/api/Status
         [HttpGet]
         public ActionResult<IEnumerable<Status>> GetStatuses()
         {
-            return _taskRepository.GetStatuses().ToList();
+            return _statusRepository.GetStatuses().ToList();
         }
 
         // GET ~/api/Status/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Status> GetStatus(int id)
         {
-            return _taskRepository.GetStatus(id);
+            return _statusRepository.GetStatus(id);
         }
     }
 }

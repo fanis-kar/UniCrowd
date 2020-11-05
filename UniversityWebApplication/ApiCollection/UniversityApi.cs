@@ -54,7 +54,7 @@ namespace UniversityWebApplication.ApiCollection
             authorization.Add("Authorization", "Bearer " + jwtToken);
 
             var message = new HttpRequestBuilder("https://localhost:44378")
-                           .SetPath("/University")
+                           .SetPath("/University/User")
                            .AddToPath(userId.ToString())
                            .HttpMethod(HttpMethod.Get)
                            .Headers(authorization)

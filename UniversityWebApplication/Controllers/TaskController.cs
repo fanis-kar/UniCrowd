@@ -14,13 +14,15 @@ namespace UniversityWebApplication.Controllers
     public class TaskController : Controller
     {
         private readonly IAuthenticationApi _authenticationApi;
+        private readonly IUniversityApi _universityApi;
         private readonly ITaskApi _taskApi;
         private readonly ISkillApi _skillApi;
         private readonly IStatusApi _statusApi;
 
-        public TaskController(IAuthenticationApi authenticationApi, ITaskApi taskApi, ISkillApi skillApi, IStatusApi statusApi)
+        public TaskController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, ITaskApi taskApi, ISkillApi skillApi, IStatusApi statusApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
+            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
             _skillApi = skillApi ?? throw new ArgumentNullException(nameof(skillApi));
             _statusApi = statusApi ?? throw new ArgumentNullException(nameof(statusApi));
@@ -82,11 +84,19 @@ namespace UniversityWebApplication.Controllers
 
             if (taskVM.Id == 0)
             {
-                List<TaskSkill> y = new List<TaskSkill>();  
+                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
+                List<TaskSkill> skillsRequired = new List<TaskSkill>();
 
-                foreach(var x in taskVM.Skills)
+                if (university == null || taskVM.Skills == null || taskVM.StatusId != 1)
                 {
-                    y.Add(new TaskSkill { SkillId = x });
+                    TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var skillItem in taskVM.Skills)
+                {
+                    skillsRequired.Add(new TaskSkill { SkillId = skillItem });
                 }
 
                 Tasks task = new Tasks
@@ -94,15 +104,19 @@ namespace UniversityWebApplication.Controllers
                     Name = taskVM.Name,
                     Description = taskVM.Description,
                     VolunteerNumber = taskVM.VolunteerNumber,
+                    Created = DateTime.Now,
                     ExpectedStartDate = taskVM.ExpectedStartDate,
                     ExpectedEndDate = taskVM.ExpectedEndDate,
                     StatusId = taskVM.StatusId,
-                    TasksSkills = y
+                    UniversityId = university.Id,
+                    TasksSkills = skillsRequired
                 };
-
-                TempData["skill"] = string.Join(";", taskVM.Skills.ToString());
-
+                
                 await _taskApi.AddTask(task, HttpContext.Session.GetString("jwtToken"));
+
+                //---------------//
+
+
             }
             else
             {

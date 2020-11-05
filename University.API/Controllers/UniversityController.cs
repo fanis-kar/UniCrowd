@@ -30,17 +30,17 @@ namespace University.API.Controllers
         }
 
         // GET api/University/{id}
-        [HttpGet("{id}", Name = "GetUniversity")]
+        [HttpGet("{id}")]
         public ActionResult<Model.University> GetUniversity(int id)
         {
             return _universityRepository.GetUniversity(id);
         }
 
-        // GET api/University/{id}
-        //[HttpGet("{id}", Name = "GetByUserId")]
-        //public ActionResult<Models.University> GetUniversityByUserId(int id)
-        //{
-        //    return _universityRepository.GetUniversityByUserId(id);
-        //}
+        // GET 
+        [HttpGet("User/{id}")]
+        public ActionResult<Model.University> GetUniversityByUserId([FromRoute] int id)
+        {
+            return _universityRepository.GetUniversityByUserId(id);
+        }
     }
 }

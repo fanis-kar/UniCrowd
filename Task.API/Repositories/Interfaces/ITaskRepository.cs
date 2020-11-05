@@ -15,13 +15,5 @@ namespace Task.API.Repositories.Interfaces
         void AddTask(Tasks task);
 
         void UpdateTask(Tasks task);
-
-        IEnumerable<Skill> GetSkills();
-
-        Skill GetSkill(int skillId);
-
-        IEnumerable<Status> GetStatuses();
-
-        Status GetStatus(int statusId);
     }
 }

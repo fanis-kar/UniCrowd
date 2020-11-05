@@ -16,25 +16,25 @@ namespace Task.API.Controllers
     [Authorize(Roles = "University")]
     public class SkillController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly ISkillRepository _skillRepository;
 
         public SkillController(ApplicationDbContext context)
         {
-            _taskRepository = new TaskRepository(context);
+            _skillRepository = new SkillRepository(context);
         }
 
         // GET api/Skill
         [HttpGet]
         public ActionResult<IEnumerable<Skill>> GetSkills()
         {
-            return _taskRepository.GetSkills().ToList();
+            return _skillRepository.GetSkills().ToList();
         }
 
         // GET api/Skill/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Skill> GetSkill(int id)
         {
-            return _taskRepository.GetSkill(id);
+            return _skillRepository.GetSkill(id);
         }
     }
 }
