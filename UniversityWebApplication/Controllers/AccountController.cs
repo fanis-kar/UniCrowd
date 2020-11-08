@@ -72,6 +72,9 @@ namespace WebApplication.Controllers
                 HttpContext.Session.SetString("username", model.Username);
                 HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
 
+                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
+                HttpContext.Session.SetString("universityId", university.Id.ToString());
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)

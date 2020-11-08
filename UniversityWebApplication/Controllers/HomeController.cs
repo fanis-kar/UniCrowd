@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Model;
 using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
@@ -15,10 +16,14 @@ namespace UniversityWebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly IAuthenticationApi _authenticationApi;
+        private readonly IUniversityApi _universityApi;
+        private readonly ITaskApi _taskApi;
 
-        public HomeController(IAuthenticationApi authenticationApi)
+        public HomeController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, ITaskApi taskApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
+            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
+            _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -26,7 +31,10 @@ namespace UniversityWebApplication.Controllers
             if (! await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            return View();
+            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
+            var myTasks = await _taskApi.GetTasksByUniversityId(university.Id, HttpContext.Session.GetString("jwtToken"));
+
+            return View(myTasks);
         }
 
         public IActionResult About()

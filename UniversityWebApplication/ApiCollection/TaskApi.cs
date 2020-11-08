@@ -33,6 +33,21 @@ namespace UniversityWebApplication.ApiCollection
             return await SendRequest<List<Tasks>>(message);
         }
 
+        public async Task<List<Tasks>> GetTasksByUniversityId(int universityId, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Task/University")
+                           .AddToPath(universityId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<List<Tasks>>(message);
+        }
+
         public async Task<Tasks> GetTask(int taskId, string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();

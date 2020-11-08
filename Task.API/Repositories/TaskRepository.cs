@@ -24,9 +24,18 @@ namespace Task.API.Repositories
                 .ToList();
         }
 
+        public IEnumerable<Tasks> GetTasksByUniversityId(int universityId)
+        {
+            return _context
+                .Tasks
+                .Where(t => t.UniversityId == universityId)
+                .ToList();
+        }
+
         public Tasks GetTask(int taskId)
         {
-            return _context.Tasks
+            return _context
+                .Tasks
                 .Where(t => t.Id == taskId)
                 .FirstOrDefault();
         }

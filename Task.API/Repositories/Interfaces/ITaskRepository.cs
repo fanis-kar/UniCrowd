@@ -10,6 +10,8 @@ namespace Task.API.Repositories.Interfaces
     {
         IEnumerable<Tasks> GetTasks();
 
+        IEnumerable<Tasks> GetTasksByUniversityId(int taskId);
+
         Tasks GetTask(int taskId);
 
         void AddTask(Tasks task);

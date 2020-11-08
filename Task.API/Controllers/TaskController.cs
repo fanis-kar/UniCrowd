@@ -30,6 +30,13 @@ namespace Task.API.Controllers
             return _taskRepository.GetTasks().ToList();
         }
 
+        // GET 
+        [HttpGet("University/{id}")]
+        public ActionResult<IEnumerable<Tasks>> GetTasksByUniversityId([FromRoute] int id)
+        {
+            return _taskRepository.GetTasksByUniversityId(id).ToList();
+        }
+
         // GET api/Task/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Tasks> GetTask(int id)

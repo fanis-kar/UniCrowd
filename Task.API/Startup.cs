@@ -43,6 +43,7 @@ namespace Task.API
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
             services.AddTransient<ISkillRepository, SkillRepository>();
+            services.AddTransient<IInvitationRepository, InvitationRepository>();
             #endregion
 
             services.AddSwaggerGen(c =>

@@ -9,7 +9,11 @@ namespace UniversityWebApplication.ApiCollection.Interfaces
     public interface ITaskApi
     {
         Task<List<Tasks>> GetTasks(string jwtToken);
+
+        Task<List<Tasks>> GetTasksByUniversityId(int universityId, string jwtToken);
+
         Task<Tasks> GetTask(int taskId, string jwtToken);
+
         Task<string> AddTask(Tasks task, string jwtToken);
     }
 }

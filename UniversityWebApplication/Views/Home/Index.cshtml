@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<Model.Tasks>
+
+@{
     ViewData["Title"] = "Αρχική Σελίδα";
 }
 
@@ -18,3 +20,24 @@
         <a class="btn btn-basic" href="#">Αναζήτηση task</a>
     </div>
 </div>
+
+@{
+    if (Model.Count() > 0)
+    {
+        <hr class="basic" />
+        <h2>Τα Task μου: </h2>
+
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <a class="card-link" asp-controller="Task" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
+                </div>
+            </div>
+
+            <br />
+        }
+    }
+}

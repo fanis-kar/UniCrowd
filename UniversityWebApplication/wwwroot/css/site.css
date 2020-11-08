@@ -10,7 +10,7 @@ html {
 
 body {
     color: var(--main-white-color);
-    background: var(--main-background-color);
+    background: var(--main-background-color) !important;
     font-family: 'Roboto', sans-serif;
     margin-bottom: 60px;
 }
@@ -163,31 +163,31 @@ td a:hover {
 
 /* -------------------------------------------------- */
 
-/* Bootstrap tag inputs */
+/* Cards */
 
-.bootstrap-tagsinput {
-    width: 100%;
+.card {
+    background-color: var(--main-background-color);
 }
 
-.bootstrap-tagsinput .tag {
-    color: #000000;
-    background-color: var(--main-border-color);
-    border-radius: 5px;
-    margin-right: 2px;
-    padding: 5px;
+.page-link {
+    color: var(--dark-background-color);
 }
 
-.tt-menu.tt-open {
-    color: #000000;
-    background-color: var(--main-border-color);
-    position: absolute;
-    top: 100%;
-    padding: 5px;
-    left: 0px;
-    z-index: 100;
-    display: none;
-    width: 200px;
-    border-radius: 5px;
+.page-link:hover {
+    color: var(--dark-background-color);
+}
+
+.form-control:focus {
+    border-color: var(--main-border-color);
+}
+
+/* -------------------------------------------------- */
+
+/* Stars */
+
+.star-rating {
+    color: var(--main-orange-color);
+    text-shadow: 1px 1px 1px var(--main-border-color);
 }
 
 /* -------------------------------------------------- */

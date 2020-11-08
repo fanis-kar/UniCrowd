@@ -5,6 +5,7 @@
     Layout = "_Layout";
 }
 
+
 <h1>Λίστα εθελοντών</h1>
 
 <hr class="basic" />
@@ -15,13 +16,16 @@
             <tr>
                 <th>Ονοματεπώνυμο</th>
                 <th>Πατρώνυμο</th>
-                <th>Αστέρια</th>
-                <th>Ενέργειες</th>
+                <th class="text-center">Αστέρια</th>
+                <th class="text-center">Ενέργειες</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach (var item in Model)
             {
+
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
@@ -29,10 +33,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.FatherName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Stars)
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Stars) / 5 <i class="fas fa-star star-rating"></i>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
                     </td>
                 </tr>
