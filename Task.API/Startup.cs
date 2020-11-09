@@ -42,6 +42,7 @@ namespace Task.API
             #region Project Dependencies
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<ISkillRepository, SkillRepository>();
             services.AddTransient<IInvitationRepository, InvitationRepository>();
             #endregion

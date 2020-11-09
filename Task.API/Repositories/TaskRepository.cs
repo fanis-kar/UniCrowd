@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace Task.API.Repositories
         {
             return _context
                 .Tasks
+                .Include(t => t.Status)
+                .Include(t => t.TasksSkills)
+                .Include(t => t.Group)
+                .ThenInclude(g => g.VolunteersGroups)
                 .ToList();
         }
 
@@ -28,6 +33,10 @@ namespace Task.API.Repositories
         {
             return _context
                 .Tasks
+                .Include(t => t.Status)
+                .Include(t => t.TasksSkills)
+                .Include(t => t.Group)
+                .ThenInclude(g => g.VolunteersGroups)
                 .Where(t => t.UniversityId == universityId)
                 .ToList();
         }
@@ -36,6 +45,10 @@ namespace Task.API.Repositories
         {
             return _context
                 .Tasks
+                .Include(t => t.Status)
+                .Include(t => t.TasksSkills)
+                .Include(t => t.Group)
+                .ThenInclude(g => g.VolunteersGroups)
                 .Where(t => t.Id == taskId)
                 .FirstOrDefault();
         }

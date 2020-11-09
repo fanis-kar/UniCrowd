@@ -40,9 +40,6 @@ namespace Model
         [Display(Name = "Ημερομηνία λήξης")]
         public DateTime EndDate { get; set; }
 
-        //[Display(Name = "Group")]
-        //public int GroupId { get; set; }
-
         public Group Group { get; set; }
 
         [Display(Name = "Κατάσταση")]

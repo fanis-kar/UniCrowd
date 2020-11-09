@@ -1,6 +1,4 @@
-﻿@model List<Model.Tasks>
-
-@{
+﻿@{
     ViewData["Title"] = "Αρχική Σελίδα";
 }
 
@@ -14,30 +12,9 @@
 
 <div class="center-block">
     <div class="btn-group-vertical main-menu" role="group" aria-label="Κύριο μενού">
-        <a class="btn btn-basic" asp-area="" asp-controller="Task" asp-action="New">Νέο task</a>
-        <a class="btn btn-basic" href="#">Ενημέρωση task</a>
-        <a class="btn btn-basic" href="#">Διαγραφή task</a>
-        <a class="btn btn-basic" href="#">Αναζήτηση task</a>
+        <a class="btn btn-basic" asp-area="" asp-controller="Task" asp-action="New">Νέο Task</a>
+        <a class="btn btn-basic" asp-area="" asp-controller="Task" asp-action="">Διαχείριση Τasks</a>
+        <a class="btn btn-basic" asp-area="" asp-controller="University" asp-action="">Πανεπιστήμια</a>
+        <a class="btn btn-basic" asp-area="" asp-controller="Volunteer" asp-action="">Εθελοντές</a>
     </div>
 </div>
-
-@{
-    if (Model.Count() > 0)
-    {
-        <hr class="basic" />
-        <h2>Τα Task μου: </h2>
-
-        @foreach (var item in Model)
-        {
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <a class="card-link" asp-controller="Task" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
-                </div>
-            </div>
-
-            <br />
-        }
-    }
-}

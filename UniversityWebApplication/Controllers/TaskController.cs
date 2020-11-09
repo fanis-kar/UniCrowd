@@ -15,15 +15,19 @@ namespace UniversityWebApplication.Controllers
     {
         private readonly IAuthenticationApi _authenticationApi;
         private readonly IUniversityApi _universityApi;
+        private readonly IVolunteerApi _volunteerApi;
         private readonly ITaskApi _taskApi;
+        private readonly IGroupApi _groupApi;
         private readonly ISkillApi _skillApi;
         private readonly IStatusApi _statusApi;
 
-        public TaskController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, ITaskApi taskApi, ISkillApi skillApi, IStatusApi statusApi)
+        public TaskController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, IVolunteerApi volunteerApi, ITaskApi taskApi, IGroupApi groupApi, ISkillApi skillApi, IStatusApi statusApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
+            _volunteerApi = volunteerApi ?? throw new ArgumentNullException(nameof(volunteerApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
+            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
             _skillApi = skillApi ?? throw new ArgumentNullException(nameof(skillApi));
             _statusApi = statusApi ?? throw new ArgumentNullException(nameof(statusApi));
         }
@@ -34,9 +38,10 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            var tasks = await _taskApi.GetTasks(HttpContext.Session.GetString("jwtToken"));
+            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
+            var myTasks = await _taskApi.GetTasksByUniversityId(university.Id, HttpContext.Session.GetString("jwtToken"));
 
-            return View(tasks);
+            return View(myTasks);
         }
 
         // ~/Task/Details/{id}
@@ -47,7 +52,20 @@ namespace UniversityWebApplication.Controllers
 
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
 
-            return View(taskInfo);
+            List<Volunteer> volunteers = new List<Volunteer>();
+
+            foreach (var volunteer in taskInfo.Group.VolunteersGroups)
+            {
+                volunteers.Add(await _volunteerApi.GetVolunteer(volunteer.VolunteerId, HttpContext.Session.GetString("jwtToken")));
+            }
+
+            TaskViewModel taskViewModel = new TaskViewModel()
+            {
+                Task = taskInfo,
+                Volunteers = volunteers
+            };
+
+            return View(taskViewModel);
         }
 
         //GET: ~/Task/New

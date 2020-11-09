@@ -33,6 +33,7 @@ namespace UniversityWebApplication
             services.AddTransient<IUniversityApi, UniversityApi>();
             services.AddTransient<IVolunteerApi, VolunteerApi>();
             services.AddTransient<ITaskApi, TaskApi>();
+            services.AddTransient<IGroupApi, GroupApi>();
             services.AddTransient<ISkillApi, SkillApi>();
             services.AddTransient<IStatusApi, StatusApi>();
             #endregion

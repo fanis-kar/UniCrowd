@@ -31,10 +31,7 @@ namespace UniversityWebApplication.Controllers
             if (! await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
-            var myTasks = await _taskApi.GetTasksByUniversityId(university.Id, HttpContext.Session.GetString("jwtToken"));
-
-            return View(myTasks);
+            return View();
         }
 
         public IActionResult About()
