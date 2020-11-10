@@ -22,6 +22,7 @@ namespace Task.API.Repositories
         {
             return _context
                 .Groups
+                .Include(g => g.Task)
                 .Include(g => g.VolunteersGroups)
                 .ToList();
         }
@@ -30,6 +31,7 @@ namespace Task.API.Repositories
         {
             return _context
                 .Groups
+                .Include(g => g.Task)
                 .Include(g => g.VolunteersGroups)
                 .Where(g => g.Id == groupId)
                 .FirstOrDefault();

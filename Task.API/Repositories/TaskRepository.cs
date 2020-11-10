@@ -24,6 +24,8 @@ namespace Task.API.Repositories
                 .Tasks
                 .Include(t => t.Status)
                 .Include(t => t.TasksSkills)
+                    .ThenInclude(s => s.Skill)
+                .Include(t => t.Invitations)
                 .Include(t => t.Group)
                 .ThenInclude(g => g.VolunteersGroups)
                 .ToList();
@@ -35,6 +37,8 @@ namespace Task.API.Repositories
                 .Tasks
                 .Include(t => t.Status)
                 .Include(t => t.TasksSkills)
+                    .ThenInclude(s => s.Skill)
+                .Include(t => t.Invitations)
                 .Include(t => t.Group)
                 .ThenInclude(g => g.VolunteersGroups)
                 .Where(t => t.UniversityId == universityId)
@@ -47,6 +51,8 @@ namespace Task.API.Repositories
                 .Tasks
                 .Include(t => t.Status)
                 .Include(t => t.TasksSkills)
+                    .ThenInclude(s => s.Skill)
+                .Include(t => t.Invitations)
                 .Include(t => t.Group)
                 .ThenInclude(g => g.VolunteersGroups)
                 .Where(t => t.Id == taskId)

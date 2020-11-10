@@ -13,7 +13,5 @@ namespace Model
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public ICollection<TaskSkill> TasksSkills { get; set; }
     }
 }

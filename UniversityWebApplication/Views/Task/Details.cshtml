@@ -87,8 +87,19 @@
 }
 
 <div class="form-group row">
+
     <div class="col-4">
-        <label asp-for="Task.Status.Name"></label>
+        <label asp-for="Skills"></label>
+    </div>
+
+    <div class="col-8">
+        <input type="text" asp-for="Skills" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.StatusId"></label>
     </div>
     <div class="col-8">
         <input asp-for="Task.Status.Name" class="form-control" disabled />
@@ -96,18 +107,32 @@
 </div>
 
 @{
-    if (Model.Volunteers.Count() > 0)
+    if (Model.Task.Invitations != null)
     {
-        <hr />
-        <h3>Εθελοντές:</h3>
-
-        foreach (var volunteer in Model.Volunteers)
-        {
-            <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@volunteer.Id">@volunteer.FullName</a>
-            <br />
-        }
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="Invitation" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Προσκλήσεων</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
     }
 }
+
+@{
+    if (Model.Task.Group != null)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="Group" asp-action="Details" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Group</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+    }
+}
+
+<input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
 
 <hr class="basic" />
 
@@ -116,8 +141,41 @@
 @section scripts
 {
     @{
+        await Html.RenderPartialAsync("_TagInputLayout");
+
         <script>
             $(document).ready(function () {
+
+                var skills = null;
+
+                GetAllSkills();
+
+                function GetAllSkills() {
+                    $.ajax({
+                        url: "https://localhost:44378/Skill",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            skills = Object.values(data);
+
+                            PopulateSuggest();
+                        }
+                    });
+                }
+
+                function PopulateSuggest() {
+                    var instance = $("#Skills").magicSuggest({
+                        valueField: "id",
+                        data: skills
+                    });
+                }
+
+                //================================================//
             });
         </script>
     }

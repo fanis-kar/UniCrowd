@@ -40,7 +40,8 @@ namespace Model
         [Display(Name = "Ημερομηνία λήξης")]
         public DateTime EndDate { get; set; }
 
-        public Group Group { get; set; }
+        [Display(Name = "Group")]
+        public Group Group { get; set; } // One-to-One relationship
 
         [Display(Name = "Κατάσταση")]
         public int StatusId { get; set; }
@@ -49,6 +50,8 @@ namespace Model
 
         [Display(Name = "Απαιτούμενες ικανότητες")]
         public ICollection<TaskSkill> TasksSkills { get; set; }
+
+        public ICollection<Invitation> Invitations { get; set; }
 
         public int UniversityId { get; set; }   // University.API - University[id]
     }

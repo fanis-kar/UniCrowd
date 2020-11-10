@@ -50,18 +50,39 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
 
             List<Volunteer> volunteers = new List<Volunteer>();
 
-            foreach (var volunteer in taskInfo.Group.VolunteersGroups)
+            string skillsRequired = "[ ";
+
+            if (taskInfo.TasksSkills != null && taskInfo.TasksSkills.Count() > 0)
             {
-                volunteers.Add(await _volunteerApi.GetVolunteer(volunteer.VolunteerId, HttpContext.Session.GetString("jwtToken")));
+                foreach (var skill in taskInfo.TasksSkills)
+                {
+                    skillsRequired = skillsRequired + "\"" + skill.SkillId.ToString() + "\", ";
+                }
+
+                int index = skillsRequired.LastIndexOf(',');
+                skillsRequired = skillsRequired.Remove(index, 1);
+            }
+
+            skillsRequired += "]";
+
+            if (taskInfo.Group != null && taskInfo.Group.VolunteersGroups.Count() > 0)
+            {
+                foreach (var volunteer in taskInfo.Group.VolunteersGroups)
+                {
+                    volunteers.Add(await _volunteerApi.GetVolunteer(volunteer.VolunteerId, HttpContext.Session.GetString("jwtToken")));
+                }
             }
 
             TaskViewModel taskViewModel = new TaskViewModel()
             {
                 Task = taskInfo,
+                Skills = skillsRequired,
                 Volunteers = volunteers
             };
 
