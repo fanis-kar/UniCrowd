@@ -44,6 +44,17 @@ namespace UniversityWebApplication.Controllers
             return View(myTasks);
         }
 
+        // ~/Task/All
+        public async Task<IActionResult> AllAsync()
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            var tasks = await _taskApi.GetTasks(HttpContext.Session.GetString("jwtToken"));
+
+            return View(tasks);
+        }
+
         // ~/Task/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
@@ -56,21 +67,6 @@ namespace UniversityWebApplication.Controllers
 
             List<Volunteer> volunteers = new List<Volunteer>();
 
-            string skillsRequired = "[ ";
-
-            if (taskInfo.TasksSkills != null && taskInfo.TasksSkills.Count() > 0)
-            {
-                foreach (var skill in taskInfo.TasksSkills)
-                {
-                    skillsRequired = skillsRequired + "\"" + skill.SkillId.ToString() + "\", ";
-                }
-
-                int index = skillsRequired.LastIndexOf(',');
-                skillsRequired = skillsRequired.Remove(index, 1);
-            }
-
-            skillsRequired += "]";
-
             if (taskInfo.Group != null && taskInfo.Group.VolunteersGroups.Count() > 0)
             {
                 foreach (var volunteer in taskInfo.Group.VolunteersGroups)
@@ -79,14 +75,14 @@ namespace UniversityWebApplication.Controllers
                 }
             }
 
-            TaskViewModel taskViewModel = new TaskViewModel()
+            TaskDetailsViewModel taskDetailsViewModel = new TaskDetailsViewModel()
             {
                 Task = taskInfo,
-                Skills = skillsRequired,
+                Skills = await GetCurrentSkillsAsync(taskInfo.Id),
                 Volunteers = volunteers
             };
 
-            return View(taskViewModel);
+            return View(taskDetailsViewModel);
         }
 
         //GET: ~/Task/New
@@ -97,84 +93,97 @@ namespace UniversityWebApplication.Controllers
 
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
 
-            var statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"));
+            NewTaskFormViewModel newTaskFormViewModel = new NewTaskFormViewModel();
 
-            TaskFormViewModel taskForm = new TaskFormViewModel()
-            {
-                Statuses = statuses
-            };
-
-            return View("TaskForm", taskForm);
+            return View("New", newTaskFormViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveAsync(TaskFormViewModel taskVM)
+        public async Task<ActionResult> NewAsync(NewTaskFormViewModel taskVM)
         {
             if (!ModelState.IsValid)
             {
-                var taskForm = new TaskFormViewModel
-                {
-                    Statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"))
-                };
+                ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
 
-                return View("TaskForm", taskForm);
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
+
+                return RedirectToAction("Index", "Home");
             }
 
-            if (taskVM.Id == 0)
+            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
+            List<TaskSkill> skillsRequired = new List<TaskSkill>();
+
+            if (university == null || taskVM.Skills == null)
             {
-                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
-                List<TaskSkill> skillsRequired = new List<TaskSkill>();
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
 
-                if (university == null || taskVM.Skills == null || taskVM.StatusId != 1)
-                {
-                    TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
-
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var skillItem in taskVM.Skills)
-                {
-                    skillsRequired.Add(new TaskSkill { SkillId = skillItem });
-                }
-
-                Tasks task = new Tasks
-                {
-                    Name = taskVM.Name,
-                    Description = taskVM.Description,
-                    VolunteerNumber = taskVM.VolunteerNumber,
-                    Created = DateTime.Now,
-                    ExpectedStartDate = taskVM.ExpectedStartDate,
-                    ExpectedEndDate = taskVM.ExpectedEndDate,
-                    StatusId = taskVM.StatusId,
-                    UniversityId = university.Id,
-                    TasksSkills = skillsRequired
-                };
-                
-                await _taskApi.AddTask(task, HttpContext.Session.GetString("jwtToken"));
-
-                //---------------//
-
-
+                return RedirectToAction("Index", "Home");
             }
-            else
+
+            foreach (var skillItem in taskVM.Skills)
             {
-                //var taskInDb = await _taskApi.GetTask(task.Id, HttpContext.Session.GetString("jwtToken"));
-
-                // Mapper.Map(customer, customerInDb);
-
-                //taskInDb.Name = task.Name;
-                //taskInDb.Description = task.Description;
-                //taskInDb.VolunteerNumber = task.VolunteerNumber;
-                //taskInDb.Created = task.Created;
-                //taskInDb.ExpectedStartDate = task.ExpectedStartDate;
-                //taskInDb.StartDate = task.StartDate;
-                //taskInDb.StatusId = task.StatusId;
-                //taskInDb.TasksSkills = task.TasksSkills;
-
+                skillsRequired.Add(new TaskSkill { SkillId = skillItem });
             }
+
+            Group group = new Group()
+            {
+                Name = taskVM.GroupName
+            };
+
+            Tasks task = new Tasks
+            {
+                Name = taskVM.Name,
+                Description = taskVM.Description,
+                VolunteerNumber = taskVM.VolunteerNumber,
+                Created = DateTime.Now,
+                ExpectedStartDate = taskVM.ExpectedStartDate,
+                ExpectedEndDate = taskVM.ExpectedEndDate,
+                StatusId = 1,
+                UniversityId = university.Id,
+                TasksSkills = skillsRequired,
+                Group = group
+            };
+     
+            await _taskApi.AddTask(task, HttpContext.Session.GetString("jwtToken"));
+
+            TempData["SuccessMessage"] = "Το Task δημιουργήθηκε με επιτυχία.";
 
             return RedirectToAction("Index", "Home");
+        }
+
+        //GET: ~/Task/Update
+        public async Task<ActionResult> UpdateAsync(int id)
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+
+            Tasks taskInDb = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
+
+            if(taskInDb == null)
+            {
+                TempData["ErrorMessage"] = "Το Task δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"));
+            statuses.RemoveAt(0);
+
+            UpdateTaskFormViewModel updateTaskForm = new UpdateTaskFormViewModel()
+            {
+                Id = taskInDb.Id,
+                Name = taskInDb.Name,
+                Description = taskInDb.Description,
+                VolunteerNumber = taskInDb.VolunteerNumber,
+                ExpectedStartDate = taskInDb.ExpectedStartDate,
+                ExpectedEndDate = taskInDb.ExpectedEndDate,
+                StatusId = taskInDb.StatusId,
+                Statuses = statuses
+            };
+
+            return View("Update", updateTaskForm);
         }
 
         //----------------------------------------------------------------------------------------//
@@ -193,6 +202,28 @@ namespace UniversityWebApplication.Controllers
                 return true;
 
             return false;
+        }
+
+        public async Task<string> GetCurrentSkillsAsync(int taskId)
+        {
+            var taskInfo = await _taskApi.GetTask(taskId, HttpContext.Session.GetString("jwtToken"));
+
+            string skills = "[ ";
+
+            if (taskInfo.TasksSkills != null && taskInfo.TasksSkills.Count() > 0)
+            {
+                foreach (var skill in taskInfo.TasksSkills)
+                {
+                    skills = skills + "\"" + skill.SkillId.ToString() + "\", ";
+                }
+
+                int index = skills.LastIndexOf(',');
+                skills = skills.Remove(index, 1);
+            }
+
+            skills += "]";
+
+            return skills;
         }
     }
 }

@@ -1,19 +1,18 @@
-﻿@model UniversityWebApplication.Models.TaskFormViewModel
+﻿@model UniversityWebApplication.Models.NewTaskFormViewModel
 
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = "Νέο Task";
     Layout = "_Layout";
 }
 
-<h1>@Model.Title</h1>
+<h1>Νέο Task</h1>
 
 <hr class="basic" />
 
-<form asp-controller="Task" asp-action="Save">
+<form asp-controller="Task" asp-action="New">
     <div asp-validation-summary="ModelOnly" class="text-basic"></div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="Name"></label>:*
         </div>
@@ -25,7 +24,6 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="Description"></label>:*
         </div>
@@ -37,7 +35,6 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="VolunteerNumber"></label>:*
         </div>
@@ -49,7 +46,6 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="ExpectedStartDate"></label>:*
         </div>
@@ -61,7 +57,6 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="ExpectedEndDate"></label>:*
         </div>
@@ -73,7 +68,6 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
             <label asp-for="Skills"></label>:*
         </div>
@@ -85,19 +79,17 @@
     </div>
 
     <div class="form-group row">
-
         <div class="col-4">
-            <label asp-for="StatusId"></label>:*
+            <label asp-for="GroupName"></label>:*
         </div>
 
         <div class="col-8">
-            <select asp-for="StatusId" asp-items="@(new SelectList(Model.Statuses,"Id","Name"))" class="form-control"></select>
-            <span asp-validation-for="StatusId" class="text-basic"></span>
+            <input type="text" asp-for="GroupName" class="form-control" />
+            <span asp-validation-for="GroupName" class="text-basic"></span>
         </div>
     </div>
 
     <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
-    @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken()
 
     <div class="form-group row">
@@ -145,11 +137,10 @@
 
                     function PopulateSuggest() {
                         var instance = $("#Skills").magicSuggest({
+                            placeholder: "Επιλέξτε Skills",
                             valueField: "id",
                             data: skills
                         });
-
-                        //instance.setValue(["1", "2", "3"]);
                     }
 
                     //================================================//

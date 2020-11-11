@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UniversityWebApplication.Models
 {
-    public class TaskViewModel
+    public class TaskDetailsViewModel
     {
         public Tasks Task { get; set; }
 

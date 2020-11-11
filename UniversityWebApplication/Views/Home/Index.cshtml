@@ -2,6 +2,14 @@
     ViewData["Title"] = "Αρχική Σελίδα";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show">
@@ -18,3 +26,83 @@
         <a class="btn btn-basic" asp-area="" asp-controller="Volunteer" asp-action="">Εθελοντές</a>
     </div>
 </div>
+
+@*<input type="text" id="Skills" />
+
+<div id="fanis">
+
+</div>
+
+<input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />*@
+
+@*@section scripts
+{
+    @{
+        await Html.RenderPartialAsync("_TagInputLayout");
+
+        <script>
+            $(document).ready(function () {
+                var magicSuggestInstance = null;
+                var allSkills = null;
+                var skillsRequired = null;
+
+                GetAllSkills();
+                GetSkillsRequired();
+
+                function GetAllSkills() {
+                    $.ajax({
+                        url: "https://localhost:44378/Skill",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            allSkills = Object.values(data);
+
+                            PopulateAllSkillsSuggest();
+                        }
+                    });
+                }
+
+                function GetSkillsRequired() {
+                    $.ajax({
+                        url: "https://localhost:44378/Task/23",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            skillsRequired = Object.values(data);
+
+                            PopulateSkillsRequiredSuggest();
+                        }
+                    });
+                }
+
+                function PopulateAllSkillsSuggest() {
+                    magicSuggestInstance = $("#Skills").magicSuggest({
+                        valueField: "id",
+                        data: allSkills
+                    });
+                }
+
+                function PopulateSkillsRequiredSuggest() {
+                    let map = f => x => x.map(f);
+                    let prop = y => x => x[y];
+
+                    var skills = map(prop("skillId"))(skillsRequired[12]);
+
+                    magicSuggestInstance.setValue(skills);
+                }
+
+                //================================================//
+            });
+        </script>
+    }
+}*@

@@ -1,0 +1,198 @@
+﻿@model UniversityWebApplication.Models.UpdateTaskFormViewModel
+
+@{
+    ViewBag.Title = "Ενημέρωση Task";
+    Layout = "_Layout";
+}
+
+<h1>Ενημέρωση Task</h1>
+
+<hr class="basic" />
+
+<form asp-controller="Task" asp-action="Save">
+    <div asp-validation-summary="ModelOnly" class="text-basic"></div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Name"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Description"></label>:*
+        </div>
+
+        <div class="col-8">
+            <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Description" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="VolunteerNumber"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="VolunteerNumber" class="form-control" />
+            <span asp-validation-for="VolunteerNumber" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="ExpectedStartDate"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="ExpectedStartDate" class="form-control" />
+            <span asp-validation-for="ExpectedStartDate" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="ExpectedEndDate"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="ExpectedEndDate" class="form-control" />
+            <span asp-validation-for="ExpectedStartDate" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Skills"></label>:*
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Skills" class="form-control" />
+            <span asp-validation-for="Skills" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="StatusId"></label>:*
+        </div>
+
+        <div class="col-8">
+            <select asp-for="StatusId" asp-items="@(new SelectList(Model.Statuses,"Id","Name"))" class="form-control"></select>
+            <span asp-validation-for="StatusId" class="text-basic"></span>
+        </div>
+    </div>
+
+    <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <div class="form-group row">
+        <div class="col-8 offset-4">
+            <button type="submit" class="btn btn-basic">Ενημέρωση</button>
+        </div>
+    </div>
+</form>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationLayout");
+        await Html.RenderPartialAsync("_DateTimePickerLayout");
+        await Html.RenderPartialAsync("_TagInputLayout");
+
+        <script>
+
+            $(document).ready(function () {
+
+                var magicSuggestInstance = null;
+                var allSkills = null;
+                var skillsRequired = null;
+
+                GetAllSkills();
+                GetSkillsRequired();
+
+                function GetAllSkills() {
+                    $.ajax({
+                        url: "https://localhost:44378/Skill",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            allSkills = Object.values(data);
+
+                            PopulateAllSkillsSuggest();
+                        }
+                    });
+                }
+
+                function GetSkillsRequired() {
+                    var taskId = $("#Id").val();
+
+                    $.ajax({
+                        url: "https://localhost:44378/Task/" + taskId,
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            skillsRequired = Object.values(data);
+
+                            PopulateSkillsRequiredSuggest();
+                        }
+                    });
+                }
+
+                function PopulateAllSkillsSuggest() {
+                    magicSuggestInstance = $("#Skills").magicSuggest({
+                        placeholder: "Επιλέξτε Skills",
+                        valueField: "id",
+                        data: allSkills
+                    });
+                }
+
+                function PopulateSkillsRequiredSuggest() {
+                    let map = f => x => x.map(f);
+                    let prop = y => x => x[y];
+
+                    var skills = map(prop("skillId"))(skillsRequired[12]);
+
+                    if (skills != undefined && skills != null && skills != "") {
+                        magicSuggestInstance.setValue(skills);
+                    }
+                }
+
+                //================================================//
+
+                $.datetimepicker.setLocale("el");
+
+                $("#ExpectedStartDate").datetimepicker(
+                    {
+                        locale: "el",
+                        format: "d/m/Y"
+                    });
+                $("#ExpectedEndDate").datetimepicker(
+                    {
+                        locale: "el",
+                        format: "d/m/Y"
+                    });
+            });
+        </script>
+    }
+}

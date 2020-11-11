@@ -31,6 +31,8 @@ namespace UniversityWebApplication.Controllers
             if (! await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+
             return View();
         }
 

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace UniversityWebApplication.Models
 {
-    public class TaskFormViewModel
+    public class NewTaskFormViewModel
     {
-        public int? Id { get; set; }
-
-        //-------------------------------------------------//
-
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Όνομασία")]
         public string Name { get; set; }
@@ -27,42 +23,19 @@ namespace UniversityWebApplication.Models
 
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Αναμενόμενη ημερομηνία έναρξης")]
-        public DateTime ExpectedStartDate { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ExpectedStartDate { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Αναμενόμενη ημερομηνία λήξης")]
-        public DateTime ExpectedEndDate { get; set; }
-
-        [Display(Name = "Κατάσταση")]
-        public int StatusId { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ExpectedEndDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Απαιτούμενες ικανότητες")]
         public IEnumerable<int> Skills { get; set; }
 
-        //-------------------------------------------------//
-
-        public IEnumerable<Status> Statuses { get; set; }
-
-        //-------------------------------------------------//
-
-        public string Title
-        {
-            get
-            {
-                return Id != 0 ? "Ενημέρωση Task" : "Νέο Task";
-            }
-        }
-
-        //-------------------------------------------------//
-
-        public TaskFormViewModel()
-        {
-            Id = 0;
-        }
-
-        public TaskFormViewModel(Tasks task)
-        {
-            Id = task.Id;
-        }
+        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
+        [Display(Name = "Όνομασία Group")]
+        public string GroupName { get; set; }
     }
 }
