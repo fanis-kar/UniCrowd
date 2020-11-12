@@ -15,5 +15,7 @@ namespace UniversityWebApplication.ApiCollection.Interfaces
         Task<Tasks> GetTask(int taskId, string jwtToken);
 
         Task<string> AddTask(Tasks task, string jwtToken);
+
+        Task<string> UpdateTask(Tasks task, string jwtToken);
     }
 }

@@ -30,7 +30,16 @@
                         <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId">@item.Task.Name</a>
                     </td>
                     <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Stars) / 5 <i class="fas fa-star star-rating"></i>
+                        @{
+                            if (item.Stars != null)
+                            {
+                                @item.Stars @:/ 5 <i class="fas fa-star star-rating"></i>
+                            }
+                            else
+                            {
+                                @:- / 5 <i class="fas fa-star star-rating"></i>
+                            }
+                        }
                     </td>
                     <td class="text-center">
                         <a asp-controller="Group" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Group"><i class="fas fa-eye"></i></a>

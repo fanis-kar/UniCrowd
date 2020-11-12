@@ -5,7 +5,15 @@
     Layout = "_Layout";
 }
 
-<h1>Λεπτομέρειες Task</h1>
+<div class="row">
+    <div class="col-4">
+        <h1>Λεπτομέρειες Task</h1>
+    </div>
+
+    <div class="col-8">
+        <a asp-controller="Task" asp-action="Update" asp-route-id="@Model.Task.Id" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Ενημέρωση</a>
+    </div>
+</div>
 
 <hr class="basic" />
 
@@ -63,14 +71,19 @@
     </div>
 </div>
 
-<div class="form-group row">
-    <div class="col-4">
-        <label asp-for="Task.StartDate"></label>
-    </div>
-    <div class="col-8">
-        <input asp-for="Task.StartDate" class="form-control" disabled />
-    </div>
-</div>
+@{
+    @if (Model.Task.StatusId == 2 || Model.Task.StatusId == 3)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="Task.StartDate"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Task.StartDate" class="form-control" disabled />
+            </div>
+        </div>
+    }
+}
 
 @{
     @if (Model.Task.StatusId == 3 || Model.Task.StatusId == 4)
@@ -170,6 +183,7 @@
 
                 function PopulateSuggest() {
                     var instance = $("#Skills").magicSuggest({
+                        placeholder: "",
                         valueField: "id",
                         data: skills
                     });

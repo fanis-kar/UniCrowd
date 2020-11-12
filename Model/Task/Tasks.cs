@@ -11,26 +11,21 @@ namespace Model
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Όνομασία")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Περιγραφή")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Απαιτούμενος αριθμός εθελοντών")]
         public int VolunteerNumber { get; set; }
 
         [Display(Name = "Ημερομηνία δημιουργίας")]
         public DateTime Created { get; set; }
 
-        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Αναμενόμενη ημερομηνία έναρξης")]
         public DateTime ExpectedStartDate { get; set; }
 
-        [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
         [Display(Name = "Αναμενόμενη ημερομηνία λήξης")]
         public DateTime ExpectedEndDate { get; set; }
 
@@ -46,13 +41,16 @@ namespace Model
         [Display(Name = "Κατάσταση")]
         public int StatusId { get; set; }
 
+        [Display(Name = "Κατάσταση")]
         public Status Status { get; set; }
 
         [Display(Name = "Απαιτούμενες ικανότητες")]
         public ICollection<TaskSkill> TasksSkills { get; set; }
 
+        [Display(Name = "Προσκλήσεις")]
         public ICollection<Invitation> Invitations { get; set; }
 
+        [Display(Name = "Πανεπιστήμιο")]
         public int UniversityId { get; set; }   // University.API - University[id]
     }
 }

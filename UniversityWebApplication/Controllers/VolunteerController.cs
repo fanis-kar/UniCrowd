@@ -46,9 +46,11 @@ namespace UniversityWebApplication.Controllers
         public async Task<bool> IsLoggedInAsync()
         {
             var userId = HttpContext.Session.GetString("userId");
+            var username = HttpContext.Session.GetString("username");
+            var universityId = HttpContext.Session.GetString("universityId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (userId == null || jwtToken == null)
+            if (userId == null || username == null || universityId == null || jwtToken == null)
             {
                 return false;
             }

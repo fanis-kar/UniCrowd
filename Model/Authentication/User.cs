@@ -1,5 +1,6 @@
 ﻿using Middleware;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Model
 {
@@ -9,16 +10,21 @@ namespace Model
     {
         public int Id { get; set; }
 
+        [Display(Name = "Όνομα χρήστη")]
         public string Username { get; set; }
 
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Display(Name = "Κωδικός πρόσβασης")]
         public string Password { get; set; }
 
         public string Salt { get; set; }
 
+        [Display(Name = "Ρόλος")]
         public int RoleId { get; set; }
 
+        [Display(Name = "Ρόλος")]
         public Role Role { get; set; }
 
         public void SetPassword(string password, IEncryptor encryptor)

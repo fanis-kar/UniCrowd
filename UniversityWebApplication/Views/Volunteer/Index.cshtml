@@ -36,7 +36,7 @@
                         @Html.DisplayFor(modelItem => item.Stars) / 5 <i class="fas fa-star star-rating"></i>
                     </td>
                     <td class="text-center">
-                        <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.Id">Λεπτομέριες</a>
+                        <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Εθελοντή"><i class="fas fa-eye"></i></a>
                     </td>
                 </tr>
             }
@@ -101,6 +101,10 @@
                         ]
                     }
                 });
+
+                //==========================================================//
+
+                $("[data-toggle='tooltip']").tooltip();
             });
         </script>
     }

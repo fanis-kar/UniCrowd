@@ -29,6 +29,7 @@ namespace Model
         [Display(Name = "Αστέρια")]
         public float Stars { get; set; }
 
+        [Display(Name = "Λογαριασμός")]
         public int AccountId { get; set; } // Authentication.API - User[id]
 
         [Display(Name = "Ονοματεπώνυμο")]

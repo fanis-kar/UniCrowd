@@ -47,7 +47,7 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginForm model)
+        public async Task<IActionResult> LoginAsync(LoginFormViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -67,13 +67,12 @@ namespace WebApplication.Controllers
             try
             {
                 var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(resultObject["userId"]), resultObject["jwtToken"]);
 
                 HttpContext.Session.SetString("userId", resultObject["userId"]);
                 HttpContext.Session.SetString("username", model.Username);
-                HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
-
-                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
                 HttpContext.Session.SetString("universityId", university.Id.ToString());
+                HttpContext.Session.SetString("jwtToken", resultObject["jwtToken"]);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -89,6 +88,7 @@ namespace WebApplication.Controllers
         {
             HttpContext.Session.Remove("userId");
             HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("universityId");
             HttpContext.Session.Remove("jwtToken");
 
             TempData["SuccessMessage"] = "Αποσυνδέθηκες με επιτυχία.";
@@ -101,9 +101,11 @@ namespace WebApplication.Controllers
         public async Task<bool> IsLoggedInAsync()
         {
             var userId = HttpContext.Session.GetString("userId");
+            var username = HttpContext.Session.GetString("username");
+            var universityId = HttpContext.Session.GetString("universityId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (userId == null || jwtToken == null)
+            if (userId == null || username == null || universityId == null || jwtToken == null)
             {
                 return false;
             }

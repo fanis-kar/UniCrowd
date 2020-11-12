@@ -38,9 +38,7 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
-            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
-            var myTasks = await _taskApi.GetTasksByUniversityId(university.Id, HttpContext.Session.GetString("jwtToken"));
-
+            var myTasks = await _taskApi.GetTasksByUniversityId(int.Parse(HttpContext.Session.GetString("universityId")), HttpContext.Session.GetString("jwtToken"));
             return View(myTasks);
         }
 
@@ -51,7 +49,6 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var tasks = await _taskApi.GetTasks(HttpContext.Session.GetString("jwtToken"));
-
             return View(tasks);
         }
 
@@ -94,7 +91,6 @@ namespace UniversityWebApplication.Controllers
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
 
             NewTaskFormViewModel newTaskFormViewModel = new NewTaskFormViewModel();
-
             return View("New", newTaskFormViewModel);
         }
 
@@ -104,20 +100,15 @@ namespace UniversityWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
-
                 TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
-
                 return RedirectToAction("Index", "Home");
             }
 
-            University university = await _universityApi.GetUniversityByUserId(Int32.Parse(HttpContext.Session.GetString("userId")), HttpContext.Session.GetString("jwtToken"));
             List<TaskSkill> skillsRequired = new List<TaskSkill>();
 
-            if (university == null || taskVM.Skills == null)
+            if (taskVM.Skills == null)
             {
-                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Task.";
-
+                TempData["ErrorMessage"] = "Πρέπει να επιλέξετε τουλάχιστον μία ικανότητα.";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -140,7 +131,7 @@ namespace UniversityWebApplication.Controllers
                 ExpectedStartDate = taskVM.ExpectedStartDate,
                 ExpectedEndDate = taskVM.ExpectedEndDate,
                 StatusId = 1,
-                UniversityId = university.Id,
+                UniversityId = int.Parse(HttpContext.Session.GetString("universityId")),
                 TasksSkills = skillsRequired,
                 Group = group
             };
@@ -148,7 +139,6 @@ namespace UniversityWebApplication.Controllers
             await _taskApi.AddTask(task, HttpContext.Session.GetString("jwtToken"));
 
             TempData["SuccessMessage"] = "Το Task δημιουργήθηκε με επιτυχία.";
-
             return RedirectToAction("Index", "Home");
         }
 
@@ -168,8 +158,19 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            if ( taskInDb.UniversityId != int.Parse(HttpContext.Session.GetString("universityId")))
+            {
+                TempData["ErrorMessage"] = "Δεν μπορείς να ενημερώσεις αυτό το Task.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (taskInDb.StatusId == 3 || taskInDb.StatusId == 4)
+            {
+                TempData["ErrorMessage"] = "Το Task δεν είναι πλέον διαθέσιμο για επεξεργασία.";
+                return RedirectToAction("Index", "Home");
+            }
+
             var statuses = await _statusApi.GetStatuses(HttpContext.Session.GetString("jwtToken"));
-            statuses.RemoveAt(0);
 
             UpdateTaskFormViewModel updateTaskForm = new UpdateTaskFormViewModel()
             {
@@ -186,14 +187,87 @@ namespace UniversityWebApplication.Controllers
             return View("Update", updateTaskForm);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateAsync(UpdateTaskFormViewModel taskVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά την ενημέρωση του Task.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            Tasks taskInDb = await _taskApi.GetTask(taskVM.Id, HttpContext.Session.GetString("jwtToken"));
+
+            if (taskInDb == null || taskInDb.UniversityId != int.Parse(HttpContext.Session.GetString("universityId")))
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά την ενημέρωση του Task.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if(!CheckUpdatedStatus(taskInDb.StatusId, taskVM.StatusId))
+            {
+                TempData["ErrorMessage"] = "Το Task δεν μπορεί να ενημερωθεί σε προηγούμενη κατάσταση.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            Tasks taskUpdate = taskInDb;
+
+            if(taskVM.StatusId == 1)
+            {
+                if (taskVM.Skills == null)
+                {
+                    TempData["ErrorMessage"] = "Πρέπει να επιλέξετε τουλάχιστον μία ικανότητα.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                List<TaskSkill> skillsRequired = new List<TaskSkill>();
+                foreach (var skillItem in taskVM.Skills)
+                {
+                    skillsRequired.Add(new TaskSkill { TaskId = taskInDb.Id , SkillId = skillItem });
+                }
+
+                taskUpdate.Name = taskVM.Name;
+                taskUpdate.Description = taskVM.Description;
+                taskUpdate.VolunteerNumber = taskVM.VolunteerNumber;
+                taskUpdate.ExpectedStartDate = taskVM.ExpectedStartDate;
+                taskUpdate.ExpectedEndDate = taskVM.ExpectedEndDate;
+                taskUpdate.StatusId = taskVM.StatusId;
+                taskUpdate.TasksSkills = skillsRequired;
+            }
+
+            if(taskVM.StatusId == 2)
+            {
+                taskUpdate.Name = taskVM.Name;
+                taskUpdate.Description = taskVM.Description;
+                taskUpdate.StartDate = DateTime.Now;
+                taskUpdate.StatusId = taskVM.StatusId;
+            }
+
+            if(taskVM.StatusId ==  3)
+            {
+                taskUpdate.Name = taskVM.Name;
+                taskUpdate.Description = taskVM.Description;
+                taskUpdate.EndDate = DateTime.Now;
+                taskUpdate.StatusId = taskVM.StatusId;
+            }
+
+            await _taskApi.UpdateTask(taskUpdate, HttpContext.Session.GetString("jwtToken"));
+
+            TempData["SuccessMessage"] = "Το Task ενημερώθηκε με επιτυχία.";
+            return RedirectToAction("Index", "Home");
+        }
+
         //----------------------------------------------------------------------------------------//
 
         public async Task<bool> IsLoggedInAsync()
         {
             var userId = HttpContext.Session.GetString("userId");
+            var username = HttpContext.Session.GetString("username");
+            var universityId = HttpContext.Session.GetString("universityId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (userId == null || jwtToken == null)
+            if (userId == null || username == null || universityId == null || jwtToken == null)
             {
                 return false;
             }
@@ -224,6 +298,17 @@ namespace UniversityWebApplication.Controllers
             skills += "]";
 
             return skills;
+        }
+
+        public bool CheckUpdatedStatus(int oldStatus, int newStatus)
+        {
+            if (newStatus >= oldStatus)
+                return true;
+
+            if (oldStatus == 1 && newStatus == 3)
+                return false;
+
+            return false;
         }
     }
 }

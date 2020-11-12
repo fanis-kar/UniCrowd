@@ -52,5 +52,14 @@ namespace Task.API.Controllers
 
             return new OkResult();
         }
+
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult UpdatePost([FromBody] Tasks task)
+        {
+            _taskRepository.UpdateTask(task);
+
+            return new OkResult();
+        }
     }
 }

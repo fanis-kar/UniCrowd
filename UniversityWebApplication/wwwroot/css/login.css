@@ -106,6 +106,10 @@ label {
     color: #A2A4A4;
 }
 
+.validation-text {
+    color: var(--main-border-color);
+}
+
 .loginbttm {
     padding: 0px;
 }

@@ -67,14 +67,32 @@ namespace Task.API.Repositories
 
         public void UpdateTask(Tasks task)
         {
-            var taskInDb = _context.Tasks.Single(t => t.Id == task.Id);
+            var taskInDb = _context
+                .Tasks
+                .Where(t => t.Id == task.Id)
+                .FirstOrDefault();
+
+            //--------------------------------------------//
+
+            var skillsToDelete = _context
+                .TasksSkills
+                .Where(s => s.TaskId == task.Id)
+                .ToList();
+
+            _context.RemoveRange(skillsToDelete);
+            _context.SaveChanges();
+
+            //--------------------------------------------//
 
             taskInDb.Name = task.Name;
             taskInDb.Description = task.Description;
             taskInDb.VolunteerNumber = task.VolunteerNumber;
             taskInDb.ExpectedStartDate = task.ExpectedStartDate;
             taskInDb.ExpectedEndDate = task.ExpectedEndDate;
+            taskInDb.StartDate = task.StartDate;
+            taskInDb.EndDate = task.EndDate;
             taskInDb.StatusId = task.StatusId;
+            taskInDb.TasksSkills = task.TasksSkills;
 
             _context.SaveChanges();
         }

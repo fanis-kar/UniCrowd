@@ -79,5 +79,22 @@ namespace UniversityWebApplication.ApiCollection
 
             return await SendRequest(message);
         }
+
+        public async Task<string> UpdateTask(Tasks task, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Task/Update")
+                           .HttpMethod(HttpMethod.Post)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            var json = JsonConvert.SerializeObject(task);
+            message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return await SendRequest(message);
+        }
     }
 }

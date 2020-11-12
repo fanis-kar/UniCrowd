@@ -217,6 +217,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/Task/Update",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Task/Update",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Task/University/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

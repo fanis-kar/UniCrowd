@@ -11,7 +11,7 @@
 
 <div class="form-group row">
     <div class="col-4">
-        <label asp-for="Group.Name"></label>
+        Ονομασία
     </div>
     <div class="col-8">
         <input asp-for="Group.Name" class="form-control" disabled />
@@ -20,16 +20,25 @@
 
 <div class="form-group row">
     <div class="col-4">
-        <label asp-for="Group.Stars"></label>
+        Αστέρια
     </div>
     <div class="col-8">
-        <input asp-for="Group.Stars" class="form-control" disabled />
+        @{
+            if (Model.Group.Stars != null)
+            {
+                <input asp-for="Group.Stars" class="form-control" disabled />
+            }
+            else
+            {
+                <input class="form-control" value="Δεν έχει βαθμολογηθεί ακόμα" disabled />
+            }
+        }
     </div>
 </div>
 
 <div class="form-group row">
     <div class="col-4">
-        <label asp-for="Group.Task.Name"></label>
+        Task
     </div>
     <div class="col-8">
         <input asp-for="Group.Task.Name" class="form-control" disabled />
@@ -38,7 +47,7 @@
 
 <div class="form-group row">
     <div class="col-4">
-        <label asp-for="University.OfficialName"></label>
+        Πανεπιστήμιο
     </div>
     <div class="col-8">
         <input asp-for="University.OfficialName" class="form-control" disabled />
@@ -61,6 +70,14 @@
         </ul>
     }
 }
+
+<div class="form-group row">
+    <div class="col-4">
+        <a asp-controller="Task" asp-action="Details" asp-route-id="@Model.Group.TaskId" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Task</a>
+    </div>
+    <div class="col-8">
+    </div>
+</div>
 
 <hr class="basic" />
 
