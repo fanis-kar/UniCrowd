@@ -15,7 +15,5 @@ namespace Task.API.Repositories.Interfaces
         void AddGroup(Group group);
 
         void UpdateGroup(Group group);
-
-        void DeleteGroup(Group group);
     }
 }

@@ -167,6 +167,7 @@
                 function PopulateAllSkillsSuggest() {
                     magicSuggestInstance = $("#Skills").magicSuggest({
                         placeholder: "Επιλέξτε Skills",
+                        maxSelection: 10000,
                         valueField: "id",
                         data: allSkills
                     });

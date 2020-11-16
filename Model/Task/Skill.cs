@@ -16,5 +16,7 @@ namespace Model
 
         [Display(Name = "Περιγραφή")]
         public string Description { get; set; }
+
+        //public List<VolunteerSkill> VolunteersSkills { get; set; }
     }
 }

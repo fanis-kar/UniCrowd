@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,15 @@ namespace Task.API.Repositories
             return _context.Skills
                 .Where(s => s.Id == skillId)
                 .FirstOrDefault();
+        }
+
+        public IEnumerable<Skill> GetVolunteerSkills(int volunteerId)
+        {
+            return _context
+                .VolunteersSkills
+                .Where(vs => vs.VolunteerId == volunteerId)
+                .Select(s => s.Skill)
+                .ToList();
         }
     }
 }

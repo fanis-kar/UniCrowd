@@ -10,8 +10,12 @@ namespace Task.API.Repositories.Interfaces
     {
         IEnumerable<Invitation> GetInvitations();
 
+        IEnumerable<Invitation> GetInvitationsByTaskId(int taskId);
+
         Invitation GetInvitation(int invitationId);
 
         void AddInvitation(Invitation invitation);
+
+        void UpdateInvitation(Invitation invitation);
     }
 }

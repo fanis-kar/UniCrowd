@@ -13,5 +13,7 @@ namespace UniversityWebApplication.ApiCollection.Interfaces
         Task<Group> GetGroup(int groupId, string jwtToken);
 
         Task<string> AddGroup(Group group, string jwtToken);
+
+        Task<string> UpdateGroup(Group group, string jwtToken);
     }
 }

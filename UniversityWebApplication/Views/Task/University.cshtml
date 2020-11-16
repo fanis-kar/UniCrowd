@@ -1,17 +1,16 @@
 ﻿@model List<Model.Tasks>
 
 @{
-    ViewData["Title"] = "Τα Tasks μου";
+    ViewData["Title"] = "Tasks Πανεπιστημίου";
 }
 
 <div class="row">
     <div class="col-4">
-        <h1>Τα Tasks μου</h1>
+        <h1>Tasks Πανεπιστημίου</h1>
     </div>
 
     <div class="col-8">
-        <a asp-controller="Task" asp-action="All" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Όλα τα Tasks</a>
-        <a asp-controller="Task" asp-action="New" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Νέο Task</a>
+        <a asp-controller="University" asp-action="Details" asp-route-id="@Model.FirstOrDefault().UniversityId" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Προφίλ Πανεπιστημίου</a>
     </div>
 </div>
 

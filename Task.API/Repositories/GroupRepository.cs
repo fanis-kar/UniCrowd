@@ -23,6 +23,7 @@ namespace Task.API.Repositories
             return _context
                 .Groups
                 .Include(g => g.Task)
+                .ThenInclude(t => t.Invitations)
                 .Include(g => g.VolunteersGroups)
                 .ToList();
         }
@@ -32,6 +33,7 @@ namespace Task.API.Repositories
             return _context
                 .Groups
                 .Include(g => g.Task)
+                .ThenInclude(t => t.Invitations)
                 .Include(g => g.VolunteersGroups)
                 .Where(g => g.Id == groupId)
                 .FirstOrDefault();
@@ -45,12 +47,28 @@ namespace Task.API.Repositories
 
         public void UpdateGroup(Group group)
         {
-            throw new NotImplementedException();
-        }
+            var groupInDb = _context
+                .Groups
+                .Where(g => g.Id == group.Id)
+                .FirstOrDefault();
 
-        public void DeleteGroup(Group group)
-        {
-            throw new NotImplementedException();
+            //--------------------------------------------//
+
+            var volunteersToDelete = _context
+                .VolunteersGroups
+                .Where(vg => vg.GroupId == group.Id)
+                .ToList();
+
+            _context.RemoveRange(volunteersToDelete);
+            _context.SaveChanges();
+
+            //--------------------------------------------//
+
+            groupInDb.Name = group.Name;
+            groupInDb.Stars = group.Stars;
+            groupInDb.VolunteersGroups = group.VolunteersGroups;
+
+            _context.SaveChanges();
         }
     }
 }

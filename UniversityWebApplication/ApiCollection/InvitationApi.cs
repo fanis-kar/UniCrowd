@@ -12,71 +12,86 @@ using UniversityWebApplication.ApiCollection.Interfaces;
 
 namespace UniversityWebApplication.ApiCollection
 {
-    public class GroupApi : BaseHttpClientWithFactory, IGroupApi
+    public class InvitationApi : BaseHttpClientWithFactory, IInvitationApi
     {
-        public GroupApi(IHttpClientFactory factory)
+        public InvitationApi(IHttpClientFactory factory)
             : base(factory)
         {
         }
 
-        public async Task<List<Group>> GetGroups(string jwtToken)
+        public async Task<List<Invitation>> GetInvitations(string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();
             authorization.Add("Authorization", "Bearer " + jwtToken);
 
             var message = new HttpRequestBuilder("https://localhost:44378")
-                           .SetPath("/Group")
+                           .SetPath("/Invitation")
                            .HttpMethod(HttpMethod.Get)
                            .Headers(authorization)
                            .GetHttpMessage();
 
-            return await SendRequest<List<Group>>(message);
+            return await SendRequest<List<Invitation>>(message);
         }
 
-        public async Task<Group> GetGroup(int groupId, string jwtToken)
+        public async Task<List<Invitation>> GetInvitationsByTaskId(int taskId, string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();
             authorization.Add("Authorization", "Bearer " + jwtToken);
 
             var message = new HttpRequestBuilder("https://localhost:44378")
-                           .SetPath("/Group")
-                           .AddToPath(groupId.ToString())
+                           .SetPath("/Invitation/Task")
+                           .AddToPath(taskId.ToString())
                            .HttpMethod(HttpMethod.Get)
                            .Headers(authorization)
                            .GetHttpMessage();
 
-            return await SendRequest<Group>(message);
+            return await SendRequest<List<Invitation>>(message);
         }
 
-        public async Task<string> AddGroup(Group group, string jwtToken)
+        public async Task<Invitation> GetInvitation(int invitationId, string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();
             authorization.Add("Authorization", "Bearer " + jwtToken);
 
             var message = new HttpRequestBuilder("https://localhost:44378")
-                           .SetPath("/Group")
+                           .SetPath("/Invitation")
+                           .AddToPath(invitationId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<Invitation>(message);
+        }
+
+        public async Task<string> AddInvitation(Invitation invitation, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Invitation")
                            .HttpMethod(HttpMethod.Post)
                            .Headers(authorization)
                            .GetHttpMessage();
 
-            var json = JsonConvert.SerializeObject(group);
+            var json = JsonConvert.SerializeObject(invitation);
             message.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             return await SendRequest(message);
         }
 
-        public async Task<string> UpdateGroup(Group group, string jwtToken)
+        public async Task<string> UpdateInvitation(Invitation invitation, string jwtToken)
         {
             NameValueCollection authorization = new NameValueCollection();
             authorization.Add("Authorization", "Bearer " + jwtToken);
 
             var message = new HttpRequestBuilder("https://localhost:44378")
-                           .SetPath("/Group/Update")
+                           .SetPath("/Invitation/Update")
                            .HttpMethod(HttpMethod.Post)
                            .Headers(authorization)
                            .GetHttpMessage();
 
-            var json = JsonConvert.SerializeObject(group);
+            var json = JsonConvert.SerializeObject(invitation);
             message.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             return await SendRequest(message);

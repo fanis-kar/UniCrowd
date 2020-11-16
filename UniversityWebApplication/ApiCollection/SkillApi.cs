@@ -45,5 +45,20 @@ namespace UniversityWebApplication.ApiCollection
 
             return await SendRequest<Skill>(message);
         }
+
+        public async Task<List<Skill>> GetVolunteerSkills(int volunteerId, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection();
+            authorization.Add("Authorization", "Bearer " + jwtToken);
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Skill/Volunteer")
+                           .AddToPath(volunteerId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<List<Skill>>(message);
+        }
     }
 }

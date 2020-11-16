@@ -297,6 +297,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/Skill/Volunteer/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44382 // University.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Skill/Volunteer/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Status",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -345,6 +361,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/Invitation/Task/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Invitation/Task/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Invitation/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -355,6 +387,22 @@
       ],
       "UpstreamPathTemplate": "/Invitation/{id}",
       "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Invitation/Update",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Invitation/Update",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -387,6 +435,22 @@
       ],
       "UpstreamPathTemplate": "/Group/{id}",
       "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Group/Update",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Group/Update",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []

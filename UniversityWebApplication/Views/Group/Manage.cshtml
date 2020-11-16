@@ -1,0 +1,172 @@
+﻿@model UniversityWebApplication.Models.ManageGroupViewModel
+
+@{
+    ViewData["Title"] = "Διαχείριση Group";
+    Layout = "_Layout";
+}
+
+<h1>Διαχείριση Group</h1>
+
+<hr class="basic" />
+
+<form asp-controller="Group" asp-action="Manage">
+    <div asp-validation-summary="ModelOnly" class="text-basic"></div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            Ονομασία
+        </div>
+        <div class="col-8">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            Αστέρια
+        </div>
+        <div class="col-8">
+            <input asp-for="Stars" class="form-control" />
+            <span asp-validation-for="Stars" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="invitations-table" class="table table-bordered datatable-table">
+            <thead>
+                <tr>
+                    <th style="display:none;">Id</th>
+                    <th>Ονοματεπώνυμο</th>
+                    <th class="text-center">Ικανότητες που έχει</th>
+                    <th class="text-center">Ικανότητες που απαιτούνται</th>
+                    <th class="text-center">Ημερομηνία</th>
+                    <th class="text-center">Απάντηση</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in Model.Invitations)
+                    {
+                        <tr>
+                            <td style="display:none;">
+                                @Html.DisplayFor(modelItem => item.InvitationId)
+                            </td>
+                            <td>
+                                <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.VolunteerId">@item.FullName</a>
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.SkillsHave)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.SkillsRequired)
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td class="text-center">
+                                @Html.CheckBoxFor(modelItem => item.Response)
+                            </td>
+                        </tr>
+                    }*@
+
+                @for (int i = 0; i < Model.Invitations.Count; i++)
+                {
+                    <tr>
+                        <td style="display:none;">@Html.TextBoxFor(m => m.Invitations[i].InvitationId)</td>
+                        <td class="text-center">
+                            <a asp-controller="Volunteer" asp-action="Details" asp-route-id="@Model.Invitations[i].VolunteerId">@Model.Invitations[i].FullName</a>
+                        </td>
+                        <td class="text-center">@Html.DisplayFor(m => m.Invitations[i].SkillsHave)</td>
+                        <td class="text-center">@Html.DisplayFor(m => m.Invitations[i].SkillsRequired)</td>
+                        <td class="text-center">@Html.DisplayFor(m => m.Invitations[i].Date)</td>
+                        <td class="text-center">@Html.CheckBoxFor(m => m.Invitations[i].Response)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @Html.HiddenFor(g => g.Id)
+    @Html.AntiForgeryToken()
+
+    <div class="form-group row">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-basic">Καταχώρηση</button>
+        </div>
+    </div>
+</form>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationLayout");
+        await Html.RenderPartialAsync("_DataTablesLayout");
+
+        <script>
+            $(document).ready(function () {
+                $("#invitations-table").dataTable({
+                    "autoWidth": true,
+                    "language": {
+                        "sDecimal": ",",
+                        "sEmptyTable": "Δεν υπάρχουν δεδομένα στον πίνακα",
+                        "sInfo": "Εμφανίζονται _START_ έως _END_ από _TOTAL_ εγγραφές",
+                        "sInfoEmpty": "Εμφανίζονται 0 έως 0 από 0 εγγραφές",
+                        "sInfoFiltered": "(φιλτραρισμένες από _MAX_ συνολικά εγγραφές)",
+                        "sInfoPostFix": "",
+                        "sInfoThousands": ".",
+                        "sLengthMenu": "Δείξε _MENU_ εγγραφές",
+                        "sLoadingRecords": "Φόρτωση...",
+                        "sProcessing": "Επεξεργασία...",
+                        "sSearch": "Αναζήτηση:",
+                        "sSearchPlaceholder": "Αναζήτηση",
+                        "sThousands": ".",
+                        "sUrl": "",
+                        "sZeroRecords": "Δεν βρέθηκαν εγγραφές που να ταιριάζουν",
+                        "oPaginate": {
+                            "sFirst": "Πρώτη",
+                            "sPrevious": "Προηγούμενη",
+                            "sNext": "Επόμενη",
+                            "sLast": "Τελευταία"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": ενεργοποιήστε για αύξουσα ταξινόμηση της στήλης",
+                            "sSortDescending": ": ενεργοποιήστε για φθίνουσα ταξινόμηση της στήλης"
+                        },
+                        buttons: {
+                            excel: "EXCEL",
+                            pdf: "PDF",
+                            print: "Εκτύπωση"
+                        }
+                    },
+                    dom: "Bfrtip",
+                    buttons: [
+                        "excel", "pdf", "print"
+                    ],
+                    buttons: {
+                        buttons: [
+                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
+                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
+                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } }
+                        ]
+                    }
+                });
+
+                //==========================================================//
+
+                $("tr").click(function (event) {
+                    if (event.target.type !== "checkbox") {
+                        $(":checkbox", this).trigger("click");
+                    }
+                });
+
+                //==========================================================//
+
+                $("[data-toggle='tooltip']").tooltip();
+            });
+        </script>
+    }
+}

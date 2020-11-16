@@ -9,6 +9,9 @@ namespace UniversityWebApplication.ApiCollection.Interfaces
     public interface ISkillApi
     {
         Task<List<Skill>> GetSkills(string jwtToken);
+
         Task<Skill> GetSkill(int skillId, string jwtToken);
+
+        Task<List<Skill>> GetVolunteerSkills(int volunteerId, string jwtToken);
     }
 }

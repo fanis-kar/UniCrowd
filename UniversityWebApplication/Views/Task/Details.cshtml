@@ -184,6 +184,7 @@
                 function PopulateSuggest() {
                     var instance = $("#Skills").magicSuggest({
                         placeholder: "",
+                        maxSelection: 10000,
                         valueField: "id",
                         data: skills
                     });

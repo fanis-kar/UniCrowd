@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,23 @@ namespace Task.API.Repositories
         {
             return _context
                 .Invitations
+                .Include(i => i.Task)
+                .ToList();
+        }
+
+        public IEnumerable<Invitation> GetInvitationsByTaskId(int taskId)
+        {
+            return _context
+                .Invitations
+                .Include(i => i.Task)
+                .Where(i => i.TaskId == taskId)
                 .ToList();
         }
 
         public Invitation GetInvitation(int invitationId)
         {
             return _context.Invitations
+                .Include(i => i.Task)
                 .Where(i => i.Id == invitationId)
                 .FirstOrDefault();
         }
@@ -34,6 +46,12 @@ namespace Task.API.Repositories
         public void AddInvitation(Invitation invitation)
         {
             _context.Invitations.Add(invitation);
+            _context.SaveChanges();
+        }
+
+        public void UpdateInvitation(Invitation invitation)
+        {
+            _context.Invitations.Update(invitation);
             _context.SaveChanges();
         }
     }

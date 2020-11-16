@@ -11,5 +11,7 @@ namespace Task.API.Repositories.Interfaces
         IEnumerable<Skill> GetSkills();
 
         Skill GetSkill(int skillId);
+
+        IEnumerable<Skill> GetVolunteerSkills(int volunteerId);
     }
 }

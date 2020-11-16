@@ -23,18 +23,25 @@ namespace Task.API.Controllers
             _skillRepository = new SkillRepository(context);
         }
 
-        // GET api/Skill
+        // GET ~/api/Skill
         [HttpGet]
         public ActionResult<IEnumerable<Skill>> GetSkills()
         {
             return _skillRepository.GetSkills().ToList();
         }
 
-        // GET api/Skill/{id}
+        // GET ~/api/Skill/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Skill> GetSkill(int id)
         {
             return _skillRepository.GetSkill(id);
+        }
+
+        // GET ~/api/Volunteer/{id} 
+        [HttpGet("Volunteer/{id}")]
+        public ActionResult<IEnumerable<Skill>> GetVolunteerSkills([FromRoute] int id)
+        {
+            return _skillRepository.GetVolunteerSkills(id).ToList();
         }
     }
 }

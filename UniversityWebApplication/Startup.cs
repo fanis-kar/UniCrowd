@@ -36,6 +36,7 @@ namespace UniversityWebApplication
             services.AddTransient<IGroupApi, GroupApi>();
             services.AddTransient<ISkillApi, SkillApi>();
             services.AddTransient<IStatusApi, StatusApi>();
+            services.AddTransient<IInvitationApi, InvitationApi>();
             #endregion
 
             services.AddDistributedMemoryCache();

@@ -39,9 +39,19 @@ namespace Task.API.Controllers
 
         // POST api/Group
         [HttpPost]
-        public ActionResult Post([FromBody] Group group)
+        public ActionResult AddGroup([FromBody] Group group)
         {
             _groupRepository.AddGroup(group);
+
+            return new OkResult();
+        }
+
+        // POST ~/api/Group/Update
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult UpdateGroup([FromBody] Group group)
+        {
+            _groupRepository.UpdateGroup(group);
 
             return new OkResult();
         }

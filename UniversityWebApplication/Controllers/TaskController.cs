@@ -82,6 +82,16 @@ namespace UniversityWebApplication.Controllers
             return View(taskDetailsViewModel);
         }
 
+        // ~/Task/University/{id}
+        public async Task<IActionResult> University(int id)
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            var tasks = await _taskApi.GetTasksByUniversityId(id, HttpContext.Session.GetString("jwtToken"));
+            return View(tasks);
+        }
+
         //GET: ~/Task/New
         public async Task<ActionResult> NewAsync()
         {
