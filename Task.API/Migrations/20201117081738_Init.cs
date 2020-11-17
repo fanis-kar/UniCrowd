@@ -87,7 +87,7 @@ namespace Task.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Stars = table.Column<int>(nullable: false),
+                    Stars = table.Column<int>(nullable: true),
                     TaskId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -109,7 +109,7 @@ namespace Task.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Decision = table.Column<bool>(nullable: false),
+                    Decision = table.Column<bool>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
                     TaskId = table.Column<int>(nullable: false),
                     VolunteerId = table.Column<int>(nullable: false)
@@ -181,10 +181,10 @@ namespace Task.API.Migrations
                     { 12, "Μη διαθέσιμη", "SQL Server" },
                     { 10, "Μη διαθέσιμη", "Εξόρυξη δεδομένων" },
                     { 11, "Μη διαθέσιμη", "Διαχείριση δεδομένων μεγάλης κλίμακας" },
-                    { 8, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με Xamarin Forms" },
+                    { 8, "Μη διαθέσιμη", "Ανάπτυξη mobile εφαρμογών με Xamarin Forms" },
                     { 7, "Μη διαθέσιμη", "Ανάπτυξη mobile εφαρμογών με JAVA" },
-                    { 6, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με C#" },
-                    { 5, "Μη διαθέσιμη", "Ανάπτυξη WEB εφαρμογών με JAVA" },
+                    { 6, "Μη διαθέσιμη", "Ανάπτυξη Web εφαρμογών με C#" },
+                    { 5, "Μη διαθέσιμη", "Ανάπτυξη Web εφαρμογών με JAVA" },
                     { 4, "Μη διαθέσιμη", "Προγραμματισμός με Python" },
                     { 3, "Μη διαθέσιμη", "Προγραμματισμός με C#" },
                     { 2, "Μη διαθέσιμη", "Προγραμματισμός με JAVA" },

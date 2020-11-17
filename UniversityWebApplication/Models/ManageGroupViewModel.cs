@@ -15,8 +15,8 @@ namespace UniversityWebApplication.Models
         [Display(Name = "Όνομασία")]
         public string Name { get; set; }
 
+        [Range(0, 5, ErrorMessage = "Παρακαλώ εισάγετε μια τιμή μεταξύ {1} και {2}.")]
         [Display(Name = "Αστέρια")]
-        [Range(0, 5)]
         public int Stars { get; set; }
 
         [Display(Name = "Προσκλήσεις")]

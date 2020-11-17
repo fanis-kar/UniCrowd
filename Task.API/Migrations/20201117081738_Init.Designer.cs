@@ -10,7 +10,7 @@ using Task.API.Data;
 namespace Task.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201102142821_Init")]
+    [Migration("20201117081738_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace Task.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Stars")
+                    b.Property<int?>("Stars")
                         .HasColumnType("int");
 
                     b.Property<int>("TaskId")
@@ -55,7 +55,7 @@ namespace Task.API.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Decision")
+                    b.Property<bool?>("Decision")
                         .HasColumnType("bit");
 
                     b.Property<string>("Description")
@@ -123,13 +123,13 @@ namespace Task.API.Migrations
                         {
                             Id = 5,
                             Description = "Μη διαθέσιμη",
-                            Name = "Ανάπτυξη WEB εφαρμογών με JAVA"
+                            Name = "Ανάπτυξη Web εφαρμογών με JAVA"
                         },
                         new
                         {
                             Id = 6,
                             Description = "Μη διαθέσιμη",
-                            Name = "Ανάπτυξη WEB εφαρμογών με C#"
+                            Name = "Ανάπτυξη Web εφαρμογών με C#"
                         },
                         new
                         {
@@ -141,7 +141,7 @@ namespace Task.API.Migrations
                         {
                             Id = 8,
                             Description = "Μη διαθέσιμη",
-                            Name = "Ανάπτυξη WEB εφαρμογών με Xamarin Forms"
+                            Name = "Ανάπτυξη mobile εφαρμογών με Xamarin Forms"
                         },
                         new
                         {
@@ -364,7 +364,7 @@ namespace Task.API.Migrations
             modelBuilder.Entity("Model.Invitation", b =>
                 {
                     b.HasOne("Model.Tasks", "Task")
-                        .WithMany()
+                        .WithMany("Invitations")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -373,7 +373,7 @@ namespace Task.API.Migrations
             modelBuilder.Entity("Model.Task.VolunteerGroup", b =>
                 {
                     b.HasOne("Model.Group", "Group")
-                        .WithMany()
+                        .WithMany("VolunteersGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -382,7 +382,7 @@ namespace Task.API.Migrations
             modelBuilder.Entity("Model.TaskSkill", b =>
                 {
                     b.HasOne("Model.Skill", "Skill")
-                        .WithMany("TasksSkills")
+                        .WithMany()
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

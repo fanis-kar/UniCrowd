@@ -18,6 +18,7 @@ namespace UniversityWebApplication.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Το πεδίο απαιτείται!")]
+        [Range(1, 100, ErrorMessage = "Παρακαλώ εισάγετε μια τιμή μεταξύ {1} και {2}.")]
         [Display(Name = "Απαιτούμενος αριθμός εθελοντών")]
         public int VolunteerNumber { get; set; }
 

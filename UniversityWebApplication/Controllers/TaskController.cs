@@ -52,6 +52,16 @@ namespace UniversityWebApplication.Controllers
             return View(tasks);
         }
 
+        // ~/Task/University/{id}
+        public async Task<IActionResult> University(int id)
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            var tasks = await _taskApi.GetTasksByUniversityId(id, HttpContext.Session.GetString("jwtToken"));
+            return View(tasks);
+        }
+
         // ~/Task/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
@@ -80,16 +90,6 @@ namespace UniversityWebApplication.Controllers
             };
 
             return View(taskDetailsViewModel);
-        }
-
-        // ~/Task/University/{id}
-        public async Task<IActionResult> University(int id)
-        {
-            if (!await IsLoggedInAsync())
-                return RedirectToAction("Login", "Account");
-
-            var tasks = await _taskApi.GetTasksByUniversityId(id, HttpContext.Session.GetString("jwtToken"));
-            return View(tasks);
         }
 
         //GET: ~/Task/New
@@ -208,12 +208,6 @@ namespace UniversityWebApplication.Controllers
             }
 
             Tasks taskInDb = await _taskApi.GetTask(taskVM.Id, HttpContext.Session.GetString("jwtToken"));
-
-            if (taskInDb == null || taskInDb.UniversityId != int.Parse(HttpContext.Session.GetString("universityId")))
-            {
-                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά την ενημέρωση του Task.";
-                return RedirectToAction("Index", "Home");
-            }
 
             if(!CheckUpdatedStatus(taskInDb.StatusId, taskVM.StatusId))
             {

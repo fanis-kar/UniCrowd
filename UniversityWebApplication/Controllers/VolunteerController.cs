@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UniversityWebApplication.ApiCollection.Interfaces;
+using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
@@ -38,7 +39,19 @@ namespace UniversityWebApplication.Controllers
 
             var volunteerInfo = await _volunteerApi.GetVolunteer(id, HttpContext.Session.GetString("jwtToken"));
 
-            return View(volunteerInfo);
+            VolunteerDetailsViewModel volunteerDetailsViewModel = new VolunteerDetailsViewModel()
+            {
+                Id = volunteerInfo.Id,
+                FirstName = volunteerInfo.FirstName,
+                LastName = volunteerInfo.LastName,
+                FatherName = volunteerInfo.FatherName,
+                Phone = volunteerInfo.Phone,
+                Address = volunteerInfo.Address,
+                Stars = volunteerInfo.Stars
+            };
+
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+            return View(volunteerDetailsViewModel);
         }
 
         //----------------------------------------------------------------------------------------//
