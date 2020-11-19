@@ -73,6 +73,23 @@
     </div>
 </div>
 
+@{
+    if (Model.Groups.Count() > 0)
+    {
+        <hr class="basic" />
+
+        <h2>Groups:</h2>
+        <ul>
+            @foreach (var item in Model.Groups)
+            {
+                <li>
+                    <a class="nav-link text-light" asp-area="" asp-controller="Group" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+                </li>
+            }
+        </ul>
+    }
+}
+
 @Html.HiddenFor(m => m.Id)
 <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
 

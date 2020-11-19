@@ -13,11 +13,13 @@ namespace UniversityWebApplication.Controllers
     {
         private readonly IAuthenticationApi _authenticationApi;
         private readonly IVolunteerApi _volunteerApi;
+        private readonly IGroupApi _groupApi;
 
-        public VolunteerController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi)
+        public VolunteerController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi, IGroupApi groupApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _volunteerApi = volunteerApi ?? throw new ArgumentNullException(nameof(volunteerApi));
+            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
         }
 
         // ~/Volunteer
@@ -38,6 +40,7 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var volunteerInfo = await _volunteerApi.GetVolunteer(id, HttpContext.Session.GetString("jwtToken"));
+            var volunteerGroups = await _groupApi.GetVolunteerGroups(id, HttpContext.Session.GetString("jwtToken"));
 
             string volunteerStars = volunteerInfo.Stars.ToString();
 
@@ -54,7 +57,8 @@ namespace UniversityWebApplication.Controllers
                 FatherName = volunteerInfo.FatherName,
                 Phone = volunteerInfo.Phone,
                 Address = volunteerInfo.Address,
-                Stars = volunteerStars
+                Stars = volunteerStars,
+                Groups = volunteerGroups
             };
 
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");

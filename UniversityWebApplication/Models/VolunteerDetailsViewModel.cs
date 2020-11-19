@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,5 +23,7 @@ namespace UniversityWebApplication.Models
         public string Stars { get; set; }
 
         public IEnumerable<int> Skills { get; set; }
+
+        public IEnumerable<Group> Groups { get; set; }
     }
 }

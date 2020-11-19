@@ -10,6 +10,8 @@ namespace UniversityWebApplication.ApiCollection.Interfaces
     {
         Task<List<Group>> GetGroups(string jwtToken);
 
+        Task<List<Group>> GetVolunteerGroups(int volunteerId, string jwtToken);
+
         Task<Group> GetGroup(int groupId, string jwtToken);
 
         Task<string> AddGroup(Group group, string jwtToken);

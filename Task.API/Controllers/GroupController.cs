@@ -31,6 +31,13 @@ namespace Task.API.Controllers
             return _groupRepository.GetGroups().ToList();
         }
 
+        // GET  api/Group/Volunteer/{id}
+        [HttpGet("Volunteer/{id}")]
+        public ActionResult<IEnumerable<Group>> GetVolunteerGroups([FromRoute] int id)
+        {
+            return _groupRepository.GetVolunteerGroups(id).ToList();
+        }
+
         // GET api/Group/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Group> GetGroup(int id)

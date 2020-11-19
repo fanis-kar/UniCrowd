@@ -14,21 +14,15 @@ namespace UniversityWebApplication.Controllers
     public class TaskController : Controller
     {
         private readonly IAuthenticationApi _authenticationApi;
-        private readonly IUniversityApi _universityApi;
         private readonly IVolunteerApi _volunteerApi;
         private readonly ITaskApi _taskApi;
-        private readonly IGroupApi _groupApi;
-        private readonly ISkillApi _skillApi;
         private readonly IStatusApi _statusApi;
 
-        public TaskController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, IVolunteerApi volunteerApi, ITaskApi taskApi, IGroupApi groupApi, ISkillApi skillApi, IStatusApi statusApi)
+        public TaskController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi, ITaskApi taskApi, IStatusApi statusApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
-            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
             _volunteerApi = volunteerApi ?? throw new ArgumentNullException(nameof(volunteerApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
-            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
-            _skillApi = skillApi ?? throw new ArgumentNullException(nameof(skillApi));
             _statusApi = statusApi ?? throw new ArgumentNullException(nameof(statusApi));
         }
 

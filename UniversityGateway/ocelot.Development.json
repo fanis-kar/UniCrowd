@@ -425,6 +425,22 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/Group/Volunteer/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Group/Volunteer/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Group/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

@@ -19,8 +19,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Volunteer>> GetVolunteers(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Volunteer")
@@ -33,8 +35,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Volunteer> GetVolunteer(int volunteerId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Volunteer")

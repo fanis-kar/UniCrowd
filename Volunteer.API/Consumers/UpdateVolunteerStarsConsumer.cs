@@ -8,11 +8,11 @@ using Volunteer.API.Data;
 
 namespace Volunteer.API.Consumers
 {
-    public class UpdateVolunteerConsumer : IConsumer<UpdateVolunteerStars>
+    public class UpdateVolunteerStarsConsumer : IConsumer<UpdateVolunteerStars>
     {
         private readonly ApplicationDbContext _context;
 
-        public UpdateVolunteerConsumer(ApplicationDbContext context)
+        public UpdateVolunteerStarsConsumer(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -20,10 +20,12 @@ namespace Volunteer.API.Consumers
         public async Task Consume(ConsumeContext<UpdateVolunteerStars> context)
         {
             var data = context.Message;
-            System.Diagnostics.Debug.WriteLine(data.VolunteerId + " " + data.Stars);
             Model.Volunteer volunteerInDb = _context.Volunteers.Where(v => v.Id == data.VolunteerId).FirstOrDefault();
 
-            if(volunteerInDb != null)
+            System.Diagnostics.Debug.WriteLine("======UpdateVolunteerStarsConsumer======");
+            System.Diagnostics.Debug.WriteLine("VolunteerId: " + data.VolunteerId + " Stars: " + data.Stars);
+
+            if (volunteerInDb != null)
             {
                 volunteerInDb.Stars = data.Stars;
 

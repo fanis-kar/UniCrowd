@@ -21,8 +21,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<University>> GetUniversities(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/University")
@@ -35,8 +37,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<University> GetUniversity(int universityId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/University")
@@ -50,8 +54,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<University> GetUniversityByUserId(int userId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/University/User")
@@ -67,8 +73,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Faculty> GetFaculty(int facultyId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Faculty")
@@ -84,8 +92,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Department> GetDepartment(int departmentId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Department")

@@ -19,8 +19,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Skill>> GetSkills(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Skill")
@@ -33,8 +35,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Skill> GetSkill(int skillId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Skill")
@@ -48,8 +52,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Skill>> GetVolunteerSkills(int volunteerId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Skill/Volunteer")

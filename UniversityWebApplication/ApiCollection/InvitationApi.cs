@@ -21,8 +21,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Invitation>> GetInvitations(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Invitation")
@@ -35,8 +37,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Invitation>> GetInvitationsByTaskId(int taskId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Invitation/Task")
@@ -50,8 +54,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Invitation> GetInvitation(int invitationId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Invitation")
@@ -65,8 +71,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<string> AddInvitation(Invitation invitation, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Invitation")
@@ -82,8 +90,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<string> UpdateInvitation(Invitation invitation, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Invitation/Update")

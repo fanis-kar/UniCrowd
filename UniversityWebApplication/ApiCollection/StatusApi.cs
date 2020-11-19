@@ -19,8 +19,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Status>> GetStatuses(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Status")
@@ -33,8 +35,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<Status> GetStatus(int statusId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Status")

@@ -10,6 +10,8 @@ namespace Task.API.Repositories.Interfaces
     {
         IEnumerable<Group> GetGroups();
 
+        IEnumerable<Group> GetVolunteerGroups(int volunteerId);
+
         Group GetGroup(int groupId);
 
         void AddGroup(Group group);

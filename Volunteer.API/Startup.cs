@@ -51,9 +51,11 @@ namespace Volunteer.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservice: Volunteer", Version = "v1" });
             });
 
+            //=========================================================//
+
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<UpdateVolunteerConsumer>();
+                x.AddConsumer<UpdateVolunteerStarsConsumer>();
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.UseHealthCheck(provider);
@@ -66,11 +68,13 @@ namespace Volunteer.API
                     {
                         ep.PrefetchCount = 16;
                         ep.UseMessageRetry(r => r.Interval(2, 100));
-                        ep.ConfigureConsumer<UpdateVolunteerConsumer>(provider);
+                        ep.ConfigureConsumer<UpdateVolunteerStarsConsumer>(provider);
                     });
                 }));
             });
             services.AddMassTransitHostedService();
+
+            //=========================================================//
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

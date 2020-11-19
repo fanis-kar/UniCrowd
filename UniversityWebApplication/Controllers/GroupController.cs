@@ -22,7 +22,7 @@ namespace UniversityWebApplication.Controllers
         private readonly IInvitationApi _invitationApi;
         private readonly ISkillApi _skillApi;
 
-        public GroupController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, IVolunteerApi volunteerApi, IGroupApi groupApi, ISkillApi skillApi, IStatusApi statusApi, ITaskApi taskApi, IInvitationApi invitationApi)
+        public GroupController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, IVolunteerApi volunteerApi, IGroupApi groupApi, ISkillApi skillApi, ITaskApi taskApi, IInvitationApi invitationApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));

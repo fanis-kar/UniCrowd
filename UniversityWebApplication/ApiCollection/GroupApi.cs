@@ -21,8 +21,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<List<Group>> GetGroups(string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Group")
@@ -33,10 +35,29 @@ namespace UniversityWebApplication.ApiCollection
             return await SendRequest<List<Group>>(message);
         }
 
+        public async Task<List<Group>> GetVolunteerGroups(int volunteerId, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Group/Volunteer")
+                           .AddToPath(volunteerId.ToString())
+                           .HttpMethod(HttpMethod.Get)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            return await SendRequest<List<Group>>(message);
+        }
+
         public async Task<Group> GetGroup(int groupId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Group")
@@ -50,8 +71,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<string> AddGroup(Group group, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Group")
@@ -67,8 +90,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<string> UpdateGroup(Group group, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Group/Update")

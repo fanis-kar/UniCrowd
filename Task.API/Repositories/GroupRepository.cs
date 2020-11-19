@@ -32,6 +32,17 @@ namespace Task.API.Repositories
                 .ToList();
         }
 
+        public IEnumerable<Group> GetVolunteerGroups(int volunteerId)
+        {
+            return _context
+                .VolunteersGroups
+                .Include(vg => vg.Group)
+                .ThenInclude(vg => vg.Task)
+                .Where(vg => vg.VolunteerId == volunteerId)
+                .Select(vg => vg.Group)
+                .ToList();
+        }
+
         public Group GetGroup(int groupId)
         {
             return _context

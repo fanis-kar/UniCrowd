@@ -35,8 +35,10 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<User> GetUser(int userId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-            authorization.Add("Authorization", "Bearer " + jwtToken);
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
 
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Authentication")
@@ -50,8 +52,6 @@ namespace UniversityWebApplication.ApiCollection
 
         public async Task<string> ValidateUserAsync(int userId, string jwtToken)
         {
-            NameValueCollection authorization = new NameValueCollection();
-
             var message = new HttpRequestBuilder("https://localhost:44378")
                            .SetPath("/Authentication/Validate/" + userId.ToString() + "/" + jwtToken.ToString())
                            .HttpMethod(HttpMethod.Get)
