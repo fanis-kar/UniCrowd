@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenPipes;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Middleware;
+using Volunteer.API.Consumers;
 using Volunteer.API.Data;
 using Volunteer.API.Repositories;
 using Volunteer.API.Repositories.Interfaces;
@@ -47,6 +50,27 @@ namespace Volunteer.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservice: Volunteer", Version = "v1" });
             });
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<UpdateVolunteerConsumer>();
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.UseHealthCheck(provider);
+                    cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    cfg.ReceiveEndpoint("updateVolunteerStarsQueue", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(r => r.Interval(2, 100));
+                        ep.ConfigureConsumer<UpdateVolunteerConsumer>(provider);
+                    });
+                }));
+            });
+            services.AddMassTransitHostedService();
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

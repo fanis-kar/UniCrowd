@@ -17,7 +17,7 @@ namespace UniversityWebApplication.Models
 
         [Range(0, 5, ErrorMessage = "Παρακαλώ εισάγετε μια τιμή μεταξύ {1} και {2}.")]
         [Display(Name = "Αστέρια")]
-        public int Stars { get; set; }
+        public int? Stars { get; set; }
 
         [Display(Name = "Προσκλήσεις")]
         public List<InvitationsListViewModel> Invitations { get; set; }

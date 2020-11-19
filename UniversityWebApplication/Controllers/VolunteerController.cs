@@ -39,6 +39,13 @@ namespace UniversityWebApplication.Controllers
 
             var volunteerInfo = await _volunteerApi.GetVolunteer(id, HttpContext.Session.GetString("jwtToken"));
 
+            string volunteerStars = volunteerInfo.Stars.ToString();
+
+            if (volunteerStars == null || volunteerStars == "")
+            {
+                volunteerStars = "Δεν έχει βαθμολογηθεί ακόμα";
+            }
+           
             VolunteerDetailsViewModel volunteerDetailsViewModel = new VolunteerDetailsViewModel()
             {
                 Id = volunteerInfo.Id,
@@ -47,7 +54,7 @@ namespace UniversityWebApplication.Controllers
                 FatherName = volunteerInfo.FatherName,
                 Phone = volunteerInfo.Phone,
                 Address = volunteerInfo.Address,
-                Stars = volunteerInfo.Stars
+                Stars = volunteerStars
             };
 
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");

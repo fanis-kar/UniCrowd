@@ -19,7 +19,7 @@ namespace UniversityWebApplication.Models
 
         public string Address { get; set; }
 
-        public float Stars { get; set; }
+        public string Stars { get; set; }
 
         public IEnumerable<int> Skills { get; set; }
     }

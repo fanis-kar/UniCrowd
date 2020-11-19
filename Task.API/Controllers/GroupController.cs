@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -18,9 +19,9 @@ namespace Task.API.Controllers
     {
         private readonly IGroupRepository _groupRepository;
 
-        public GroupController(ApplicationDbContext context)
+        public GroupController(ApplicationDbContext context, IBus bus)
         {
-            _groupRepository = new GroupRepository(context);
+            _groupRepository = new GroupRepository(context, bus);
         }
 
         // GET api/Group
@@ -51,7 +52,7 @@ namespace Task.API.Controllers
         [Route("Update")]
         public IActionResult UpdateGroup([FromBody] Group group)
         {
-            _groupRepository.UpdateGroup(group);
+            _groupRepository.UpdateGroupAsync(group);
 
             return new OkResult();
         }

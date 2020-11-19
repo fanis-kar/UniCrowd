@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace Task.API.Repositories
     public class GroupRepository : IGroupRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBus _bus;
 
-        public GroupRepository(ApplicationDbContext context)
+        public GroupRepository(ApplicationDbContext context, IBus bus)
         {
             _context = context;
+            _bus = bus;
         }
 
         public IEnumerable<Group> GetGroups()
@@ -45,7 +49,7 @@ namespace Task.API.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateGroup(Group group)
+        public async System.Threading.Tasks.Task UpdateGroupAsync(Group group)
         {
             var groupInDb = _context
                 .Groups
@@ -68,7 +72,49 @@ namespace Task.API.Repositories
             groupInDb.Stars = group.Stars;
             groupInDb.VolunteersGroups = group.VolunteersGroups;
 
+            //--------------------------------------------//
+
+            var oldStars = groupInDb.Stars;
+            var newStars = group.Stars;
+
             _context.SaveChanges();
+
+            //--------------------------------------------//
+
+            foreach(var volunteer in groupInDb.VolunteersGroups)
+            {
+                List<Group> volunteerGroups = _context.VolunteersGroups.Where(vg => vg.VolunteerId == volunteer.VolunteerId).Select(g => g.Group).ToList();
+
+                var sum = 0;
+                var count = 0;
+                var stars = 0;
+
+                foreach(var groupTemp in volunteerGroups)
+                {
+                    sum = (int)(sum + groupTemp.Stars);
+                    count++;
+                }
+
+                if (count > 0)
+                    stars = sum / count;
+
+
+                _ = System.Threading.Tasks.Task.Run(async () => await SendVolunteerStarsAsync(volunteer.VolunteerId, stars));
+            }
+   
+        }
+
+        private async System.Threading.Tasks.Task SendVolunteerStarsAsync(int volunteerId, float stars)
+        {
+            UpdateVolunteerStars updateVolunteerStars = new UpdateVolunteerStars()
+            {
+                VolunteerId = volunteerId,
+                Stars = stars
+            };
+
+            Uri uri = new Uri("rabbitmq://localhost/updateVolunteerStarsQueue");
+            var endPoint = await _bus.GetSendEndpoint(uri);
+            await endPoint.Send(updateVolunteerStars);
         }
     }
 }

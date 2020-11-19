@@ -14,6 +14,6 @@ namespace Task.API.Repositories.Interfaces
 
         void AddGroup(Group group);
 
-        void UpdateGroup(Group group);
+        System.Threading.Tasks.Task UpdateGroupAsync(Group group);
     }
 }

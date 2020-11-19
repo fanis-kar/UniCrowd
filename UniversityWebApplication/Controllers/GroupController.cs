@@ -108,6 +108,11 @@ namespace UniversityWebApplication.Controllers
             {
                 Volunteer volunteer = await _volunteerApi.GetVolunteer(invitation.VolunteerId, HttpContext.Session.GetString("jwtToken"));
 
+                if(invitation.Decision == null)
+                {
+                    invitation.Decision = false;
+                }
+
                 invitationsListViewModels.Add(new InvitationsListViewModel { InvitationId = invitation.Id, VolunteerId = volunteer.Id, FullName = volunteer.FullName, SkillsHave = await GetSkillsHaveAsync(taskInfo.Id, volunteer.Id), SkillsRequired = await GetSkillsRequiredAsync(taskInfo.Id), Date = invitation.Created, Response = (bool)invitation.Decision });
             }
 

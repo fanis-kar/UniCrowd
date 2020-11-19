@@ -27,7 +27,7 @@ namespace Model
         public string Address { get; set; }
 
         [Display(Name = "Αστέρια")]
-        public float Stars { get; set; }
+        public float? Stars { get; set; }
 
         [Display(Name = "Λογαριασμός")]
         public int AccountId { get; set; } // Authentication.API - User[id]
