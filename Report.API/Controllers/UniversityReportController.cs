@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Report;
+using Report.API.Repositories;
 using Report.API.Repositories.Interfaces;
 
 namespace Report.API.Controllers
@@ -29,7 +30,7 @@ namespace Report.API.Controllers
         }
 
         // GET ~/api/UniversityReport/{id}
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:length(24)}")]
         public ActionResult<UniversityReport> GetUniversityReport(string id)
         {
             return _universityReportRepository.GetUniversityReport(id);
