@@ -41,6 +41,7 @@ namespace Report.API
 
             #region Project Dependencies
             services.AddTransient<IUniversityReportRepository, UniversityReportRepository>();
+            services.AddTransient<IVolunteerReportRepository, VolunteerReportRepository>();
             #endregion
 
             //=========================================================//

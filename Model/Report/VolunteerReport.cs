@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Model.Report
 {
-    public class UniversityReport
+    public class VolunteerReport
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
