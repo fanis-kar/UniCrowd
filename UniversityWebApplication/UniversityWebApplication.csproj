@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApiCollection\ApiCollection.csproj" />
     <ProjectReference Include="..\Middleware\Middleware.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>

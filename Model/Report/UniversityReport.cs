@@ -17,6 +17,8 @@ namespace Model.Report
 
         public string Content { get; set; }
 
+        public DateTime Created { get; set; }
+
         public int TaskId { get; set; }   // Task.API - Tasks[id]
     }
 }

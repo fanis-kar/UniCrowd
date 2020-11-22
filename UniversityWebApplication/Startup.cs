@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using UniversityWebApplication.ApiCollection;
-using UniversityWebApplication.ApiCollection.Infrastructure;
-using UniversityWebApplication.ApiCollection.Interfaces;
+using ApiCollection;
+using ApiCollection.Infrastructure;
+using ApiCollection.Interfaces;
 
 namespace UniversityWebApplication
 {
@@ -37,6 +37,8 @@ namespace UniversityWebApplication
             services.AddTransient<ISkillApi, SkillApi>();
             services.AddTransient<IStatusApi, StatusApi>();
             services.AddTransient<IInvitationApi, InvitationApi>();
+            services.AddTransient<IUniversityReportApi, UniversityReportApi>();
+            services.AddTransient<IVolunteerReportApi, VolunteerReportApi>();
             #endregion
 
             services.AddDistributedMemoryCache();

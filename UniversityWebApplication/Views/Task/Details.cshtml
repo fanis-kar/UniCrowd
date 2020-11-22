@@ -119,12 +119,25 @@
     </div>
 </div>
 
-@{
+@*@{
     if (Model.Task.Invitations != null)
     {
         <div class="form-group row">
             <div class="col-4">
-                <a asp-controller="Invitation" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Προσκλήσεων</a>
+                <a asp-controller="Group" asp-action="Manage" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Προσκλήσεων</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+    }
+}*@
+
+@{
+    if (Model.Task.Group != null)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="Group" asp-action="Details" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Group</a>
             </div>
             <div class="col-8">
             </div>
@@ -133,11 +146,19 @@
 }
 
 @{
-    if (Model.Task.Group != null)
+    @if (Model.Task.StatusId == 2 || Model.Task.StatusId == 3 || Model.Task.StatusId == 4)
     {
         <div class="form-group row">
             <div class="col-4">
-                <a asp-controller="Group" asp-action="Details" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Group</a>
+                <a asp-controller="UniversityReport" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Reports (Πανεπιστημίων)</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="VolunteerReport" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Reports (Εθελοντών)</a>
             </div>
             <div class="col-8">
             </div>

@@ -21,6 +21,7 @@ namespace UniversityWebApplication.Models
         public int SkillsRequired { get; set; }
 
         [Display(Name = "Ημερομηνία")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Απάντηση")]

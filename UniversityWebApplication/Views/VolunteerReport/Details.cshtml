@@ -1,0 +1,67 @@
+﻿@model VolunteerReportDetailsViewModel
+
+@{
+    ViewData["Title"] = "Λεπτομέρειες Report";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-4">
+        <h1>Λεπτομέρειες Report</h1>
+    </div>
+
+    <div class="col-8">
+    </div>
+</div>
+
+<hr class="basic" />
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Title"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Title" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Content"></label>
+    </div>
+    <div class="col-8">
+        <textarea asp-for="Content" class="form-control" disabled>@Model.Content</textarea>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Created"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Created" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <a asp-controller="Task" asp-action="Details" asp-route-id="@Model.TaskId" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Task</a>
+    </div>
+    <div class="col-8">
+    </div>
+</div>
+
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        <script>
+            $(document).ready(function () {
+            });
+        </script>
+    }
+}

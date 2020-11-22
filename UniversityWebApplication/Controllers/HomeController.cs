@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Model;
-using UniversityWebApplication.ApiCollection.Interfaces;
+using ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers

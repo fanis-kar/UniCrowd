@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Model.Task;
-using UniversityWebApplication.ApiCollection;
-using UniversityWebApplication.ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
+using ApiCollection.Interfaces;
 
 namespace UniversityWebApplication.Controllers
 {
