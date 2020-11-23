@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ApiCollection.Interfaces;
+using UniversityApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 using System.Net.Http.Formatting;
 using System.Collections;

@@ -12,6 +12,8 @@ namespace Volunteer.API.Repositories.Interfaces
 
         Model.Volunteer GetVolunteer(int volunteerId);
 
+        Model.Volunteer GetVolunteerByUserId(int volunteerId);
+
         void AddVolunteer(Model.Volunteer volunteer);
 
         void UpdateVolunteer(Model.Volunteer volunteer);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ApiCollection.Interfaces;
+using UniversityApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers

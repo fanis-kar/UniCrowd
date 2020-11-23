@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Model;
-using ApiCollection.Interfaces;
+using UniversityApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
@@ -16,14 +16,10 @@ namespace UniversityWebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly IAuthenticationApi _authenticationApi;
-        private readonly IUniversityApi _universityApi;
-        private readonly ITaskApi _taskApi;
 
-        public HomeController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, ITaskApi taskApi)
+        public HomeController(IAuthenticationApi authenticationApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
-            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
-            _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -55,9 +51,11 @@ namespace UniversityWebApplication.Controllers
         public async Task<bool> IsLoggedInAsync()
         {
             var userId = HttpContext.Session.GetString("userId");
+            var username = HttpContext.Session.GetString("username");
+            var universityId = HttpContext.Session.GetString("universityId");
             var jwtToken = HttpContext.Session.GetString("jwtToken");
 
-            if (userId == null || jwtToken == null)
+            if (userId == null || username == null || universityId == null || jwtToken == null)
             {
                 return false;
             }

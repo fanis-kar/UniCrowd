@@ -1,0 +1,206 @@
+﻿@import "variables.css";
+
+/* -------------------------------------------------- */
+
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
+}
+
+body {
+    color: var(--main-white-color);
+    background: var(--main-background-color) !important;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 60px;
+}
+
+.main-body {
+    background-color: var(--dark-background-color);
+    color: var(--main-white-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* -------------------------------------------------- */
+
+::-moz-selection {
+    /* Code for Firefox */
+    background: var(--main-border-color);
+    color: var(--dark-background-color);
+}
+
+::selection {
+    background: var(--main-border-color);
+    color: var(--dark-background-color);
+}
+
+/* -------------------------------------------------- */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+.navbar-logo {
+    width: 150px;
+    height: 40px;
+    padding-bottom: 8px;
+    padding-top: 0px;
+}
+
+a {
+    color: var(--main-border-color);
+}
+
+a:hover {
+    color: var(--main-white-color);
+}
+
+hr.basic {
+    background-color: var(--main-border-color);
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: var(--main-white-color);
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.text-basic {
+    color: var(--main-border-color);
+}
+
+.field-validation-error {
+    color: var(--main-border-color);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* -------------------------------------------------- */
+/* For main menu (~Home/Index) */
+
+.center-block {
+    display: block;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.main-menu {
+    width: 70%;
+}
+
+/* -------------------------------------------------- */
+
+.btn-basic {
+    border-color: var(--main-border-color);
+    color: var(--main-border-color);
+    border-radius: 0px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.btn-basic:hover {
+    background-color: var(--main-border-color);
+    color: var(--dark-background-color);
+    right: 0px;
+}
+
+/* -------------------------------------------------- */
+
+.footer {
+    background-color: var(--dark-navbar-color);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+/* -------------------------------------------------- */
+
+/* Datatables */
+.datatable-table {
+    width: 100%;
+    background-color: var(--main-white-color);
+    color: #000000;
+}
+
+.page-item.active .page-link {
+    background-color: var(--dark-background-color);
+    border-color: var(--dark-background-color);
+    color: var(--main-white-color);
+}
+
+td a {
+    color: var(--main-background-color);
+}
+
+td a:hover {
+    color: var(--dark-background-color);
+}
+
+.btn-secondary {
+    background-color: var(--dark-background-color);
+    border-color: var(--main-border-color);
+    color: var(--main-border-color);
+    border-radius: 0px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.btn-secondary :hover {
+    background-color: var(--main-border-color) !important;
+    color: var(--dark-background-color) !important;
+    right: 0px;
+}
+
+.table-button-icon {
+    border-width: 2px;
+    border-color: var(--dark-background-color);
+    font-size: 10px;
+    padding: 8px;
+}
+
+/* -------------------------------------------------- */
+
+/* Cards */
+
+.card {
+    background-color: var(--main-background-color);
+}
+
+.page-link {
+    color: var(--dark-background-color);
+}
+
+.page-link:hover {
+    color: var(--dark-background-color);
+}
+
+.form-control:focus {
+    border-color: var(--main-border-color);
+}
+
+/* -------------------------------------------------- */
+
+/* Stars */
+
+.star-rating {
+    color: var(--main-orange-color);
+    text-shadow: 1px 1px 1px var(--main-border-color);
+}
+
+/* -------------------------------------------------- */
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}

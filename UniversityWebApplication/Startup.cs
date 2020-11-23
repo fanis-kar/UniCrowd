@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using ApiCollection;
-using ApiCollection.Infrastructure;
-using ApiCollection.Interfaces;
+using UniversityApiCollection;
+using UniversityApiCollection.Infrastructure;
+using UniversityApiCollection.Interfaces;
 
 namespace UniversityWebApplication
 {

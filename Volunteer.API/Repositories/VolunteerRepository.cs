@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,13 @@ namespace Volunteer.API.Repositories
         {
             return _context.Volunteers
                 .Where(v => v.Id == volunteerId)
+                .FirstOrDefault();
+        }
+
+        public Model.Volunteer GetVolunteerByUserId(int userId)
+        {
+            return _context.Volunteers
+                .Where(v => v.AccountId == userId)
                 .FirstOrDefault();
         }
 

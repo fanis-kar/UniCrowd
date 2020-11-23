@@ -12,7 +12,7 @@ namespace University.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class UniversityController : ControllerBase
     {
         private readonly IUniversityRepository _universityRepository;
@@ -36,7 +36,7 @@ namespace University.API.Controllers
             return _universityRepository.GetUniversity(id);
         }
 
-        // GET 
+        // GET api/University/User/{id}
         [HttpGet("User/{id}")]
         public ActionResult<Model.University> GetUniversityByUserId([FromRoute] int id)
         {

@@ -1,0 +1,76 @@
+﻿@model VolunteerWebApplication.Models.LoginFormViewModel
+
+@{
+    ViewData["Title"] = "Είσοδος";
+    Layout = "_EmptyLayout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12">
+                <img src="~/images/unicrowd-logo.png" class="logo" />
+            </div>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form asp-controller="Account" asp-action="Login">
+                        <div asp-validation-summary="ModelOnly" class="validation-text"></div>
+
+                        <div class="form-group">
+                            <label asp-for="Username" class="form-control-label">USERNAME</label>
+                            <input asp-for="Username" type="text" class="form-control" id="username" autocomplete="new-password">
+                            <span asp-validation-for="Username" class="validation-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="form-control-label">PASSWORD</label>
+                            <input asp-for="Password" type="password" class="form-control" id="password" autocomplete="new-password">
+                            <span asp-validation-for="Password" class="validation-text"></span>
+                        </div>
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="col-12 loginbttm">
+                            <div class="col-12 login-btm login-button">
+                                <button type="submit" class="btn btn-outline-primary">Είσοδος</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationLayout");
+
+        <script>
+
+            $(document).ready(function () {
+            });
+        </script>
+    }
+}

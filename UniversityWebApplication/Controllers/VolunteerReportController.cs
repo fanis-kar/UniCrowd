@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
-using ApiCollection;
-using ApiCollection.Interfaces;
+using UniversityApiCollection;
+using UniversityApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 using Model.Report;
 

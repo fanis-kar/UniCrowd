@@ -14,7 +14,7 @@ namespace University.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class FacultyController : ControllerBase
     {
         private readonly IFacultyRepository _facultyRepository;

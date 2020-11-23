@@ -12,7 +12,7 @@ namespace Volunteer.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class VolunteerController : ControllerBase
     {
         private readonly IVolunteerRepository _volunteerRepository;
@@ -22,18 +22,25 @@ namespace Volunteer.API.Controllers
             _volunteerRepository = new VolunteerRepository(context);
         }
 
-        // GET api/Volunteer
+        // GET ~/api/Volunteer
         [HttpGet]
         public ActionResult<IEnumerable<Model.Volunteer>> GetVolunteers()
         {
             return _volunteerRepository.GetVolunteers().ToList();
         }
 
-        // GET api/Volunteer/{id}
+        // GET ~/api/Volunteer/{id}
         [HttpGet("{id:int}")]
         public ActionResult<Model.Volunteer> GetVolunteer(int id)
         {
             return _volunteerRepository.GetVolunteer(id);
+        }
+
+        // GET ~/api/Volunteer/User/{id}
+        [HttpGet("User/{id}")]
+        public ActionResult<Model.Volunteer> GetVolunteerByUserId([FromRoute] int id)
+        {
+            return _volunteerRepository.GetVolunteerByUserId(id);
         }
     }
 }
