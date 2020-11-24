@@ -1,4 +1,4 @@
-﻿using VolunteerApiCollection.Interfaces;
+﻿using ApiCollection.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -57,7 +57,7 @@ namespace VolunteerWebApplication.Controllers
                 Password = model.Password
             };
 
-            string response = await _authenticationApi.Login(user);
+            string response = await _authenticationApi.VolunteerLogin(user);
 
             try
             {

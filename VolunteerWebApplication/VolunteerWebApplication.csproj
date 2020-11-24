@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Middleware\Middleware.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
-    <ProjectReference Include="..\VolunteerApiCollection\VolunteerApiCollection.csproj" />
+    <ProjectReference Include="..\ApiCollection\ApiCollection.csproj" />
   </ItemGroup>
 
 </Project>

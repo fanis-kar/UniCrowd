@@ -1,4 +1,4 @@
-﻿using VolunteerApiCollection.Interfaces;
+﻿using ApiCollection.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

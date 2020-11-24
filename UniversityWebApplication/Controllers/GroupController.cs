@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using Model.Task;
 using UniversityWebApplication.Models;
-using UniversityApiCollection.Interfaces;
+using ApiCollection.Interfaces;
 
 namespace UniversityWebApplication.Controllers
 {
