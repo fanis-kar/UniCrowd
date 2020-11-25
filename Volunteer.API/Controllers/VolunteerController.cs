@@ -42,5 +42,15 @@ namespace Volunteer.API.Controllers
         {
             return _volunteerRepository.GetVolunteerByUserId(id);
         }
+
+        // POST ~/api/Volunteer
+        [HttpPost]
+        [Route("Update")]
+        public IActionResult UpdateVolunteer([FromBody] Model.Volunteer volunteer)
+        {
+            _volunteerRepository.UpdateVolunteer(volunteer);
+
+            return new OkResult();
+        }
     }
 }

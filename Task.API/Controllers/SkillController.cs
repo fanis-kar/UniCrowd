@@ -13,7 +13,7 @@ namespace Task.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class SkillController : ControllerBase
     {
         private readonly ISkillRepository _skillRepository;
@@ -42,6 +42,16 @@ namespace Task.API.Controllers
         public ActionResult<IEnumerable<Skill>> GetVolunteerSkills([FromRoute] int id)
         {
             return _skillRepository.GetVolunteerSkills(id).ToList();
+        }
+
+        [HttpPost]
+        [Route("Volunteer/Update/{id}")]
+        [Authorize(Roles = "Volunteer")]
+        public IActionResult UpdateVolunteerSkills([FromRoute] int id, [FromBody] List<int> skills)
+        {
+            _skillRepository.UpdateVolunteerSkills(id, skills);
+
+            return new OkResult();
         }
     }
 }

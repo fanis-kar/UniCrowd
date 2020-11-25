@@ -13,5 +13,7 @@ namespace ApiCollection.Interfaces
         Task<Skill> GetSkill(int skillId, string jwtToken);
 
         Task<List<Skill>> GetVolunteerSkills(int volunteerId, string jwtToken);
+
+        Task<string> UpdateVolunteerSkills(int volunteerId, List<int> skills, string jwtToken);
     }
 }

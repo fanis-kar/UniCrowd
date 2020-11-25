@@ -40,5 +40,32 @@ namespace Task.API.Repositories
                 .Select(s => s.Skill)
                 .ToList();
         }
+
+        public void UpdateVolunteerSkills(int volunteerId, List<int> skills)
+        {
+            var volunteerSkillsToDelete = _context
+                .VolunteersSkills
+                .Where(vs => vs.VolunteerId == volunteerId)
+                .ToList();
+
+            _context.RemoveRange(volunteerSkillsToDelete);
+            _context.SaveChanges();
+
+            //--------------------------------------------//
+
+            foreach(var skill in skills)
+            {
+                VolunteerSkill volunteerSkill = new VolunteerSkill()
+                {
+                    VolunteerId = volunteerId,
+                    SkillId = skill
+                };
+
+                _context.VolunteersSkills.Add(volunteerSkill);
+                _context.SaveChanges();
+            }
+
+            //--------------------------------------------//
+        }
     }
 }

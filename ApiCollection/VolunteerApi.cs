@@ -1,11 +1,13 @@
 ﻿using ApiCollection.Infrastructure;
 using ApiCollection.Interfaces;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ApiCollection
@@ -65,6 +67,25 @@ namespace ApiCollection
                            .GetHttpMessage();
 
             return await SendRequest<Volunteer>(message);
+        }
+
+        public async Task<string> UpdateVolunteer(Volunteer volunteer, string jwtToken)
+        {
+            NameValueCollection authorization = new NameValueCollection
+            {
+                { "Authorization", "Bearer " + jwtToken }
+            };
+
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Volunteer/Update")
+                           .HttpMethod(HttpMethod.Post)
+                           .Headers(authorization)
+                           .GetHttpMessage();
+
+            var json = JsonConvert.SerializeObject(volunteer);
+            message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return await SendRequest(message);
         }
     }
 }

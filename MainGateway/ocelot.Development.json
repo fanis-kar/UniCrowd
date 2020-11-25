@@ -177,7 +177,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Volunteer",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [ "GET", "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -194,6 +194,22 @@
       ],
       "UpstreamPathTemplate": "/Volunteer/{id}",
       "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Volunteer/Update",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44399 // Volunteer.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Volunteer/Update",
+      "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -302,11 +318,27 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44382 // University.API SSL Port
+          "Port": 44347 // Task.API SSL Port
         }
       ],
       "UpstreamPathTemplate": "/Skill/Volunteer/{id}",
       "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Skill/Volunteer/Update/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44347 // Task.API SSL Port
+        }
+      ],
+      "UpstreamPathTemplate": "/Skill/Volunteer/Update/{id}",
+      "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []

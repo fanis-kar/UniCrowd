@@ -45,12 +45,8 @@ namespace Volunteer.API.Repositories
 
         public void UpdateVolunteer(Model.Volunteer volunteer)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteVolunteer(Model.Volunteer volunteer)
-        {
-            throw new NotImplementedException();
+            _context.Volunteers.Update(volunteer);
+            _context.SaveChanges();
         }
     }
 }

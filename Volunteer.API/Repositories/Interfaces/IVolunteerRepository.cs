@@ -17,7 +17,5 @@ namespace Volunteer.API.Repositories.Interfaces
         void AddVolunteer(Model.Volunteer volunteer);
 
         void UpdateVolunteer(Model.Volunteer volunteer);
-
-        void DeleteVolunteer(Model.Volunteer volunteer);
     }
 }

@@ -14,7 +14,7 @@ namespace Task.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
@@ -47,6 +47,7 @@ namespace Task.API.Controllers
 
         // POST api/Group
         [HttpPost]
+        [Authorize(Roles = "University")]
         public ActionResult AddGroup([FromBody] Group group)
         {
             _groupRepository.AddGroup(group);
@@ -57,6 +58,7 @@ namespace Task.API.Controllers
         // POST ~/api/Group/Update
         [HttpPost]
         [Route("Update")]
+        [Authorize(Roles = "University")]
         public IActionResult UpdateGroup([FromBody] Group group)
         {
             _groupRepository.UpdateGroupAsync(group);

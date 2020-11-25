@@ -1,0 +1,168 @@
+﻿@model UpdateVolunteerViewModel
+
+@{
+    ViewBag.Title = "Ενημέρωση του Προφίλ μου";
+    Layout = "_Layout";
+}
+
+<h1>Ενημέρωση του Προφίλ μου</h1>
+
+<hr class="basic" />
+
+<form asp-controller="Account" asp-action="Update">
+    <div asp-validation-summary="ModelOnly" class="text-basic"></div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="FirstName"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="LastName"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="FatherName"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="FatherName" class="form-control" />
+            <span asp-validation-for="FatherName" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Phone"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Address"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-basic"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-4">
+            <label asp-for="Skills"></label>
+        </div>
+
+        <div class="col-8">
+            <input type="text" asp-for="Skills" class="form-control" />
+            <span asp-validation-for="Skills" class="text-basic"></span>
+        </div>
+    </div>
+
+    <input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <div class="form-group row">
+        <div class="col-8 offset-4">
+            <button type="submit" class="btn btn-basic">Ενημέρωση</button>
+        </div>
+    </div>
+</form>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationLayout");
+        await Html.RenderPartialAsync("_TagInputLayout");
+
+        <script>
+            $(document).ready(function () {
+                var magicSuggestInstance = null;
+                var allSkills = null;
+                var skillsVolunteer = null;
+
+                GetAllSkills();
+                GetSkillsVolunteer();
+
+                function GetAllSkills() {
+                    $.ajax({
+                        url: "https://localhost:44378/Skill",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            allSkills = Object.values(data);
+
+                            PopulateAllSkillsSuggest();
+                        }
+                    });
+                }
+
+                function GetSkillsVolunteer() {
+                    var volunteerId = $("#Id").val();
+
+                    $.ajax({
+                        url: "https://localhost:44378/Skill/Volunteer/" + volunteerId,
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            skillsVolunteer = Object.values(data);
+
+                            PopulateSkillsVolunteerSuggest();
+                        }
+                    });
+                }
+
+                function PopulateAllSkillsSuggest() {
+                    magicSuggestInstance = $("#Skills").magicSuggest({
+                        placeholder: "",
+                        maxSelection: 10000,
+                        valueField: "id",
+                        data: allSkills
+                    });
+                }
+
+                function PopulateSkillsVolunteerSuggest() {
+                    try {
+                        magicSuggestInstance.setValue(skillsVolunteer);
+                    }
+                    catch (err) {
+                        GetSkillsVolunteer();
+                    }
+                }
+            });
+        </script>
+    }
+}

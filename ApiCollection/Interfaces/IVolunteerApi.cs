@@ -9,8 +9,11 @@ namespace ApiCollection.Interfaces
     public interface IVolunteerApi
     {
         Task<List<Volunteer>> GetVolunteers(string jwtToken);
+
         Task<Volunteer> GetVolunteer(int volunteerId, string jwtToken);
 
         Task<Volunteer> GetVolunteerByUserId(int userId, string jwtToken);
+
+        Task<string> UpdateVolunteer(Volunteer volunteer, string jwtToken);
     }
 }

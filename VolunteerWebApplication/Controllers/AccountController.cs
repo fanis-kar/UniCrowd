@@ -15,11 +15,15 @@ namespace VolunteerWebApplication.Controllers
     {
         private readonly IAuthenticationApi _authenticationApi;
         private readonly IVolunteerApi _volunteerApi;
+        private readonly ISkillApi _skillApi;
+        private readonly IGroupApi _groupApi;
 
-        public AccountController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi)
+        public AccountController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi, ISkillApi skillApi, IGroupApi groupApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _volunteerApi = volunteerApi ?? throw new ArgumentNullException(nameof(volunteerApi));
+            _skillApi = skillApi ?? throw new ArgumentNullException(nameof(skillApi));
+            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -28,8 +32,89 @@ namespace VolunteerWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var volunteerInfo = await _volunteerApi.GetVolunteer(int.Parse(HttpContext.Session.GetString("volunteerId")), HttpContext.Session.GetString("jwtToken"));
+            var volunteerGroups = await _groupApi.GetVolunteerGroups(volunteerInfo.Id, HttpContext.Session.GetString("jwtToken"));
 
-            return View(volunteerInfo);
+            string volunteerStars = volunteerInfo.Stars.ToString();
+
+            if (volunteerStars == null || volunteerStars == "")
+            {
+                volunteerStars = "Δεν έχω βαθμολογηθεί ακόμα";
+            }
+
+            VolunteerDetailsViewModel volunteerDetailsViewModel = new VolunteerDetailsViewModel()
+            {
+                Id = volunteerInfo.Id,
+                FirstName = volunteerInfo.FirstName,
+                LastName = volunteerInfo.LastName,
+                FatherName = volunteerInfo.FatherName,
+                Phone = volunteerInfo.Phone,
+                Address = volunteerInfo.Address,
+                Stars = volunteerStars,
+                Groups = volunteerGroups
+            };
+
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+            return View(volunteerDetailsViewModel);
+        }
+
+        public async Task<IActionResult> UpdateAsync()
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            var volunteerInfo = await _volunteerApi.GetVolunteer(int.Parse(HttpContext.Session.GetString("volunteerId")), HttpContext.Session.GetString("jwtToken"));
+
+            UpdateVolunteerViewModel updateVolunteerViewModel = new UpdateVolunteerViewModel()
+            {
+                Id = volunteerInfo.Id,
+                FirstName = volunteerInfo.FirstName,
+                LastName = volunteerInfo.LastName,
+                FatherName = volunteerInfo.FatherName,
+                Phone = volunteerInfo.Phone,
+                Address = volunteerInfo.Address
+            };
+
+            ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
+            return View(updateVolunteerViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAsync(UpdateVolunteerViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var volunteerInfo = await _volunteerApi.GetVolunteer(int.Parse(HttpContext.Session.GetString("volunteerId")), HttpContext.Session.GetString("jwtToken"));
+
+            if (volunteerInfo == null)
+            {
+                TempData["ErrorMessage"] = "Ο Εθελοντής δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            volunteerInfo.FirstName = model.FirstName;
+            volunteerInfo.LastName = model.LastName;
+            volunteerInfo.FatherName = model.FatherName;
+            volunteerInfo.Phone = model.Phone;
+            volunteerInfo.Address = model.Address;
+
+            try
+            {
+                await _volunteerApi.UpdateVolunteer(volunteerInfo, HttpContext.Session.GetString("jwtToken"));
+                await _skillApi.UpdateVolunteerSkills(volunteerInfo.Id, model.Skills.ToList(), HttpContext.Session.GetString("jwtToken"));
+            }
+            catch(Exception)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            TempData["SuccessMessage"] = "Το Προφίλ ενημερώθηκε με επιτυχία.";
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> LoginAsync()
