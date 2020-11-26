@@ -12,7 +12,6 @@ namespace Volunteer.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class VolunteerController : ControllerBase
     {
         private readonly IVolunteerRepository _volunteerRepository;
@@ -24,6 +23,7 @@ namespace Volunteer.API.Controllers
 
         // GET ~/api/Volunteer
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<Model.Volunteer>> GetVolunteers()
         {
             return _volunteerRepository.GetVolunteers().ToList();
@@ -31,6 +31,7 @@ namespace Volunteer.API.Controllers
 
         // GET ~/api/Volunteer/{id}
         [HttpGet("{id:int}")]
+        [Authorize]
         public ActionResult<Model.Volunteer> GetVolunteer(int id)
         {
             return _volunteerRepository.GetVolunteer(id);
@@ -38,6 +39,7 @@ namespace Volunteer.API.Controllers
 
         // GET ~/api/Volunteer/User/{id}
         [HttpGet("User/{id}")]
+        [Authorize]
         public ActionResult<Model.Volunteer> GetVolunteerByUserId([FromRoute] int id)
         {
             return _volunteerRepository.GetVolunteerByUserId(id);
@@ -45,6 +47,17 @@ namespace Volunteer.API.Controllers
 
         // POST ~/api/Volunteer
         [HttpPost]
+        [Authorize(Roles = "Volunteer")]
+        public ActionResult AddVolunteer([FromBody] Model.Volunteer volunteer)
+        {
+            _volunteerRepository.AddVolunteer(volunteer);
+
+            return new OkResult();
+        }
+
+        // POST ~/api/Volunteer/Update
+        [HttpPost]
+        [Authorize(Roles = "Volunteer")]
         [Route("Update")]
         public IActionResult UpdateVolunteer([FromBody] Model.Volunteer volunteer)
         {

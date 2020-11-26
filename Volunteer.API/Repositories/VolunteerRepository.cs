@@ -40,7 +40,8 @@ namespace Volunteer.API.Repositories
 
         public void AddVolunteer(Model.Volunteer volunteer)
         {
-            throw new NotImplementedException();
+            _context.Volunteers.Add(volunteer);
+            _context.SaveChanges();
         }
 
         public void UpdateVolunteer(Model.Volunteer volunteer)

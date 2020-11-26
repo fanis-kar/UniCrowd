@@ -17,5 +17,7 @@ namespace ApiCollection.Interfaces
         Task<User> GetUser(int userId, string jwtToken);
 
         Task<string> ValidateUserAsync(int userId, string jwtToken);
+
+        Task<string> VolunteerRegister(User user);
     }
 }

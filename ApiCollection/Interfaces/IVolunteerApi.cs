@@ -14,6 +14,8 @@ namespace ApiCollection.Interfaces
 
         Task<Volunteer> GetVolunteerByUserId(int userId, string jwtToken);
 
+        Task<string> AddVolunteer(Volunteer volunteer, string jwtToken);
+
         Task<string> UpdateVolunteer(Volunteer volunteer, string jwtToken);
     }
 }

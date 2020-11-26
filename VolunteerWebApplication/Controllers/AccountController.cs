@@ -1,6 +1,7 @@
 ﻿using ApiCollection.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Middleware;
 using Model;
 using Newtonsoft.Json;
 using System;
@@ -159,6 +160,67 @@ namespace VolunteerWebApplication.Controllers
             catch (Exception)
             {
                 TempData["ErrorMessage"] = response;
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public async Task<IActionResult> RegisterAsync()
+        {
+            if (await IsLoggedInAsync())
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterAsync(RegisterVolunteerViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.";
+
+                return RedirectToAction("Register", "Account");
+            }
+
+            User user = new User
+            {
+                Username = model.Username,
+                Email = model.Email,
+                Password = model.Password,
+                RoleId = 2
+            };
+
+            Volunteer volunteer = new Volunteer()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                FatherName = model.FatherName,
+                Phone = model.Phone,
+                Address = model.Address
+            };
+
+            try
+            {
+                await _authenticationApi.VolunteerRegister(user);
+
+                //---------------------------------------//
+
+                string response = await _authenticationApi.VolunteerLogin(user);
+                var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+
+                volunteer.AccountId = int.Parse(resultObject["userId"]);
+
+                await _volunteerApi.AddVolunteer(volunteer, resultObject["jwtToken"]);
+
+                //---------------------------------------//
+
+                TempData["SuccessMessage"] = "Η Εγγραφή ολοκληρώθηκε.";
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Η Εγγραφή δεν πραγματοποιήθηκε.";
                 return RedirectToAction("Login", "Account");
             }
         }

@@ -73,5 +73,19 @@ namespace ApiCollection
 
             return await SendRequest<string>(message);
         }
+
+        public async Task<string> VolunteerRegister(User user)
+        {
+            var message = new HttpRequestBuilder("https://localhost:44378")
+                           .SetPath("/Authentication/Register")
+                           .AddQueryString("destination", "volunteer-area")
+                           .HttpMethod(HttpMethod.Post)
+                           .GetHttpMessage();
+
+            var json = JsonConvert.SerializeObject(user);
+            message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return await SendRequest(message);
+        }
     }
 }
