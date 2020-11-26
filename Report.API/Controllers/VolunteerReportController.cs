@@ -12,7 +12,7 @@ namespace Report.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class VolunteerReportController : ControllerBase
     {
         private readonly IVolunteerReportRepository _VolunteerReportRepository;
@@ -38,6 +38,7 @@ namespace Report.API.Controllers
 
         // POST ~/api/VolunteerReport
         [HttpPost]
+        [Authorize(Roles = "Volunteer")]
         public ActionResult AddVolunteerReport([FromBody] VolunteerReport VolunteerReport)
         {
             _VolunteerReportRepository.AddVolunteerReport(VolunteerReport);

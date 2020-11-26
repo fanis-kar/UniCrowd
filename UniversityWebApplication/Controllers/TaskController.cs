@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
-using ApiCollection;
 using ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
 
@@ -26,7 +25,7 @@ namespace UniversityWebApplication.Controllers
             _statusApi = statusApi ?? throw new ArgumentNullException(nameof(statusApi));
         }
 
-        // ~/Task
+        // GET ~/Task
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -36,7 +35,7 @@ namespace UniversityWebApplication.Controllers
             return View(myTasks);
         }
 
-        // ~/Task/All
+        // GET ~/Task/All
         public async Task<IActionResult> AllAsync()
         {
             if (!await IsLoggedInAsync())
@@ -46,7 +45,7 @@ namespace UniversityWebApplication.Controllers
             return View(tasks);
         }
 
-        // ~/Task/University/{id}
+        // GET ~/Task/University/{id}
         public async Task<IActionResult> University(int id)
         {
             if (!await IsLoggedInAsync())
@@ -56,7 +55,7 @@ namespace UniversityWebApplication.Controllers
             return View(tasks);
         }
 
-        // ~/Task/Details/{id}
+        // GET ~/Task/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
             if (!await IsLoggedInAsync())
@@ -86,7 +85,7 @@ namespace UniversityWebApplication.Controllers
             return View(taskDetailsViewModel);
         }
 
-        //GET: ~/Task/New
+        // GET ~/Task/New
         public async Task<ActionResult> NewAsync()
         {
             if (!await IsLoggedInAsync())
@@ -98,6 +97,7 @@ namespace UniversityWebApplication.Controllers
             return View("New", newTaskFormViewModel);
         }
 
+        // POST ~/Task/New
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewAsync(NewTaskFormViewModel taskVM)
@@ -146,7 +146,7 @@ namespace UniversityWebApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //GET: ~/Task/Update
+        //GET ~/Task/Update
         public async Task<ActionResult> UpdateAsync(int id)
         {
             if (!await IsLoggedInAsync())
@@ -191,6 +191,7 @@ namespace UniversityWebApplication.Controllers
             return View("Update", updateTaskForm);
         }
 
+        //POST ~/Task/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateAsync(UpdateTaskFormViewModel taskVM)

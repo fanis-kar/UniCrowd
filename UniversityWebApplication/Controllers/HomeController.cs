@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Model;
 using ApiCollection.Interfaces;
-using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
@@ -22,6 +15,7 @@ namespace UniversityWebApplication.Controllers
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
         }
 
+        // GET ~/Home/Index
         public async Task<IActionResult> IndexAsync()
         {
             if (! await IsLoggedInAsync())
@@ -30,11 +24,13 @@ namespace UniversityWebApplication.Controllers
             return View();
         }
 
+        // GET ~/Home/About
         public IActionResult About()
         {
             return View();
         }
 
+        // GET ~/Home/Privacy
         public IActionResult Privacy()
         {
             return View();

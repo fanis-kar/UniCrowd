@@ -1,7 +1,6 @@
 ﻿using ApiCollection.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Middleware;
 using Model;
 using Newtonsoft.Json;
 using System;
@@ -27,6 +26,7 @@ namespace VolunteerWebApplication.Controllers
             _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
         }
 
+        // GET ~/Account
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -58,6 +58,7 @@ namespace VolunteerWebApplication.Controllers
             return View(volunteerDetailsViewModel);
         }
 
+        // GET ~/Account/Update
         public async Task<IActionResult> UpdateAsync()
         {
             if (!await IsLoggedInAsync())
@@ -79,6 +80,7 @@ namespace VolunteerWebApplication.Controllers
             return View(updateVolunteerViewModel);
         }
 
+        // POST ~/Account/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAsync(UpdateVolunteerViewModel model)
@@ -118,6 +120,7 @@ namespace VolunteerWebApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET ~/Account/Login
         public async Task<IActionResult> LoginAsync()
         {
             if (await IsLoggedInAsync())
@@ -126,6 +129,7 @@ namespace VolunteerWebApplication.Controllers
             return View();
         }
 
+        // POST ~/Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginFormViewModel model)
@@ -164,6 +168,7 @@ namespace VolunteerWebApplication.Controllers
             }
         }
 
+        // GET ~/Account/Register
         public async Task<IActionResult> RegisterAsync()
         {
             if (await IsLoggedInAsync())
@@ -172,6 +177,7 @@ namespace VolunteerWebApplication.Controllers
             return View();
         }
 
+        // POST ~/Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(RegisterVolunteerViewModel model)
@@ -225,6 +231,7 @@ namespace VolunteerWebApplication.Controllers
             }
         }
 
+        // GET ~/Account/Logout
         [HttpGet]
         public IActionResult Logout()
         {

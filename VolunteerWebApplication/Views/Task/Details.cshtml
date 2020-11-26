@@ -1,0 +1,218 @@
+﻿@model VolunteerWebApplication.Models.TaskDetailsViewModel
+
+@{
+    ViewData["Title"] = "Λεπτομέρειες Task";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h1>Λεπτομέρειες Task</h1>
+    </div>
+
+    @*<div class="col-8">
+        <a asp-controller="Task" asp-action="Update" asp-route-id="@Model.Task.Id" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Ενημέρωση</a>
+    </div>*@
+</div>
+
+<hr class="basic" />
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.Name"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.Name" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.Description"></label>
+    </div>
+    <div class="col-8">
+        <textarea asp-for="Task.Description" class="form-control" disabled>@Model.Task.Description</textarea>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.VolunteerNumber"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.VolunteerNumber" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.Created"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.Created" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.ExpectedStartDate"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.ExpectedStartDate" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.ExpectedEndDate"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.ExpectedEndDate" class="form-control" disabled />
+    </div>
+</div>
+
+@{
+    @if (Model.Task.StatusId == 2 || Model.Task.StatusId == 3)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="Task.StartDate"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Task.StartDate" class="form-control" disabled />
+            </div>
+        </div>
+    }
+}
+
+@{
+    @if (Model.Task.StatusId == 3 || Model.Task.StatusId == 4)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="Task.EndDate"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Task.EndDate" class="form-control" disabled />
+            </div>
+        </div>
+    }
+}
+
+<div class="form-group row">
+
+    <div class="col-4">
+        <label asp-for="Skills"></label>
+    </div>
+
+    <div class="col-8">
+        <input type="text" asp-for="Skills" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Task.StatusId"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Task.Status.Name" class="form-control" disabled />
+    </div>
+</div>
+
+@*@{
+    if (Model.Task.Invitations != null)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="Group" asp-action="Manage" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Προσκλήσεων</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+    }
+}*@
+
+@{
+    if (Model.Task.Group != null)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="Group" asp-action="Details" asp-route-id="@Model.Task.Group.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Group</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+    }
+}
+
+@{
+    @if (Model.Task.StatusId == 2 || Model.Task.StatusId == 3 || Model.Task.StatusId == 4)
+    {
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="UniversityReport" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Reports (Πανεπιστημίων)</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <a asp-controller="VolunteerReport" asp-action="Task" asp-route-id="@Model.Task.Id" class="btn btn-basic" role="button" style="min-width: 350px;">Προβολή Reports (Εθελοντών)</a>
+            </div>
+            <div class="col-8">
+            </div>
+        </div>
+    }
+}
+
+<input type="hidden" value="@ViewData["jwtTokenSession"]" id="jwtTokenSession" />
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        await Html.RenderPartialAsync("_TagInputLayout");
+
+        <script>
+            $(document).ready(function () {
+
+                var skills = null;
+
+                GetAllSkills();
+
+                function GetAllSkills() {
+                    $.ajax({
+                        url: "https://localhost:44378/Skill",
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            var token = "Bearer " + $("#jwtTokenSession").val();
+                            xhr.setRequestHeader("Authorization", token);
+                        },
+                        success: function (data) {
+                            skills = Object.values(data);
+
+                            PopulateSuggest();
+                        }
+                    });
+                }
+
+                function PopulateSuggest() {
+                    var instance = $("#Skills").magicSuggest({
+                        placeholder: "",
+                        maxSelection: 10000,
+                        valueField: "id",
+                        data: skills
+                    });
+                }
+
+                //================================================//
+            });
+        </script>
+    }
+}

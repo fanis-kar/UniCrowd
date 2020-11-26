@@ -57,8 +57,8 @@ namespace Volunteer.API.Controllers
 
         // POST ~/api/Volunteer/Update
         [HttpPost]
-        [Authorize(Roles = "Volunteer")]
         [Route("Update")]
+        [Authorize(Roles = "Volunteer")]
         public IActionResult UpdateVolunteer([FromBody] Model.Volunteer volunteer)
         {
             _volunteerRepository.UpdateVolunteer(volunteer);

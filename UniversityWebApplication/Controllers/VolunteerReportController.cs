@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model;
-using ApiCollection;
 using ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
-using Model.Report;
 
 namespace UniversityWebApplication.Controllers
 {
     public class VolunteerReportController : Controller
     {
         private readonly IAuthenticationApi _authenticationApi;
-        private readonly IUniversityApi _universityApi;
         private readonly ITaskApi _taskApi;
         private readonly IVolunteerReportApi _volunteerReportApi;
 
-        public VolunteerReportController(IAuthenticationApi authenticationApi, IUniversityApi universityApi, ITaskApi taskApi, IVolunteerReportApi volunteerReportApi)
+        public VolunteerReportController(IAuthenticationApi authenticationApi, ITaskApi taskApi, IVolunteerReportApi volunteerReportApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
-            _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
             _volunteerReportApi = volunteerReportApi ?? throw new ArgumentNullException(nameof(volunteerReportApi));
         }
 
-        // ~/VolunteerReport
+        // GET ~/VolunteerReport
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -50,7 +44,7 @@ namespace UniversityWebApplication.Controllers
             return View(volunteersReportsListViewModel);
         }
 
-        // ~/VolunteerReport/All
+        // GET ~/VolunteerReport/All
         public async Task<IActionResult> AllAsync()
         {
             if (!await IsLoggedInAsync())
@@ -70,7 +64,7 @@ namespace UniversityWebApplication.Controllers
             return View(volunteersReportsListViewModel);
         }
 
-        // ~/VolunteerReport/Task/{id}
+        // GET  ~/VolunteerReport/Task/{id}
         public async Task<IActionResult> TaskAsync(int id)
         {
             if (!await IsLoggedInAsync())
@@ -92,7 +86,7 @@ namespace UniversityWebApplication.Controllers
             return View("Task", volunteersReportsListViewModel);
         }
 
-        // ~/VolunteerReport/Details/{id}
+        // GET  ~/VolunteerReport/Details/{id}
         public async Task<IActionResult> DetailsAsync(string id)
         {
             if (!await IsLoggedInAsync())

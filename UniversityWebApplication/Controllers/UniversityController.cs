@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ApiCollection.Interfaces;
-using UniversityWebApplication.Models;
 
 namespace UniversityWebApplication.Controllers
 {
@@ -23,6 +17,7 @@ namespace UniversityWebApplication.Controllers
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
+        // GET ~/University
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -33,7 +28,7 @@ namespace UniversityWebApplication.Controllers
             return View(universities);
         }
 
-        // ~/University/Details/{id}
+        // GET ~/University/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
             if (!await IsLoggedInAsync())

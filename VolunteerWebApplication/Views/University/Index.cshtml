@@ -1,0 +1,112 @@
+﻿@model List<Model.University>
+
+@{
+    ViewData["Title"] = "Λίστα πανεπιστημίων";
+    Layout = "_Layout";
+}
+
+<h1>Λίστα πανεπιστημίων</h1>
+
+<hr class="basic" />
+
+<div class="table-responsive">
+    <table id="universities-table" class="table table-bordered datatable-table">
+        <thead>
+            <tr>
+                <th>Ονομασία</th>
+                <th>Διεύθυνση</th>
+                <th>Ιστοσελίδα</th>
+                <th>Τηλέφωνο</th>
+                <th class="text-center">Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficialName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Website)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td class="text-center">
+                        <a asp-controller="University" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Πανεπιστημίου"><i class="fas fa-eye"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        await Html.RenderPartialAsync("_DataTablesLayout");
+
+        <script>
+            $(document).ready(function () {
+                $("#universities-table").dataTable({
+                    "autoWidth": true,
+                    "language": {
+                        "sDecimal": ",",
+                        "sEmptyTable": "Δεν υπάρχουν δεδομένα στον πίνακα",
+                        "sInfo": "Εμφανίζονται _START_ έως _END_ από _TOTAL_ εγγραφές",
+                        "sInfoEmpty": "Εμφανίζονται 0 έως 0 από 0 εγγραφές",
+                        "sInfoFiltered": "(φιλτραρισμένες από _MAX_ συνολικά εγγραφές)",
+                        "sInfoPostFix": "",
+                        "sInfoThousands": ".",
+                        "sLengthMenu": "Δείξε _MENU_ εγγραφές",
+                        "sLoadingRecords": "Φόρτωση...",
+                        "sProcessing": "Επεξεργασία...",
+                        "sSearch": "Αναζήτηση:",
+                        "sSearchPlaceholder": "Αναζήτηση",
+                        "sThousands": ".",
+                        "sUrl": "",
+                        "sZeroRecords": "Δεν βρέθηκαν εγγραφές που να ταιριάζουν",
+                        "oPaginate": {
+                            "sFirst": "Πρώτη",
+                            "sPrevious": "Προηγούμενη",
+                            "sNext": "Επόμενη",
+                            "sLast": "Τελευταία"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": ενεργοποιήστε για αύξουσα ταξινόμηση της στήλης",
+                            "sSortDescending": ": ενεργοποιήστε για φθίνουσα ταξινόμηση της στήλης"
+                        },
+                        buttons: {
+                            excel: "EXCEL",
+                            pdf: "PDF",
+                            print: "Εκτύπωση"
+                        }
+                    },
+                    dom: "Bfrtip",
+                    buttons: [
+                        "excel", "pdf", "print"
+                    ],
+                    buttons: {
+                        buttons: [
+                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
+                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
+                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } }
+                        ]
+                    }
+                });
+
+                //==========================================================//
+
+                $("[data-toggle='tooltip']").tooltip();
+            });
+        </script>
+    }
+}

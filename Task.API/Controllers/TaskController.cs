@@ -13,7 +13,7 @@ namespace Task.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
@@ -46,7 +46,8 @@ namespace Task.API.Controllers
 
         // POST api/Task
         [HttpPost]
-        public ActionResult Post([FromBody] Tasks task)
+        [Authorize(Roles = "University")]
+        public ActionResult AddTask([FromBody] Tasks task)
         {
             _taskRepository.AddTask(task);
 
@@ -55,7 +56,8 @@ namespace Task.API.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public IActionResult UpdatePost([FromBody] Tasks task)
+        [Authorize(Roles = "University")]
+        public IActionResult UpdateTask([FromBody] Tasks task)
         {
             _taskRepository.UpdateTask(task);
 

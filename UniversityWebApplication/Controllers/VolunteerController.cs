@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +20,7 @@ namespace UniversityWebApplication.Controllers
             _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
         }
 
-        // ~/Volunteer
+        // GET ~/Volunteer
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -33,7 +31,7 @@ namespace UniversityWebApplication.Controllers
             return View(volunteers);
         }
 
-        // ~/Volunteer/Details/{id}
+        // GET ~/Volunteer/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
             if (!await IsLoggedInAsync())

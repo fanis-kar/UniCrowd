@@ -40,7 +40,7 @@
                         <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId">@item.TaskName</a>
                     </td>
                     <td class="text-center">
-                        <a asp-controller="UniversityReport" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Report"><i class="fas fa-eye"></i></a>
+                        <a asp-controller="VolunteerReport" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Report"><i class="fas fa-eye"></i></a>
                     </td>
                 </tr>
             }
@@ -99,9 +99,9 @@
                     ],
                     buttons: {
                         buttons: [
-                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
-                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } },
-                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2, 3] } }
+                            { extend: "excel", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } },
+                            { extend: "pdf", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } },
+                            { extend: "print", className: "btn-basic", exportOptions: { columns: [0, 1, 2] } }
                         ]
                     }
                 });

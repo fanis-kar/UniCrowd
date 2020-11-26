@@ -32,7 +32,7 @@ namespace UniversityWebApplication.Controllers
             _skillApi = skillApi ?? throw new ArgumentNullException(nameof(skillApi));
         }
 
-        // ~/Group
+        // GET ~/Group
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -43,7 +43,7 @@ namespace UniversityWebApplication.Controllers
             return View(groups);
         }
 
-        // ~/Group/Details/{id}
+        // GET ~/Group/Details/{id}
         public async Task<IActionResult> DetailsAsync(int id)
         {
             if (!await IsLoggedInAsync())
@@ -72,7 +72,7 @@ namespace UniversityWebApplication.Controllers
             return View(groupDetailsViewModel);
         }
 
-        // ~/Group/Manage/{id}
+        // GET ~/Group/Manage/{id}
         public async Task<IActionResult> Manage(int id)
         {
             if (!await IsLoggedInAsync())
@@ -126,6 +126,7 @@ namespace UniversityWebApplication.Controllers
             return View(manageGroupViewModel);
         }
 
+        // POST ~/Group/Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Manage(ManageGroupViewModel groupVM)

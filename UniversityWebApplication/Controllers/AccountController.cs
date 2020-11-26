@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ApiCollection.Interfaces;
 using UniversityWebApplication.Models;
-using System.Net.Http.Formatting;
-using System.Collections;
 using Model;
 
 namespace WebApplication.Controllers
@@ -27,6 +21,7 @@ namespace WebApplication.Controllers
             _universityApi = universityApi ?? throw new ArgumentNullException(nameof(universityApi));
         }
 
+        // GET ~/Account
         public async Task<IActionResult> IndexAsync()
         {
             if (! await IsLoggedInAsync())
@@ -37,6 +32,7 @@ namespace WebApplication.Controllers
             return View(universityInfo);
         }
 
+        // GET ~/Account/Login
         public async Task<IActionResult> LoginAsync()
         {
             if (await IsLoggedInAsync())
@@ -45,6 +41,7 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        // POST ~/Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(LoginFormViewModel model)
@@ -83,6 +80,7 @@ namespace WebApplication.Controllers
             }
         }
 
+        // GET ~/Account/Logout
         [HttpGet]
         public IActionResult Logout()
         {

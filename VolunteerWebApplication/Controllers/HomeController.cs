@@ -1,13 +1,8 @@
 ﻿using ApiCollection.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using VolunteerWebApplication.Models;
 
 namespace VolunteerWebApplication.Controllers
 {
@@ -20,6 +15,7 @@ namespace VolunteerWebApplication.Controllers
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
         }
 
+        // GET ~/Home/Index
         public async Task<IActionResult> IndexAsync()
         {
             if (!await IsLoggedInAsync())
@@ -28,11 +24,13 @@ namespace VolunteerWebApplication.Controllers
             return View();
         }
 
+        // GET ~/Home/About
         public IActionResult About()
         {
             return View();
         }
 
+        // GET ~/Home/Privacy
         public IActionResult Privacy()
         {
             return View();

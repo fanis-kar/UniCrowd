@@ -1,0 +1,60 @@
+﻿@model Model.Department
+
+@{
+    ViewData["Title"] = "Προφίλ Τμήματος";
+    Layout = "_Layout";
+}
+
+<h1>Προφίλ Τμήματος</h1>
+
+<hr class="basic" />
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="OfficialName"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="OfficialName" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Website"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Website" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Email"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Email" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        <label asp-for="Phone"></label>
+    </div>
+    <div class="col-8">
+        <input asp-for="Phone" class="form-control" disabled />
+    </div>
+</div>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        <script>
+            $(document).ready(function () {
+            });
+        </script>
+    }
+}

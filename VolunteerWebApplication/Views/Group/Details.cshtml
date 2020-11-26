@@ -1,0 +1,102 @@
+﻿@model VolunteerWebApplication.Models.GroupDetailsViewModel
+
+@{
+    ViewData["Title"] = "Προφίλ Group";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h1>Προβολή Group</h1>
+    </div>
+
+    @*<div class="col-8">
+        <a asp-controller="Group" asp-action="Manage" asp-route-id="@Model.Group.Id" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Διαχείριση Group</a>
+    </div>*@
+</div>
+
+<hr class="basic" />
+
+<div class="form-group row">
+    <div class="col-4">
+        Ονομασία
+    </div>
+    <div class="col-8">
+        <input asp-for="Group.Name" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        Αστέρια
+    </div>
+    <div class="col-8">
+        @{
+            if (Model.Group.Stars != null)
+            {
+                <input asp-for="Group.Stars" class="form-control" disabled />
+            }
+            else
+            {
+                <input class="form-control" value="Δεν έχει βαθμολογηθεί ακόμα" disabled />
+            }
+        }
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        Task
+    </div>
+    <div class="col-8">
+        <input asp-for="Group.Task.Name" class="form-control" disabled />
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-4">
+        Πανεπιστήμιο
+    </div>
+    <div class="col-8">
+        <input asp-for="University.OfficialName" class="form-control" disabled />
+    </div>
+</div>
+
+@{
+    if (Model.Volunteers.Count > 0)
+    {
+        <hr class="basic" />
+
+        <h2>Εθελοντές:</h2>
+        <ul>
+            @foreach (var item in Model.Volunteers)
+            {
+                <li>
+                    <a class="nav-link text-light" asp-area="" asp-controller="Volunteer" asp-action="Details" asp-route-id="@item.Id">@item.FullName</a>
+                </li>
+            }
+        </ul>
+    }
+}
+
+<div class="form-group row">
+    <div class="col-4">
+        <a asp-controller="Task" asp-action="Details" asp-route-id="@Model.Group.TaskId" class="btn btn-basic" role="button" style="min-width: 250px;">Προβολή Task</a>
+    </div>
+    <div class="col-8">
+    </div>
+</div>
+
+<hr class="basic" />
+
+<a class="btn btn-basic" href="javascript:history.go(-1)" role="button">Πίσω</a>
+
+@section scripts
+{
+    @{
+        <script>
+            $(document).ready(function () {
+            });
+        </script>
+    }
+}
