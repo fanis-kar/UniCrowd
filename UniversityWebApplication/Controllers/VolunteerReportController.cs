@@ -71,6 +71,13 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (taskInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Task δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
             var reports = await _volunteerReportApi.GetVolunteersReports(HttpContext.Session.GetString("jwtToken"));
 
             List<VolunteersReportsListViewModel> volunteersReportsListViewModel = new List<VolunteersReportsListViewModel>();
@@ -93,13 +100,14 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var report = await _volunteerReportApi.GetVolunteerReport(id, HttpContext.Session.GetString("jwtToken"));
-            var task = await _taskApi.GetTask(report.TaskId, HttpContext.Session.GetString("jwtToken"));
 
             if (report == null)
             {
                 TempData["ErrorMessage"] = "Το Report δε βρέθηκε.";
                 return RedirectToAction("Index", "Home");
             }
+
+            var task = await _taskApi.GetTask(report.TaskId, HttpContext.Session.GetString("jwtToken"));
 
             VolunteerReportDetailsViewModel volunteerReportDetailsViewModel = new VolunteerReportDetailsViewModel()
             {

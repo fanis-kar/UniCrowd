@@ -45,6 +45,13 @@ namespace VolunteerWebApplication.Controllers
             List<Volunteer> volunteers = new List<Volunteer>();
 
             var groupInfo = await _groupApi.GetGroup(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (groupInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Group δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
             var universityInfo = await _universityApi.GetUniversity(groupInfo.Task.UniversityId, HttpContext.Session.GetString("jwtToken"));
 
             if (groupInfo.VolunteersGroups.Count() > 0)

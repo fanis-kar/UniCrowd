@@ -1,17 +1,16 @@
 ﻿@model List<Model.Tasks>
 
 @{
-    ViewData["Title"] = "Λίστα όλων των Tasks";
+    ViewData["Title"] = "Τα Tasks μου";
 }
 
 <div class="row">
     <div class="col-4">
-        <h1>Λίστα όλων των Tasks</h1>
+        <h1>Τα Tasks μου</h1>
     </div>
 
     <div class="col-8">
-        <a asp-controller="Task" asp-action="" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Τα Tasks μου</a>
-        <a asp-controller="Task" asp-action="New" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Νέο Task</a>
+        <a asp-controller="Task" asp-action="All" class="btn btn-basic float-right" role="button" style="margin-top: 10px;">Όλα τα Tasks</a>
     </div>
 </div>
 
@@ -46,6 +45,13 @@
                         @Html.DisplayFor(modelItem => item.Status.Name)
                     </td>
                     <td class="text-center">
+                        @{
+                            if (item.StatusId == 2)
+                            {
+                                <a asp-controller="VolunteerReport" asp-action="New" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Σύνταξη Report για το Task"><i class="fas fa-file-signature"></i></a>
+                            }
+                        }
+
                         <a asp-controller="Task" asp-action="Details" asp-route-id="@item.Id" class="btn btn-default table-button-icon" role="button" data-toggle="tooltip" title="Προβολή του Task"><i class="fas fa-eye"></i></a>
                     </td>
                 </tr>

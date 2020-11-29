@@ -52,6 +52,13 @@ namespace UniversityWebApplication.Controllers
             List<Volunteer> volunteers = new List<Volunteer>();
 
             var groupInfo = await _groupApi.GetGroup(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (groupInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Group δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
             var universityInfo = await _universityApi.GetUniversity(groupInfo.Task.UniversityId, HttpContext.Session.GetString("jwtToken"));
 
             if (groupInfo.VolunteersGroups.Count() > 0)
@@ -94,7 +101,7 @@ namespace UniversityWebApplication.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (taskInfo.StatusId != 1)
+            if (taskInfo.StatusId != 1 && taskInfo.StatusId != 3)
             {
                 TempData["ErrorMessage"] = "Δεν μπορείς να διαχειριστείς το Group σε αυτό το στάδιο.";
                 return RedirectToAction("Index", "Home");
@@ -115,11 +122,22 @@ namespace UniversityWebApplication.Controllers
                 invitationsListViewModels.Add(new InvitationsListViewModel { InvitationId = invitation.Id, VolunteerId = volunteer.Id, FullName = volunteer.FullName, SkillsHave = await GetSkillsHaveAsync(taskInfo.Id, volunteer.Id), SkillsRequired = await GetSkillsRequiredAsync(taskInfo.Id), Date = invitation.Created, Response = (bool)invitation.Decision });
             }
 
+            int? starsVM;
+
+            if(groupInfo.Stars == null)
+            {
+                starsVM = null;
+            }
+            else
+            {
+                starsVM = groupInfo.Stars;
+            }
+
             ManageGroupViewModel manageGroupViewModel = new ManageGroupViewModel()
             {
                 Id = id,
                 Name = groupInfo.Name,
-                Stars = (int)groupInfo.Stars,
+                Stars = starsVM,
                 Invitations = invitationsListViewModels
             };
 
@@ -138,21 +156,32 @@ namespace UniversityWebApplication.Controllers
             }
 
             Group groupInDb = await _groupApi.GetGroup(groupVM.Id, HttpContext.Session.GetString("jwtToken"));
-
+            
             Group groupUpdate = groupInDb;
             groupUpdate.Name = groupVM.Name;
-            groupUpdate.Stars = groupVM.Stars;
-            groupUpdate.VolunteersGroups.Clear();
 
-            foreach (var invitation in groupVM.Invitations)
+            if(groupInDb.Task.StatusId != 1)
             {
-                Invitation invitationTemp = await _invitationApi.GetInvitation(invitation.InvitationId, HttpContext.Session.GetString("jwtToken"));
-                invitationTemp.Decision = invitation.Response;
-                await _invitationApi.UpdateInvitation(invitationTemp, HttpContext.Session.GetString("jwtToken"));
+                groupUpdate.Stars = groupVM.Stars;
+            }
+            
+            if(groupInDb.Task.StatusId == 1)
+            {
+                groupUpdate.VolunteersGroups.Clear();
 
-                if (invitation.Response)
+                if (groupVM.Invitations != null)
                 {
-                    groupUpdate.VolunteersGroups.Add(new VolunteerGroup { GroupId = groupUpdate.Id, VolunteerId = groupUpdate.Task.Invitations.Where(i => i.Id == invitation.InvitationId).FirstOrDefault().VolunteerId });
+                    foreach (var invitation in groupVM.Invitations)
+                    {
+                        Invitation invitationTemp = await _invitationApi.GetInvitation(invitation.InvitationId, HttpContext.Session.GetString("jwtToken"));
+                        invitationTemp.Decision = invitation.Response;
+                        await _invitationApi.UpdateInvitation(invitationTemp, HttpContext.Session.GetString("jwtToken"));
+
+                        if (invitation.Response)
+                        {
+                            groupUpdate.VolunteersGroups.Add(new VolunteerGroup { GroupId = groupUpdate.Id, VolunteerId = groupUpdate.Task.Invitations.Where(i => i.Id == invitation.InvitationId).FirstOrDefault().VolunteerId });
+                        }
+                    }
                 }
             }
 

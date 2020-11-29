@@ -1,15 +1,15 @@
-﻿@model NewUniversityReportViewModel
+﻿@model NewInvitationViewModel
 
 @{
-    ViewBag.Title = "Νέο Report";
+    ViewBag.Title = "Αποστολή πρόσκλησης";
     Layout = "_Layout";
 }
 
-<h1>Νέο Report</h1>
+<h1>Αποστολή πρόσκλησης</h1>
 
 <hr class="basic" />
 
-<form asp-controller="UniversityReport" asp-action="New">
+<form asp-controller="Invitation" asp-action="Save">
     <div asp-validation-summary="ModelOnly" class="text-basic"></div>
 
     <div class="form-group row">
@@ -25,12 +25,12 @@
 
     <div class="form-group row">
         <div class="col-4">
-            <label asp-for="Content"></label>
+            <label asp-for="Description"></label>
         </div>
 
         <div class="col-8">
-            <textarea asp-for="Content" class="form-control" rows="10"></textarea>
-            <span asp-validation-for="Content" class="text-basic"></span>
+            <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Description" class="text-basic"></span>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
 
     <div class="form-group row">
         <div class="col-8 offset-4">
-            <button type="submit" class="btn btn-basic">Καταχώρηση</button>
+            <button type="submit" class="btn btn-basic">Αποστολή</button>
         </div>
     </div>
 </form>

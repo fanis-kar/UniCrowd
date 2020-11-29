@@ -10,7 +10,7 @@ using Task.API.Data;
 namespace Task.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201117081738_Init")]
+    [Migration("20201129141410_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

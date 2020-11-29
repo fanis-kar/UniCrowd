@@ -15,12 +15,16 @@ namespace UniversityWebApplication.Controllers
         private readonly IAuthenticationApi _authenticationApi;
         private readonly IVolunteerApi _volunteerApi;
         private readonly ITaskApi _taskApi;
+        private readonly IGroupApi _groupApi;
+        private readonly IInvitationApi _invitationApi;
 
-        public TaskController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi, ITaskApi taskApi)
+        public TaskController(IAuthenticationApi authenticationApi, IVolunteerApi volunteerApi, ITaskApi taskApi, IGroupApi groupApi, IInvitationApi invitationApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _volunteerApi = volunteerApi ?? throw new ArgumentNullException(nameof(volunteerApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
+            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
+            _invitationApi = invitationApi ?? throw new ArgumentNullException(nameof(invitationApi));
         }
 
         // GET ~/Task
@@ -29,8 +33,44 @@ namespace UniversityWebApplication.Controllers
             if (!await IsLoggedInAsync())
                 return RedirectToAction("Login", "Account");
 
+            var myGroups = await _groupApi.GetVolunteerGroups(int.Parse(HttpContext.Session.GetString("volunteerId")), HttpContext.Session.GetString("jwtToken"));
+            List<Tasks> myTasks = new List<Tasks>();
+
+            foreach(var group in myGroups)
+            {
+                myTasks.Add(group.Task);
+            }
+
+            return View(myTasks);
+        }
+
+        // GET ~/Task/All
+        public async Task<IActionResult> AllAsync()
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            List<TasksListViewModel> tasksList = new List<TasksListViewModel>();
+
             var tasks = await _taskApi.GetTasks(HttpContext.Session.GetString("jwtToken"));
-            return View(tasks);
+
+            foreach(var task in tasks)
+            {
+                var invitationsByTask = await _invitationApi.GetInvitationsByTaskId(task.Id, HttpContext.Session.GetString("jwtToken"));
+                bool checkInvite = false;
+
+                foreach(var invitation in invitationsByTask)
+                {
+                    if(invitation.VolunteerId == int.Parse(HttpContext.Session.GetString("volunteerId")))
+                    {
+                        checkInvite = true;
+                    }
+                }
+
+                tasksList.Add(new TasksListViewModel { Task = task, CheckInvite = checkInvite });
+            }
+
+            return View(tasksList);
         }
 
         // GET ~/Task/University/{id}
@@ -52,6 +92,12 @@ namespace UniversityWebApplication.Controllers
             ViewData["jwtTokenSession"] = HttpContext.Session.GetString("jwtToken");
 
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (taskInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Task δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
 
             List<Volunteer> volunteers = new List<Volunteer>();
 

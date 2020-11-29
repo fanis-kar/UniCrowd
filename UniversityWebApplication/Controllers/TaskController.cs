@@ -65,6 +65,12 @@ namespace UniversityWebApplication.Controllers
 
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
 
+            if (taskInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Task δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
             List<Volunteer> volunteers = new List<Volunteer>();
 
             if (taskInfo.Group != null && taskInfo.Group.VolunteersGroups.Count() > 0)

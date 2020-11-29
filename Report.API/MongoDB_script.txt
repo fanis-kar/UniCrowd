@@ -1,0 +1,4 @@
+﻿use UniCrowd-ReportDB
+
+db.createCollection("UniversitiesReports")
+db.createCollection("VolunteersReports")

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ApiCollection.Interfaces;
 using VolunteerWebApplication.Models;
+using Model;
+using Model.Report;
 
 namespace VolunteerWebApplication.Controllers
 {
@@ -12,12 +14,14 @@ namespace VolunteerWebApplication.Controllers
     {
         private readonly IAuthenticationApi _authenticationApi;
         private readonly ITaskApi _taskApi;
+        private readonly IGroupApi _groupApi;
         private readonly IVolunteerReportApi _volunteerReportApi;
 
-        public VolunteerReportController(IAuthenticationApi authenticationApi, ITaskApi taskApi, IVolunteerReportApi volunteerReportApi)
+        public VolunteerReportController(IAuthenticationApi authenticationApi, ITaskApi taskApi, IGroupApi groupApi, IVolunteerReportApi volunteerReportApi)
         {
             _authenticationApi = authenticationApi ?? throw new ArgumentNullException(nameof(authenticationApi));
             _taskApi = taskApi ?? throw new ArgumentNullException(nameof(taskApi));
+            _groupApi = groupApi ?? throw new ArgumentNullException(nameof(groupApi));
             _volunteerReportApi = volunteerReportApi ?? throw new ArgumentNullException(nameof(volunteerReportApi));
         }
 
@@ -48,6 +52,13 @@ namespace VolunteerWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var taskInfo = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (taskInfo == null)
+            {
+                TempData["ErrorMessage"] = "Το Task δε βρέθηκε.";
+                return RedirectToAction("Index", "Home");
+            }
+
             var reports = await _volunteerReportApi.GetVolunteersReports(HttpContext.Session.GetString("jwtToken"));
 
             List<VolunteersReportsListViewModel> volunteersReportsListViewModel = new List<VolunteersReportsListViewModel>();
@@ -70,13 +81,14 @@ namespace VolunteerWebApplication.Controllers
                 return RedirectToAction("Login", "Account");
 
             var report = await _volunteerReportApi.GetVolunteerReport(id, HttpContext.Session.GetString("jwtToken"));
-            var task = await _taskApi.GetTask(report.TaskId, HttpContext.Session.GetString("jwtToken"));
 
             if (report == null)
             {
                 TempData["ErrorMessage"] = "Το Report δε βρέθηκε.";
                 return RedirectToAction("Index", "Home");
             }
+
+            var task = await _taskApi.GetTask(report.TaskId, HttpContext.Session.GetString("jwtToken"));
 
             VolunteerReportDetailsViewModel volunteerReportDetailsViewModel = new VolunteerReportDetailsViewModel()
             {
@@ -89,6 +101,70 @@ namespace VolunteerWebApplication.Controllers
             };
 
             return View(volunteerReportDetailsViewModel);
+        }
+
+        //GET ~/VolunteerReport/New/{id}
+        public async Task<ActionResult> NewAsync(int id)
+        {
+            if (!await IsLoggedInAsync())
+                return RedirectToAction("Login", "Account");
+
+            Tasks taskInDb = await _taskApi.GetTask(id, HttpContext.Session.GetString("jwtToken"));
+
+            if (taskInDb == null)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool flag = false;
+
+            var myGroups = await _groupApi.GetVolunteerGroups(int.Parse(HttpContext.Session.GetString("volunteerId")), HttpContext.Session.GetString("jwtToken"));
+            List<Tasks> myTasks = new List<Tasks>();
+
+            foreach (var group in myGroups)
+            {
+                if (group.Task.Id == id)
+                    flag = true;
+            }
+
+            if (!flag)
+            {
+                TempData["ErrorMessage"] = "Δεν μπορείς να συντάξεις Report για αυτό το Task.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            NewVolunteerReportViewModel newVolunteerReportViewModel = new NewVolunteerReportViewModel()
+            {
+                TaskId = id
+            };
+
+            return View("New", newVolunteerReportViewModel);
+        }
+
+        //POST ~/VolunteerReport/New
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> NewAsync(NewVolunteerReportViewModel reportVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Κάτι πήγε στραβά κατά τη δημιουργία του Report.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            VolunteerReport report = new VolunteerReport
+            {
+                Title = reportVM.Title,
+                Content = reportVM.Content,
+                Created = DateTime.Now,
+                TaskId = reportVM.TaskId
+            };
+
+            await _volunteerReportApi.AddVolunteerReport(report, HttpContext.Session.GetString("jwtToken"));
+
+            TempData["SuccessMessage"] = "Το Report δημιουργήθηκε με επιτυχία.";
+            return RedirectToAction("Index", "Home");
         }
 
         //----------------------------------------------------------------------------------------//

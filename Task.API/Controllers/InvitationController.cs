@@ -13,7 +13,7 @@ namespace Task.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "University")]
+    [Authorize]
     public class InvitationController : ControllerBase
     {
         private readonly IInvitationRepository _invitationRepository;
@@ -25,6 +25,7 @@ namespace Task.API.Controllers
 
         // GET ~/api/Invitation
         [HttpGet]
+        [Authorize(Roles = "University")]
         public ActionResult<IEnumerable<Invitation>> GetInvitations()
         {
             return _invitationRepository.GetInvitations().ToList();
@@ -39,6 +40,7 @@ namespace Task.API.Controllers
 
         // GET ~/api/Invitation/{id}
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "University")]
         public ActionResult<Invitation> GetInvitation(int id)
         {
             return _invitationRepository.GetInvitation(id);
@@ -46,6 +48,7 @@ namespace Task.API.Controllers
 
         // POST ~/api/Invitation
         [HttpPost]
+        [Authorize(Roles = "Volunteer")]
         public ActionResult AddInvitation(Invitation invitation)
         {
             _invitationRepository.AddInvitation(invitation);
@@ -56,6 +59,7 @@ namespace Task.API.Controllers
         // POST ~/api/Invitation/Update
         [HttpPost]
         [Route("Update")]
+        [Authorize(Roles = "University")]
         public IActionResult UpdateInvitation([FromBody] Invitation invitation)
         {
             _invitationRepository.UpdateInvitation(invitation);

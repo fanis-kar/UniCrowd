@@ -38,6 +38,7 @@ namespace Task.API.Repositories
                 .VolunteersGroups
                 .Include(vg => vg.Group)
                 .ThenInclude(vg => vg.Task)
+                .ThenInclude(vg => vg.Status)
                 .Where(vg => vg.VolunteerId == volunteerId)
                 .Select(vg => vg.Group)
                 .ToList();
