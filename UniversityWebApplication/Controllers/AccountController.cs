@@ -64,7 +64,7 @@ namespace WebApplication.Controllers
             try
             {
                 var resultObject = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
-                University university = await _universityApi.GetUniversityByUserId(Int32.Parse(resultObject["userId"]), resultObject["jwtToken"]);
+                University university = await _universityApi.GetUniversityByUserId(int.Parse(resultObject["userId"]), resultObject["jwtToken"]);
 
                 HttpContext.Session.SetString("userId", resultObject["userId"]);
                 HttpContext.Session.SetString("username", model.Username);
