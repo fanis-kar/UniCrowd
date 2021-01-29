@@ -1,5 +1,13 @@
 # UniCrowd
 
+ifdef::env-github[]
+++++
+<p align="center">
+  <img src="https://github.com/fanis-kar/UniCrowd/blob/master/UniversityWebApplication/wwwroot/images/unicrowd-logo.png" style="" width="" height="" alt="UniCrowd - University area logo" />
+</p>
+++++
+endif::[]
+
 Τίτλος εργασίας: Συστήματα Πληθοπορισμού στην Ανώτατη Εκπαίδευση (Crowdsourcing systems in Higher Education)
 
 <hr>
