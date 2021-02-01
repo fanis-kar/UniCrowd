@@ -1,0 +1,2 @@
+ASP.NET Core + Entity Framework Core | Database First Approach
+PM >  Scaffold-DbContext "Server=FANISKAR-DESKTO\\SQLEXPRESS;Database=UniCrowd-UniversityDB;Trusted_Connection=True;MultipleActiveResultSets=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
